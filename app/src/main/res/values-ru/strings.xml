@@ -5,7 +5,9 @@
     <string name="update_btn">Обновить пароль</string>
     <string name="save_btn">Сохранить пароль</string>
     <string name="delete_btn">Удалить пароль</string>
-    <string name="generate_btn">Сгенерировать</string>
+    <string name="generate_btn">Сгенерировать пароль</string>
+    <string name="ok_btn">Ок</string>
+    <string name="cancel_btn">Отмена</string>
 
 
     <!-- settings screen -->

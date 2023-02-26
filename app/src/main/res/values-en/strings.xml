@@ -6,6 +6,8 @@
     <string name="save_btn">Save password</string>
     <string name="delete_btn">Delete password</string>
     <string name="generate_btn">Generate password</string>
+    <string name="ok_btn">Ok</string>
+    <string name="cancel_btn">Cancel</string>
 
     <!-- settings screen -->
     <string name="settings_screen_label">Settings</string>
