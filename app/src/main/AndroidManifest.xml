@@ -16,8 +16,11 @@
         <activity
             android:name=".AddPasswordActivity"
             android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".GeneratePasswordActivity"-->
+<!--            android:exported="true" />-->
         <activity
-            android:name=".MainActivity"
+            android:name=".GeneratePasswordActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

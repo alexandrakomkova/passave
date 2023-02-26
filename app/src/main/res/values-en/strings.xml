@@ -30,4 +30,14 @@
     <string name="enter_login_hint">Enter Login</string>
     <string name="enter_password_hint">Enter Password</string>
     <string name="enter_password_details_hint">Enter Details</string>
+
+    <!-- generate password screen -->
+    <string name="generate_password_screen_label">Generate password</string>
+    <string name="caps_letters_label">Only caps letters</string>
+    <string name="down_letters_label">Only downcase letters</string>
+    <string name="all_letters_label">Caps and Downcase letters</string>
+    <string name="numbers_label">Numbers (0-9)</string>
+    <string name="special_symbols_label">Special symbols (!#@_.,)</string>
+    <string name="password_contains_label">Password contains</string>
+    <string name="password_length_label">Password length</string>
 </resources>

@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <!-- theme for settings notifocation slider-->
+    <!-- theme for settings notification slider-->
     <style name="notification_switch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/settings_notifications</item>
         <item name="colorSwitchThumbNormal">@color/white</item>
@@ -55,4 +55,5 @@
         <item name="endIconMode">password_toggle</item>
         <item name="endIconTint">@color/white</item>
     </style>
+
 </resources>

@@ -31,4 +31,14 @@
     <string name="enter_login_hint">Введите логин</string>
     <string name="enter_password_hint">Введите пароль</string>
     <string name="enter_password_details_hint">Введите дополнительную информацию</string>
+
+    <!-- generate password screen -->
+    <string name="generate_password_screen_label">Сгенерировать пароль</string>
+    <string name="caps_letters_label">Буквы только в верхнем регистре</string>
+    <string name="down_letters_label">Буквы только в нижнем регистре</string>
+    <string name="all_letters_label">Буквы в верхнем и нижнем регистрах</string>
+    <string name="numbers_label">Числа</string>
+    <string name="special_symbols_label">Специальные символы (!#@_.,)</string>
+    <string name="password_contains_label">Пароль содержит</string>
+    <string name="password_length_label">Длина пароля</string>
 </resources>
