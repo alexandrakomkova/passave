@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">passave</string>
+
+    <!-- buttons -->
+    <string name="update_btn">Обновить пароль</string>
+    <string name="save_btn">Сохранить пароль</string>
+    <string name="delete_btn">Удалить пароль</string>
+    <string name="generate_btn">Сгенерировать</string>
+
+
+    <!-- settings screen -->
+    <string name="settings_screen_label">Настройки</string>
+    <string name="night_mode_label">Тема</string>
+    <string name="notifications_label">Уведомления</string>
+    <string name="language_label">Язык</string>
+    <string name="security_label">Безопаность</string>
+
+    <!-- password details screen -->
+    <string name="password_details_screen_label">Подробнее о пароле</string>
+    <string name="service_title_label">Название сервиса</string>
+    <string name="login_label">Логин</string>
+    <string name="last_modify_label">Последнее изменение</string>
+    <string name="password_label">Пароль</string>
+    <string name="security_lvl_label">Уровень безопасности</string>
+
+    <!-- new password screen -->
+    <string name="new_password_screen_label">Новый пароль</string>
+    <string name="enter_service_title_hint">Введите название сервиса</string>
+    <string name="enter_login_hint">Введите логин</string>
+    <string name="enter_password_hint">Введите пароль</string>
+    <string name="enter_password_details_hint">Введите дополнительную информацию</string>
+</resources>

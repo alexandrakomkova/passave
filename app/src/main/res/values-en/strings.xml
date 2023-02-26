@@ -7,7 +7,6 @@
     <string name="delete_btn">Delete password</string>
     <string name="generate_btn">Generate password</string>
 
-
     <!-- settings screen -->
     <string name="settings_screen_label">Settings</string>
     <string name="night_mode_label">Night mode</string>

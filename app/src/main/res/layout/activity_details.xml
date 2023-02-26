@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password details"
+            android:text="@string/password_details_screen_label"
             android:layout_centerInParent="true"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -58,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:text="Service title:"
+                        android:text="@string/service_title_label"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
@@ -89,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:text="Login:"
+                        android:text="@string/login_label"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
@@ -120,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:text="Last modify date:"
+                        android:text="@string/last_modify_label"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
@@ -151,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:text="Password:"
+                        android:text="@string/password_label"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
@@ -183,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:text="Security level:"
+                        android:text="@string/security_lvl_label"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
 
@@ -219,10 +218,10 @@
                     android:id="@+id/update_password_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Update Password"
+                    android:text="@string/update_btn"
                     android:textColor="@color/settings_notifications"
                     android:textStyle="normal"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:background="@drawable/update_password_btn"
                     android:textAllCaps="false"/>
 
@@ -233,10 +232,10 @@
                     android:id="@+id/delete_password_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Delete Password"
+                    android:text="@string/delete_btn"
                     android:textColor="@color/settings_security"
                     android:textStyle="normal"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:background="@drawable/delete_password_btn"
                     android:textAllCaps="false"/>
 

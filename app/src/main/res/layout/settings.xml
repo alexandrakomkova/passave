@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="@string/settings_screen_label"
             android:layout_centerInParent="true"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -63,7 +63,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@id/night_icon"
-                        android:text="Night mode"
+                        android:text="@string/night_mode_label"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
                     <androidx.appcompat.widget.SwitchCompat
@@ -93,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Notifications"
+                        android:text="@string/notifications_label"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:layout_toEndOf="@id/notification_icon"/>
@@ -135,7 +135,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Languages"
+                        android:text="@string/language_label"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:layout_toEndOf="@id/language_icon"/>
@@ -165,7 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Security"
+                        android:text="@string/security_label"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:layout_toEndOf="@id/security_icon"/>
