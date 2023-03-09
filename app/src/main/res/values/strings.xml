@@ -22,6 +22,12 @@
     <string name="ru_label">Russian</string>
     <string name="en_label">English</string>
 
+    <!-- settings security screen -->
+    <string name="security_screen_label">Security</string>
+    <string name="fingerprint_label">Finger print</string>
+    <string name="pin_label">PIN</string>
+    <string name="nothing_label">Nothing</string>
+
     <!-- password details screen -->
     <string name="password_details_screen_label">Password details</string>
     <string name="service_title_label">Service title</string>
