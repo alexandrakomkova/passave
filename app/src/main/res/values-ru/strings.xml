@@ -17,6 +17,11 @@
     <string name="language_label">Язык</string>
     <string name="security_label">Безопаность</string>
 
+    <!-- settings language screen -->
+    <string name="language_screen_label">Язык</string>
+    <string name="ru_label">Русский</string>
+    <string name="en_label">Английский</string>
+
     <!-- password details screen -->
     <string name="password_details_screen_label">Подробнее о пароле</string>
     <string name="service_title_label">Название сервиса</string>
