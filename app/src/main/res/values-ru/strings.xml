@@ -41,4 +41,5 @@
     <string name="special_symbols_label">Специальные символы (!#@_.,)</string>
     <string name="password_contains_label">Пароль содержит</string>
     <string name="password_length_label">Длина пароля</string>
+    <string name="generated_password">Сгенерированный пароль</string>
 </resources>
