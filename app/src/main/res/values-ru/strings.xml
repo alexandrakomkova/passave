@@ -53,4 +53,18 @@
     <string name="password_contains_label">Пароль содержит</string>
     <string name="password_length_label">Длина пароля</string>
     <string name="generated_password">Сгенерированный пароль</string>
+
+    <!-- login screen -->
+    <string name="enter_masterkey_hint">Введите Мастер ключ</string>
+    <string name="repeat_masterkey_hint">Повторите Мастер ключ</string>
+    <string name="login_btn">Войти</string>
+    <string name="create_masterkey_btn">Создать Мастер ключ</string>
+    <string name="forget_password_label">Забыли Мастер ключ?</string>
+    <string name="mk_info_text">Мастер ключ - это бла блабла </string>
+
+    <!-- password strength -->
+    <string name="weak">Слабый</string>
+    <string name="medium">Средний</string>
+    <string name="strong">Сильный</string>
+    <string name="very_strong">Очень сильный</string>
 </resources>

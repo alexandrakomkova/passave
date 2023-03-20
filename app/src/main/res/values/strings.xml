@@ -53,4 +53,19 @@
     <string name="password_contains_label">Password contains</string>
     <string name="password_length_label">Password length</string>
     <string name="generated_password">Generated password</string>
+
+    <!-- login screen -->
+    <string name="enter_masterkey_hint">Enter Master key</string>
+    <string name="repeat_masterkey_hint">Repeat Master key</string>
+    <string name="login_btn">Login</string>
+    <string name="create_masterkey_btn">Create Master key</string>
+    <string name="forget_password_label">Forget Master key?</string>
+    <string name="mk_info_text">Master key - is blah blahdgfgdfgdfgwefggfd efgfddffdsdddddddddddddddddddddddddddddddddddddddd </string>
+
+    <!-- password strength -->
+    <string name="weak">Weak</string>
+    <string name="medium">Medium</string>
+    <string name="strong">Strong</string>
+    <string name="very_strong">Very strong</string>
+
 </resources>
