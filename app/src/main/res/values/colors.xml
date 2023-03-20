@@ -15,4 +15,8 @@
     <color name="settings_notifications">#13B2C3</color>
     <color name="settings_security">#D95F69</color>
     <color name="settings_languages">#E6A326</color>
+
+    <color name="weak">#D95F69</color>
+    <color name="medium">#E6A326</color>
+    <color name="strong">#4CAF50</color>
 </resources>

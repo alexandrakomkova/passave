@@ -65,6 +65,6 @@
     <!-- password strength -->
     <string name="weak">Слабый</string>
     <string name="medium">Средний</string>
-    <string name="strong">Сильный</string>
-    <string name="very_strong">Очень сильный</string>
+    <string name="strong">Надежный</string>
+    <string name="very_strong">Очень надежный</string>
 </resources>

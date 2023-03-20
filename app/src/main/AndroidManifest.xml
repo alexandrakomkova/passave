@@ -16,11 +16,25 @@
         <activity
             android:name=".AddPasswordActivity"
             android:exported="true" />
-<!--        <activity-->
-<!--            android:name=".GeneratePasswordActivity"-->
-<!--            android:exported="true" />-->
         <activity
             android:name=".GeneratePasswordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SettingsSecurityActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SettingsLanguagesActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".CreateMasterKeyActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -91,16 +91,36 @@
                             android:inputType="textPassword"
                             android:textColor="#FFFFFF"
                             android:textStyle="normal"
-                            android:id="@+id/enter_masterkey_hint"/>
+                            android:text="123"
+                            android:id="@+id/enter_masterkey_field"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
 
+
+                </RelativeLayout>
+
+                <!-- mk strength label -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp">
+
+                    <TextView
+                        android:id="@+id/password_strength_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/weak"
+                        android:text="sdfsdfsdfsdfs"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
                 </RelativeLayout>
 
                 <!-- Repeat Password -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -114,7 +134,8 @@
                             android:inputType="textPassword"
                             android:textColor="#FFFFFF"
                             android:textStyle="normal"
-                            android:id="@+id/enter_password_field"/>
+                            android:text="123"
+                            android:id="@+id/repeat_masterkey_field"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -125,7 +146,7 @@
                     android:id="@+id/create_account_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/save_password_btn"
                     android:text="@string/create_masterkey_btn"
                     android:textAllCaps="false"
