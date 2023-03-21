@@ -1,6 +1,7 @@
 package by.komkova.fit.bstu.passave;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -55,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PN_COLUMN_DESCRIPTION + " TEXT, "
                 + PN_COLUMN_FOLDER_ID + " INTEGER, "
                 + PN_COLUMN_FAVOURITE + " INTEGER CHECK(" + PN_COLUMN_FAVOURITE + " = 0 OR " + PN_COLUMN_FAVOURITE +" = 1), "
-                + " constraint _id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references " + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +")"
+                + " constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references " + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +")"
                 + " on delete set null on update cascade);");
 
 //        "CREATE TABLE \"password_note\" (\n" +
@@ -78,4 +79,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PASSWORD_NOTE_TABLE);
         onCreate(sqLiteDatabase);
     }
+
+    public Cursor readAllFoldersData()
+    {
+        String query = "select * from " + FOLDER_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
+    public Cursor readAllPasswordNotesData()
+    {
+        String query = "select * from " + PASSWORD_NOTE_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
 }
