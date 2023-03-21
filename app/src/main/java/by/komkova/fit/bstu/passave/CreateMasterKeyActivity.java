@@ -96,6 +96,7 @@ public class CreateMasterKeyActivity extends Activity {
                 case R.string.strong:
                 case R.string.very_strong: AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key created"); break;
                 default:
+                    AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something goes wrong");
             }
         } else {
             AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
