@@ -19,4 +19,5 @@
     <color name="weak">#D95F69</color>
     <color name="medium">#E6A326</color>
     <color name="strong">#4CAF50</color>
+    <color name="very_strong">#06F110</color>
 </resources>

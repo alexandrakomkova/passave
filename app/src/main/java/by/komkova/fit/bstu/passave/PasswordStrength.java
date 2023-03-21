@@ -5,7 +5,7 @@ public enum PasswordStrength {
     WEAK(R.string.weak, R.color.weak),
     MEDIUM(R.string.medium, R.color.medium),
     STRONG(R.string.strong, R.color.strong),
-    VERY_STRONG(R.string.very_strong, R.color.strong);
+    VERY_STRONG(R.string.very_strong, R.color.very_strong);
 
     public int msg;
     public int color;

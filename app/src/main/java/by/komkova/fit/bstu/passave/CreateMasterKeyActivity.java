@@ -51,7 +51,7 @@ public class CreateMasterKeyActivity extends Activity {
     private void calculatePasswordStrength(String str) {
         PasswordStrength passwordStrength = PasswordStrength.calculate(str);
         passwordStrengthTextView.setText(passwordStrength.msg);
-        passwordStrengthTextView.setTextColor(passwordStrength.color);
+        passwordStrengthTextView.setTextColor(getResources().getColor(passwordStrength.color));
 
     }
 
