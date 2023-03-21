@@ -1,11 +1,13 @@
 package by.komkova.fit.bstu.passave;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -16,6 +18,7 @@ public class CreateMasterKeyActivity extends Activity {
 
     private TextInputEditText textMasterKey;
     private TextView passwordStrengthTextView;
+    private ImageButton back_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class CreateMasterKeyActivity extends Activity {
 
         textMasterKey = findViewById(R.id.enter_masterkey_field);
         passwordStrengthTextView = findViewById(R.id.password_strength_label);
+        back_btn = findViewById(R.id.back_btn);
 
         textMasterKey.addTextChangedListener(new TextWatcher() {
             @Override
@@ -42,6 +46,13 @@ public class CreateMasterKeyActivity extends Activity {
             }
         });
 
+        back_btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                goToLoginActivity(v);
+            }
+        });
 
 
         // Log.d(log_tag, text);
@@ -55,6 +66,8 @@ public class CreateMasterKeyActivity extends Activity {
 
     }
 
-    public void goToLoginActivity(View view) {
+    private void goToLoginActivity(View v) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }
