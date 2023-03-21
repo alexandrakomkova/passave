@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,22 +14,26 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class CreateMasterKeyActivity extends Activity {
 
-    static final String log_tag = "CreateMasterKeyActivity";
+    final String log_tag = getClass().getName();
 
-    private TextInputEditText textMasterKey;
+    private TextInputEditText enterMasterKey_tiet, repeatMasterKey_tiet;
     private TextView passwordStrengthTextView;
     private ImageButton back_btn;
+    private Button createMk_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_mk);
 
-        textMasterKey = findViewById(R.id.enter_masterkey_field);
+        enterMasterKey_tiet = findViewById(R.id.enter_masterkey_field);
+        repeatMasterKey_tiet = findViewById(R.id.repeat_masterkey_field);
+
         passwordStrengthTextView = findViewById(R.id.password_strength_label);
         back_btn = findViewById(R.id.back_btn);
+        createMk_btn = findViewById(R.id.create_mk_btn);
 
-        textMasterKey.addTextChangedListener(new TextWatcher() {
+        enterMasterKey_tiet.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -42,7 +46,6 @@ public class CreateMasterKeyActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // Log.d(log_tag, editable.toString());
             }
         });
 
@@ -54,9 +57,17 @@ public class CreateMasterKeyActivity extends Activity {
             }
         });
 
-
-        // Log.d(log_tag, text);
-
+        createMk_btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                if(eqlPasswords(String.valueOf(enterMasterKey_tiet.getText()), String.valueOf(repeatMasterKey_tiet.getText()))){
+                    AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key created");
+                } else {
+                    AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
+                   }
+            }
+        });
     }
 
     private void calculatePasswordStrength(String str) {
@@ -69,5 +80,9 @@ public class CreateMasterKeyActivity extends Activity {
     private void goToLoginActivity(View v) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private boolean eqlPasswords(String password1, String password2){
+        return password1.equals(password2);
     }
 }

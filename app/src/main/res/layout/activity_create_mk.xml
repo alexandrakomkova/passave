@@ -141,7 +141,7 @@
 
                 <!-- create account button -->
                 <Button
-                    android:id="@+id/create_account_btn"
+                    android:id="@+id/create_mk_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
