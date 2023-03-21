@@ -67,4 +67,12 @@
     <string name="medium">Средний</string>
     <string name="strong">Надежный</string>
     <string name="very_strong">Очень надежный</string>
+
+
+    <!-- menu -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_about">О нас</string>
+    <string name="nav_password_generator">Генератор паролей</string>
+    <string name="nav_add_password">Новый пароль</string>
 </resources>
