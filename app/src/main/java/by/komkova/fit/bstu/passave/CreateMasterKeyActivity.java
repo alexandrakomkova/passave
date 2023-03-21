@@ -1,7 +1,10 @@
 package by.komkova.fit.bstu.passave;
 
+import static android.content.res.Resources.getSystem;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +23,7 @@ public class CreateMasterKeyActivity extends Activity {
     private TextView passwordStrengthTextView;
     private ImageButton back_btn;
     private Button createMk_btn;
+    private PasswordStrength passwordStrength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +65,13 @@ public class CreateMasterKeyActivity extends Activity {
         {
             @Override
             public void onClick(View v) {
-                if(eqlPasswords(String.valueOf(enterMasterKey_tiet.getText()), String.valueOf(repeatMasterKey_tiet.getText()))){
-                    AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key created");
-                } else {
-                    AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
-                   }
+                validatePassword();
             }
         });
     }
 
     private void calculatePasswordStrength(String str) {
-        PasswordStrength passwordStrength = PasswordStrength.calculate(str);
+        passwordStrength = PasswordStrength.calculate(str);
         passwordStrengthTextView.setText(passwordStrength.msg);
         passwordStrengthTextView.setTextColor(getResources().getColor(passwordStrength.color));
 
@@ -83,6 +83,22 @@ public class CreateMasterKeyActivity extends Activity {
     }
 
     private boolean eqlPasswords(String password1, String password2){
+        if(password1.isEmpty() && password2.isEmpty()) { return false; }
+
         return password1.equals(password2);
+    }
+
+    private void validatePassword(){
+        if (eqlPasswords(String.valueOf(enterMasterKey_tiet.getText()), String.valueOf(repeatMasterKey_tiet.getText()))){
+            switch (passwordStrength.msg){
+                case R.string.weak: AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is too weak"); break;
+                case R.string.medium: AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is medium, please make it strong"); break;
+                case R.string.strong:
+                case R.string.very_strong: AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key created"); break;
+                default:
+            }
+        } else {
+            AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
+        }
     }
 }
