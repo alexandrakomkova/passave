@@ -75,4 +75,11 @@
     <string name="nav_password_generator">Password generator</string>
     <string name="nav_add_password">New password note</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_home_fragment">Hello home fragment</string>
+    <string name="hello_settings_fragment">Hello settings fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="open_nav">Open nav</string>
+    <string name="close_nav">Close nav</string>
+
 </resources>
