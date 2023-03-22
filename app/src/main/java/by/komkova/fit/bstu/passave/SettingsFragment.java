@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
-    ImageButton security_ibtn;
+    ImageButton security_ibtn, language_ibtn;
     final String log_tag = getClass().getName();
 
     @Override
@@ -32,6 +32,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 fragmentTransaction.commit();
             }
         });
+
+        language_ibtn = view.findViewById(R.id.language_btn);
+        language_ibtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_layout, new LanguagesFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
 
         return view;
     }
