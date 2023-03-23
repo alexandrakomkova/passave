@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class PasswordGenerator {
+    // https://github.com/abhinav0612/PasswordGeneratorLibrary/blob/master/passwordgenerator/src/main/java/com/abhinav/passwordgenerator/PasswordGenerator.kt
 
     Integer length;
     private Boolean includeUpperCaseLetters, includeLowerCaseLetters, includeSymbols, includeNumbers;
