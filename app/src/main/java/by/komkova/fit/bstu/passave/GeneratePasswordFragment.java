@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class GeneratePasswordFragment extends Fragment {
     private PasswordStrength passwordStrength;
     private TextView passwordStrengthTextView,password_length_value_tv;
     private SeekBar password_length_seekBar;
+    private CheckBox caps_letters_checkbox, down_letters_checkbox, numbers_checkbox, special_symbols_checkbox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,11 +90,23 @@ public class GeneratePasswordFragment extends Fragment {
             }
         });
 
+        caps_letters_checkbox = view.findViewById(R.id.caps_letters_checkbox);
+        down_letters_checkbox = view.findViewById(R.id.down_letters_checkbox);
+        numbers_checkbox = view.findViewById(R.id.numbers_checkbox);
+        special_symbols_checkbox = view.findViewById(R.id.special_symbols_checkbox);
+
         generate_password_btn = view.findViewById(R.id.generate_password_btn);
         generate_password_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                generatePassword();
+
+                generatePassword(
+                        Integer.valueOf((String) password_length_value_tv.getText()),
+                        caps_letters_checkbox.isChecked(),
+                        down_letters_checkbox.isChecked(),
+                        numbers_checkbox.isChecked(),
+                        special_symbols_checkbox.isChecked()
+                );
             }
         });
 
@@ -107,12 +121,12 @@ public class GeneratePasswordFragment extends Fragment {
 
     }
 
-    private void generatePassword() {
-        PasswordGenerator obj = new PasswordGenerator(Integer.valueOf((String) password_length_value_tv.getText()),             // To specify password length
-                true,                                         // To include upper case Letters
-                false,                                       // To include lower case Letters
-                true,                                       // To include secial symbols
-                false);
+    private void generatePassword(Integer length, boolean includeUpperCaseLetters, boolean includeDownLetters, boolean includeSymbols, boolean includeNumbers) {
+        PasswordGenerator obj = new PasswordGenerator(length,             // To specify password length
+                includeUpperCaseLetters,                                         // To include upper case Letters
+                includeDownLetters,                                       // To include lower case Letters
+                includeNumbers,                                       // To include secial symbols
+                includeSymbols);
 
         String generatedPassword = obj.generatePassword();
         generated_password_tiet.setText(generatedPassword);
