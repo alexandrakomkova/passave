@@ -1,5 +1,6 @@
 package by.komkova.fit.bstu.passave;
 
+import android.util.Log;
 import android.util.Range;
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ public class PasswordGenerator {
 
     char[] upperCaseAlphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
     char[] lowerCaseAlphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    int[] numbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
+    char[] symbols = new char[] { '!','@','#','$','%','&','*','+','=','-','~','?','/','_' };
 
     PasswordGenerator(int length, boolean includeUpperCaseLetters, boolean includeLowerCaseLetters, boolean includeSymbols, boolean includeNumbers) {
         this.length = length;
@@ -30,22 +33,20 @@ public class PasswordGenerator {
         if(includeNumbers) { list.add(2); }
         if(includeSymbols) { list.add(3); }
 
-//        for(i in 1..length){
-//            var choice = list.random()
-//            when(choice){
-//                0-> password += ('A'..'Z').random().toString()
-//                1-> password += ('a'..'z').random().toString()
-//                2-> password += ('0'..'9').random().toString()
-//                3-> password += listOf('!','@','#','$','%','&','*','+','=','-','~','?','/','_').random().toString()
-//            }
-//        }
 
         for (int i = 0; i < length; i++) {
             Random rand = new Random();
             int choice = list.get(rand.nextInt(list.size()));
 
             switch(choice){
-                //case 0: ('A'..'Z').random().toString();
+                case 0:
+                    password += upperCaseAlphabet[rand.nextInt(upperCaseAlphabet.length)]; break;
+                case 1:
+                    password += lowerCaseAlphabet[rand.nextInt(upperCaseAlphabet.length)]; break;
+                case 2:
+                    password += String.valueOf(numbers[rand.nextInt(numbers.length)]); break;
+                case 3:
+                    password += symbols[rand.nextInt(symbols.length)]; break;
             }
         }
 

@@ -95,12 +95,6 @@ public class GeneratePasswordFragment extends Fragment {
                 generatePassword();
             }
         });
-//
-//        PasswordGenerator obj = new PasswordGenerator(12,             // To specify password length
-//                true,                                         // To include upper case Letters
-//                false,                                       // To include lower case Letters
-//                true,                                       // To include secial symbols
-//                false);
 
 
         return view;
@@ -114,5 +108,13 @@ public class GeneratePasswordFragment extends Fragment {
     }
 
     private void generatePassword() {
+        PasswordGenerator obj = new PasswordGenerator(Integer.valueOf((String) password_length_value_tv.getText()),             // To specify password length
+                true,                                         // To include upper case Letters
+                false,                                       // To include lower case Letters
+                true,                                       // To include secial symbols
+                false);
+
+        String generatedPassword = obj.generatePassword();
+        generated_password_tiet.setText(generatedPassword);
     }
 }
