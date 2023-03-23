@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,7 +23,8 @@ public class GeneratePasswordFragment extends Fragment {
     private Button ok_btn;
     private TextInputEditText generated_password_tiet;
     private PasswordStrength passwordStrength;
-    private TextView passwordStrengthTextView;
+    private TextView passwordStrengthTextView,password_length_value_tv;
+    private SeekBar password_length_seekBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +34,26 @@ public class GeneratePasswordFragment extends Fragment {
 
         generated_password_tiet = view.findViewById(R.id.generated_password_value);
         passwordStrengthTextView = view.findViewById(R.id.password_strength_label);
+        password_length_value_tv = view.findViewById(R.id.password_length_value);
+
+        password_length_seekBar = view.findViewById(R.id.password_length_seekBar);
+        password_length_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                password_length_value_tv.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         ok_btn = view.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(new View.OnClickListener() {
