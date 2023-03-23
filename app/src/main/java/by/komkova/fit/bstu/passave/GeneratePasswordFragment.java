@@ -20,7 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class GeneratePasswordFragment extends Fragment {
 
-    private Button ok_btn;
+    private Button ok_btn, generate_password_btn;
     private TextInputEditText generated_password_tiet;
     private PasswordStrength passwordStrength;
     private TextView passwordStrengthTextView,password_length_value_tv;
@@ -40,7 +40,6 @@ public class GeneratePasswordFragment extends Fragment {
         password_length_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
                 password_length_value_tv.setText(String.valueOf(progress));
             }
 
@@ -89,6 +88,19 @@ public class GeneratePasswordFragment extends Fragment {
             }
         });
 
+        generate_password_btn = view.findViewById(R.id.generate_password_btn);
+        generate_password_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generatePassword();
+            }
+        });
+//
+//        PasswordGenerator obj = new PasswordGenerator(12,             // To specify password length
+//                true,                                         // To include upper case Letters
+//                false,                                       // To include lower case Letters
+//                true,                                       // To include secial symbols
+//                false);
 
 
         return view;
@@ -99,5 +111,8 @@ public class GeneratePasswordFragment extends Fragment {
         passwordStrengthTextView.setText(passwordStrength.msg);
         passwordStrengthTextView.setTextColor(getResources().getColor(passwordStrength.color));
 
+    }
+
+    private void generatePassword() {
     }
 }
