@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new SettingsFragment()).commit();
                 break;
+            case R.id.nav_password_generator:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new GeneratePasswordFragment()).commit();
+                break;
+            case R.id.nav_add_password:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddPasswordFragment()).commit();
+                break;
             default:
         }
 
