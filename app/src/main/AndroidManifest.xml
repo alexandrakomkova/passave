@@ -61,6 +61,13 @@
             android:grantUriPermissions="true"
             android:readPermission="true"
             android:writePermission="true"/>
+        <provider
+            android:name=".FolderProvider"
+            android:authorities="by.komkova.fit.bstu.providers.PasswordNoteList"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:readPermission="true"
+            android:writePermission="true"/>
     </application>
 
 </manifest>
