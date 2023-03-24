@@ -54,6 +54,13 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
+        <provider
+            android:name=".FolderProvider"
+            android:authorities="by.komkova.fit.bstu.providers.FolderList"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:readPermission="true"
+            android:writePermission="true"/>
     </application>
 
 </manifest>

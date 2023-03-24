@@ -1,5 +1,6 @@
 package by.komkova.fit.bstu.passave;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,9 @@ public class AddPasswordFragment extends Fragment {
     final String log_tag = getClass().getName();
     private Button generate_password_btn;
     private TextInputEditText enter_password_tiet;
+
+    DatabaseHelper databaseHelper;
+    SQLiteDatabase db;
 
 
     @Override
@@ -45,6 +49,9 @@ public class AddPasswordFragment extends Fragment {
             String recieveInfo = bundle.getString("generated_password");
             enter_password_tiet.setText(recieveInfo);
         }
+
+        databaseHelper = new DatabaseHelper(getActivity());
+        db = databaseHelper.getWritableDatabase();
 
 
         return view;
