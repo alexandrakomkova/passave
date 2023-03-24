@@ -75,10 +75,6 @@
     <string name="nav_about">О нас</string>
     <string name="nav_password_generator">Генератор паролей</string>
     <string name="nav_add_password">Новый пароль</string>
-
-
-    <string name="hello_home_fragment">Hello home fragment</string>
-    <string name="hello_settings_fragment">Hello settings fragment</string>
-    <string name="open_nav">Open nav</string>
-    <string name="close_nav">Close nav</string>
+    <string name="open_nav">Open Menu</string>
+    <string name="close_nav">Close Menu</string>
 </resources>

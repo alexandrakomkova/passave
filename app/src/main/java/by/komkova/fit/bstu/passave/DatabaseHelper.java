@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + FOLDER_TABLE
-                + " (" + FOLDER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " (" + FOLDER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                 + FOLDER_COLUMN_FOLDER_NAME + " TEXT UNIQUE NOT NULL);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + PASSWORD_NOTE_TABLE

@@ -19,7 +19,7 @@ public class PasswordNoteProvider extends ContentProvider {
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
-    static final String AUTHORITY = "by.komkova.fit.bstu.providers.PasswordNoteList";
+    static final String AUTHORITY = "by.komkova.fit.bstu.passave.providers.PasswordNoteList";
     static final String PATH = "list";
     public static final Uri PASSWORD_NOTE_URI = Uri.parse("content://" + AUTHORITY + "/"+
             PATH);

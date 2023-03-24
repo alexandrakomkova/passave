@@ -18,7 +18,7 @@ public class FolderProvider extends ContentProvider {
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
-    static final String AUTHORITY = "by.komkova.fit.bstu.providers.FolderList";
+    static final String AUTHORITY = "by.komkova.fit.bstu.passave.providers.FolderList";
     static final String PATH = "list";
     public static final Uri FOLDER_URI = Uri.parse("content://" + AUTHORITY + "/"+
             PATH);

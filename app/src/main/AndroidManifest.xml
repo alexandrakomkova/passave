@@ -56,14 +56,14 @@
         </activity>
         <provider
             android:name=".FolderProvider"
-            android:authorities="by.komkova.fit.bstu.providers.FolderList"
+            android:authorities="by.komkova.fit.bstu.passave.providers.FolderList"
             android:exported="true"
             android:grantUriPermissions="true"
             android:readPermission="true"
             android:writePermission="true"/>
         <provider
-            android:name=".FolderProvider"
-            android:authorities="by.komkova.fit.bstu.providers.PasswordNoteList"
+            android:name=".PasswordNoteProvider"
+            android:authorities="by.komkova.fit.bstu.passave.providers.PasswordNoteList"
             android:exported="true"
             android:grantUriPermissions="true"
             android:readPermission="true"
