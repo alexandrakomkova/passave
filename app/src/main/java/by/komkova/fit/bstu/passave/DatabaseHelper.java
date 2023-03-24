@@ -24,18 +24,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // folder table
     public static final String FOLDER_COLUMN_ID = "_id";
     public static final String FOLDER_COLUMN_FOLDER_NAME = "folder_name";
-    // public static final String FOLDER_COLUMN_UPDATED = "updated";
+    public static final String FOLDER_COLUMN_UPDATED = "updated";
 
     // password notes table
     public static final String PN_COLUMN_ID = "_id";
     public static final String PN_COLUMN_SERVICE_NAME = "service_name";
     public static final String PN_COLUMN_LOGIN = "login";
     public static final String PN_COLUMN_PASSWORD = "password";
-    // public static final String PN_COLUMN_CREATED = "created";
-    // public static final String PN_COLUMN_UPDATED = "updated";
     public static final String PN_COLUMN_DESCRIPTION = "description";
     public static final String PN_COLUMN_FOLDER_ID = "folder_id";
     public static final String PN_COLUMN_FAVOURITE = "favourite";
+     public static final String PN_COLUMN_CREATED = "created";
+     public static final String PN_COLUMN_UPDATED = "updated";
 
     public DatabaseHelper(Context context) {
         // super(context, SETTINGS_DB_NAME, null, SCHEMA);
@@ -46,6 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + FOLDER_TABLE
                 + " (" + FOLDER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + FOLDER_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + FOLDER_COLUMN_FOLDER_NAME + " TEXT UNIQUE NOT NULL);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + PASSWORD_NOTE_TABLE
@@ -56,6 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PN_COLUMN_DESCRIPTION + " TEXT, "
                 + PN_COLUMN_FOLDER_ID + " INTEGER, "
                 + PN_COLUMN_FAVOURITE + " INTEGER CHECK(" + PN_COLUMN_FAVOURITE + " = 0 OR " + PN_COLUMN_FAVOURITE +" = 1), "
+                + PN_COLUMN_CREATED + " TEXT NOT NULL, "
+                + PN_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + " constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references " + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +")"
                 + " on delete set null on update cascade);");
 

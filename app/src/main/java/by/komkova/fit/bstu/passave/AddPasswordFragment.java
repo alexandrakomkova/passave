@@ -1,9 +1,11 @@
 package by.komkova.fit.bstu.passave;
 
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
 import android.content.ContentValues;
@@ -23,6 +25,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddPasswordFragment extends Fragment {
 
@@ -91,6 +98,15 @@ public class AddPasswordFragment extends Fragment {
         cv.put(PN_COLUMN_LOGIN, enter_login_tiet.getText().toString().trim());
         cv.put(PN_COLUMN_PASSWORD, enter_password_tiet.getText().toString().trim());
         cv.put(PN_COLUMN_DESCRIPTION, enter_details_tiet.getText().toString().trim());
+
+//        Date c = Calendar.getInstance().getTime();
+//        Log.d(log_tag, "Current time => " + c); // Fri Mar 24 09:36:55 GMT+00:00 2023
+//        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+//        Log.d(log_tag, df.format(c)); // 24-Mar-2023
+
+        String currentDate = Calendar.getInstance().getTime().toString().trim();
+        cv.put(PN_COLUMN_CREATED, currentDate);
+        cv.put(PN_COLUMN_UPDATED, currentDate);
 
         // temporary(or not) without folder_id and favourite
 

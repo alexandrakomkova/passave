@@ -8,12 +8,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    final String log_tag = getClass().getName();
 
     private DrawerLayout drawerLayout;
     public static Context contextOfApplication;
@@ -27,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         contextOfApplication = getApplicationContext();
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -45,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_home);
 
         }
+//
+
 
     }
 
