@@ -104,9 +104,10 @@ public class AddPasswordFragment extends Fragment {
 //        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 //        Log.d(log_tag, df.format(c)); // 24-Mar-2023
 
-        String currentDate = Calendar.getInstance().getTime().toString().trim();
-        cv.put(PN_COLUMN_CREATED, currentDate);
-        cv.put(PN_COLUMN_UPDATED, currentDate);
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        cv.put(PN_COLUMN_CREATED, df.format(currentDate));
+        cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
 
         // temporary(or not) without folder_id and favourite
 

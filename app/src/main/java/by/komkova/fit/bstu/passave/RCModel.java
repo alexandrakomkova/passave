@@ -2,11 +2,35 @@ package by.komkova.fit.bstu.passave;
 
 public class RCModel {
 
+    Integer id;
     String title;
-    int image;
+    String lastUpdateDate;
 
-    public RCModel(String title, int image){
+//    public RCModel(Integer id, String title, String lastUpdateDate) {
+//        this.id = id;
+//        this.title = title;
+//        this.lastUpdateDate = lastUpdateDate;
+//    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
-        this.image = image;
+    }
+
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(String lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 }

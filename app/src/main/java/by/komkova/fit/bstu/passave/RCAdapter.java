@@ -26,7 +26,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
     @Override
     public RCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.rc_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.rc_item_password_note, parent, false);
 
         return new RCViewHolder(view);
     }
@@ -34,8 +34,8 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RCViewHolder holder, int position) {
         RCModel rcModel = modelArrayList.get(position);
-        holder.rc_title.setText(rcModel.title);
-        holder.rc_image.setImageResource(rcModel.image);
+        holder.rc_title.setText(rcModel.getTitle());
+        holder.rc_lastDate.setText(rcModel.getLastUpdateDate());
     }
 
     @Override
@@ -44,14 +44,14 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
     }
 
     public class RCViewHolder extends RecyclerView.ViewHolder {
-        ImageView rc_image;
         TextView rc_title;
+        TextView rc_lastDate;
 
         public RCViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            rc_image = itemView.findViewById(R.id.rc_image);
-            rc_title = itemView.findViewById(R.id.rc_title);
+            rc_title = itemView.findViewById(R.id.titleTextView);
+            rc_lastDate = itemView.findViewById(R.id.lastDateUpdateTextView);
         }
     }
 }
