@@ -41,6 +41,11 @@ public class AddPasswordFragment extends Fragment {
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
+    private String service_name = "";
+    private String login = "";
+    private String description = "";
+    private String entered_password = "";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,20 +60,42 @@ public class AddPasswordFragment extends Fragment {
         enter_login_tiet = view.findViewById(R.id.enter_login_field);
         enter_details_tiet = view.findViewById(R.id.enter_details_field);
 
+        if (savedInstanceState != null) {
+            service_name = savedInstanceState.getString("service_name");
+            enter_service_title_tiet.setText(service_name);
+
+            login = savedInstanceState.getString("login");
+            enter_login_tiet.setText(login);
+
+            description = savedInstanceState.getString("description");
+            enter_details_tiet.setText(description);
+
+            entered_password = savedInstanceState.getString("entered_password");
+            enter_password_tiet.setText(entered_password);
+        }
+
         generate_password_btn = view.findViewById(R.id.generate_password_btn);
         generate_password_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new GeneratePasswordFragment());
-                fragmentTransaction.commit();
+                GeneratePasswordFragment generatePasswordFragment = new GeneratePasswordFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("generated_password", String.valueOf(enter_password_tiet.getText()));
+
+                generatePasswordFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_layout,  generatePasswordFragment).commit();
+
+//                FragmentTransaction fragmentTransaction = getActivity()
+//                        .getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.fragment_layout, new GeneratePasswordFragment());
+//                fragmentTransaction.commit();
             }
         });
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            String recieveInfo = bundle.getString("generated_password");
+        Bundle bundleArgument = getArguments();
+        if (bundleArgument != null) {
+            String recieveInfo = bundleArgument.getString("generated_password");
             enter_password_tiet.setText(recieveInfo);
         }
 
@@ -121,6 +148,22 @@ public class AddPasswordFragment extends Fragment {
                 .getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        service_name = enter_service_title_tiet.getText().toString().trim();
+        login = enter_login_tiet.getText().toString().trim();
+        description = enter_details_tiet.getText().toString().trim();
+        entered_password = enter_password_tiet.getText().toString().trim();
+
+        outState.putString("service_name", service_name);
+        outState.putString("login", login);
+        outState.putString("description", description);
+        outState.putString("entered_password", entered_password);
+
+        Log.d(log_tag, service_name);
     }
 
 }

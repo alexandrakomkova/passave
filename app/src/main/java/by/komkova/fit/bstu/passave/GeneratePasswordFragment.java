@@ -28,6 +28,8 @@ public class GeneratePasswordFragment extends Fragment {
     private SeekBar password_length_seekBar;
     private CheckBox caps_letters_checkbox, down_letters_checkbox, numbers_checkbox, special_symbols_checkbox;
 
+    private String generated_password;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,6 +39,17 @@ public class GeneratePasswordFragment extends Fragment {
         generated_password_tiet = view.findViewById(R.id.generated_password_value);
         passwordStrengthTextView = view.findViewById(R.id.password_strength_label);
         password_length_value_tv = view.findViewById(R.id.password_length_value);
+
+        if(savedInstanceState != null) {
+            generated_password = savedInstanceState.getString("generated_password");
+            generated_password_tiet.setText(generated_password);
+        }
+
+        Bundle bundleArgument = getArguments();
+        if (bundleArgument != null) {
+            String recieveInfo = bundleArgument.getString("generated_password");
+            generated_password_tiet.setText(recieveInfo);
+        }
 
         password_length_seekBar = view.findViewById(R.id.password_length_seekBar);
         password_length_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -57,21 +70,21 @@ public class GeneratePasswordFragment extends Fragment {
         });
 
         ok_btn = view.findViewById(R.id.ok_btn);
-        ok_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ok_btn.setOnClickListener(view1 -> {
+            generated_password = String.valueOf(generated_password_tiet.getText());
                 AddPasswordFragment addPasswordFragment = new AddPasswordFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("generated_password", String.valueOf(generated_password_tiet.getText()));
+
                 addPasswordFragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.fragment_layout,  addPasswordFragment).commit();
 
-//                FragmentTransaction fragmentTransaction = getActivity()
-//                        .getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.fragment_layout, new AddPasswordFragment());
-//                fragmentTransaction.commit();
-            }
+//
+//            FragmentTransaction fragmentTransaction = getActivity()
+//                    .getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fragment_layout, new AddPasswordFragment());
+//            fragmentTransaction.commit();
         });
 
         generated_password_tiet.addTextChangedListener(new TextWatcher() {
@@ -130,5 +143,11 @@ public class GeneratePasswordFragment extends Fragment {
 
         String generatedPassword = obj.generatePassword();
         generated_password_tiet.setText(generatedPassword);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("generated_password", generated_password);
     }
 }
