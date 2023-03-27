@@ -80,6 +80,9 @@ public class AddPasswordFragment extends Fragment {
             public void onClick(View view) {
                 GeneratePasswordFragment generatePasswordFragment = new GeneratePasswordFragment();
                 Bundle bundle = new Bundle();
+                bundle.putString("service_name", String.valueOf(enter_service_title_tiet.getText()));
+                bundle.putString("login", String.valueOf(enter_login_tiet.getText()));
+                bundle.putString("description", String.valueOf(enter_details_tiet.getText()));
                 bundle.putString("generated_password", String.valueOf(enter_password_tiet.getText()));
 
                 generatePasswordFragment.setArguments(bundle);
@@ -95,8 +98,10 @@ public class AddPasswordFragment extends Fragment {
 
         Bundle bundleArgument = getArguments();
         if (bundleArgument != null) {
-            String recieveInfo = bundleArgument.getString("generated_password");
-            enter_password_tiet.setText(recieveInfo);
+            enter_service_title_tiet.setText(bundleArgument.getString("service_name"));
+            enter_login_tiet.setText(bundleArgument.getString("login"));
+            enter_details_tiet.setText(bundleArgument.getString("description"));
+            enter_password_tiet.setText(bundleArgument.getString("generated_password"));
         }
 
         databaseHelper = new DatabaseHelper(getActivity());

@@ -73,10 +73,9 @@ public class GeneratePasswordFragment extends Fragment {
         ok_btn.setOnClickListener(view1 -> {
             generated_password = String.valueOf(generated_password_tiet.getText());
                 AddPasswordFragment addPasswordFragment = new AddPasswordFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("generated_password", String.valueOf(generated_password_tiet.getText()));
+                bundleArgument.putString("generated_password", String.valueOf(generated_password_tiet.getText()));
 
-                addPasswordFragment.setArguments(bundle);
+                addPasswordFragment.setArguments(bundleArgument);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.fragment_layout,  addPasswordFragment).commit();
 
