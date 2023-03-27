@@ -5,6 +5,7 @@ public class RCModel {
     Integer id;
     String title;
     String lastUpdateDate;
+    Integer favourite;
 
 //    public RCModel(Integer id, String title, String lastUpdateDate) {
 //        this.id = id;
@@ -33,4 +34,13 @@ public class RCModel {
     public void setLastUpdateDate(String lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
+
+    public int getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(int favourite) {
+        this.favourite = favourite;
+    }
+
 }

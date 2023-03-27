@@ -1,7 +1,13 @@
 package by.komkova.fit.bstu.passave;
 
+import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
+
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -18,6 +24,9 @@ import java.util.ArrayList;
 
 public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
 
+    private String log_tag = getClass().getName();
+    private Context applicationContext;
+
     Context context;
     ArrayList<RCModel> modelArrayList;
     DatabaseHelper databaseHelper;
@@ -33,6 +42,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
     public RCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.rc_item_password_note, parent, false);
+        applicationContext = MainActivity.getContextOfApplication();
 
         return new RCViewHolder(view);
     }
@@ -43,13 +53,20 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
         holder.rc_title.setText(rcModel.getTitle());
         holder.rc_lastDate.setText(rcModel.getLastUpdateDate());
 
+        if (rcModel.getFavourite() > 0) {
+            holder.rc_favourite.setImageResource(R.drawable.star_icon);
+        }
+
         int pos = holder.getAdapterPosition();
-        holder.rc_like.setOnClickListener(view -> {
+        holder.rc_favourite.setOnClickListener(view -> {
             final RCModel rcItem = modelArrayList.get(pos);
             final int Id = rcItem.getId();
-            databaseHelper = new DatabaseHelper(context);
-            db = databaseHelper.getWritableDatabase();
+            final int favourite = rcItem.getFavourite();
+            if (favourite == 0) {
+                updateFavouriteStatus(Id, 1);
+            } else { updateFavouriteStatus(Id, 0); }
 
+            notifyDataSetChanged();
         });
 
 //        holder.rc_more.setOnClickListener(view -> {
@@ -91,7 +108,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
         TextView rc_title;
         TextView rc_lastDate;
         // ImageView rc_more;
-        ImageView rc_like;
+        ImageView rc_favourite;
 
         public RCViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,7 +116,21 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
             rc_title = itemView.findViewById(R.id.titleTextView);
             rc_lastDate = itemView.findViewById(R.id.lastDateUpdateTextView);
             // rc_more = itemView.findViewById(R.id.more);
-            rc_like = itemView.findViewById(R.id.likedImageView);
+            rc_favourite = itemView.findViewById(R.id.likedImageView);
+        }
+    }
+
+    public void updateFavouriteStatus(Integer Id, Integer favourite) {
+        try {
+            ContentValues cv = new ContentValues();
+
+            cv.put(DatabaseHelper.PN_COLUMN_FAVOURITE, favourite);
+
+            Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
+            int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
+            Log.d(log_tag, "updated");
+        } catch (Exception e){
+            Log.d(log_tag, "error: " + e.getMessage());
         }
     }
 }

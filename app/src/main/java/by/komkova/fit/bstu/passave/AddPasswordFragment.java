@@ -2,6 +2,7 @@ package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FAVOURITE;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
@@ -140,6 +141,8 @@ public class AddPasswordFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         cv.put(PN_COLUMN_CREATED, df.format(currentDate));
         cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
+
+        cv.put(PN_COLUMN_FAVOURITE, 0);
 
         // temporary(or not) without folder_id and favourite
 

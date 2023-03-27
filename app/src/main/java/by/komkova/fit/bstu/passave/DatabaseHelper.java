@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PN_COLUMN_PASSWORD + " TEXT NOT NULL, "
                 + PN_COLUMN_DESCRIPTION + " TEXT, "
                 + PN_COLUMN_FOLDER_ID + " INTEGER, "
-                + PN_COLUMN_FAVOURITE + " INTEGER CHECK(" + PN_COLUMN_FAVOURITE + " = 0 OR " + PN_COLUMN_FAVOURITE +" = 1), "
+                + PN_COLUMN_FAVOURITE + " INTEGER CHECK(" + PN_COLUMN_FAVOURITE + " = 0 OR " + PN_COLUMN_FAVOURITE +" = 1) DEFAULT 0, "
                 + PN_COLUMN_CREATED + " TEXT NOT NULL, "
                 + PN_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + " constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references " + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +")"
