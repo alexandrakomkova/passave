@@ -26,10 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:padding="14dp"
             android:background="@null"
+            android:padding="14dp"
             android:scaleType="fitStart"
-            android:src="@drawable/back_btn"/>
+            android:src="@drawable/back_btn" />
     </RelativeLayout>
 
     <!-- Languages -->

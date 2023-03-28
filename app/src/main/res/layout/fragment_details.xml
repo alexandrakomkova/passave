@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/primary"
-    tools:context=".DetailsActivity">
+    tools:context=".DetailsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="14dp"
-            android:src="@drawable/back_btn"
-            android:onClick="goToMainActivity"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:text="@string/password_details_screen_label"
+            android:layout_centerInParent="true"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <ImageButton
+            android:id="@+id/backSettings_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:padding="14dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/back_btn" />
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
+
             <!-- Password info -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="40dp"
                 android:orientation="vertical"
                 android:padding="15dp"
                 android:background="@drawable/round_back_white_10_20">
@@ -209,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:padding="15dp"
                 android:background="@drawable/round_back_white_10_20">
@@ -245,4 +251,5 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+
+</FrameLayout>
