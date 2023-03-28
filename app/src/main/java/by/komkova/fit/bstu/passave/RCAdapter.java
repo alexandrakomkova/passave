@@ -68,35 +68,6 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
 
             notifyDataSetChanged();
         });
-
-//        holder.rc_more.setOnClickListener(view -> {
-//            final RCModel rcItem = modelArrayList.get(pos);
-//            final int Id = rcItem.getId();
-//            databaseHelper = new DatabaseHelper(context);
-//            db = databaseHelper.getWritableDatabase();
-//            PopupMenu menu = new PopupMenu(context, holder.rc_more);
-//
-//            menu.inflate(R.menu.card_menu);
-//            menu.setOnMenuItemClickListener(item -> {
-//                switch (item.getItemId()) {
-//                    case R.id.delete:
-//                        db.delete(DatabaseHelper.PASSWORD_NOTE_TABLE,DatabaseHelper.PN_COLUMN_ID + " = " + Id,null);
-//                        notifyItemRangeChanged(pos,modelArrayList.size());
-//                        modelArrayList.remove(pos);
-//                        notifyItemRemoved(pos);
-//                        db.close();
-//                        break;
-//                    case R.id.update:
-//                        FragmentTransaction fragmentTransaction = getActivity()
-//                                .getSupportFragmentManager().beginTransaction();
-//                        fragmentTransaction.replace(R.id.fragment_layout, new SecurityFragment());
-//                        fragmentTransaction.commit();
-//                        break;
-//                }
-//                return false;
-//            });
-//            menu.show();
-       // });
     }
 
     @Override
