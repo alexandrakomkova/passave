@@ -89,11 +89,6 @@ public class AddPasswordFragment extends Fragment {
                 generatePasswordFragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.fragment_layout,  generatePasswordFragment).commit();
-
-//                FragmentTransaction fragmentTransaction = getActivity()
-//                        .getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.fragment_layout, new GeneratePasswordFragment());
-//                fragmentTransaction.commit();
             }
         });
 

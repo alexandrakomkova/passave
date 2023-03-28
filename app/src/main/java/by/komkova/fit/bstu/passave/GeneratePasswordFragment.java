@@ -71,19 +71,22 @@ public class GeneratePasswordFragment extends Fragment {
 
         ok_btn = view.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(view1 -> {
-            generated_password = String.valueOf(generated_password_tiet.getText());
+            if (bundleArgument.getInt("isEdit") > 0 ) {
+                DetailsFragment detailsFragment = new DetailsFragment();
+                bundleArgument.putString("generated_password", String.valueOf(generated_password_tiet.getText()));
+                bundleArgument.putInt("isEdit", 1);
+
+                detailsFragment.setArguments(bundleArgument);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_layout,  detailsFragment).commit();
+            } else {
                 AddPasswordFragment addPasswordFragment = new AddPasswordFragment();
                 bundleArgument.putString("generated_password", String.valueOf(generated_password_tiet.getText()));
 
                 addPasswordFragment.setArguments(bundleArgument);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.fragment_layout,  addPasswordFragment).commit();
-
-//
-//            FragmentTransaction fragmentTransaction = getActivity()
-//                    .getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.fragment_layout, new AddPasswordFragment());
-//            fragmentTransaction.commit();
+            }
         });
 
         generated_password_tiet.addTextChangedListener(new TextWatcher() {

@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -37,7 +38,7 @@ public class DetailsFragment extends Fragment {
 
     private Integer Id;
     private TextInputEditText enter_service_title_tiet, enter_login_tiet, enter_details_tiet, enter_password_tiet;
-    private Button update_password_btn, delete_password_btn;
+    private Button update_password_btn, delete_password_btn, generate_password_btn;
     SQLiteDatabase db;
     DatabaseHelper databaseHelper;
 
@@ -90,8 +91,34 @@ public class DetailsFragment extends Fragment {
 
         Bundle bundleArgument = getArguments();
         if (bundleArgument != null) {
-            setPasswordNoteData(bundleArgument.getInt("password_note_id"));
+            if (bundleArgument.getInt("isEdit") > 0 ) {
+                enter_service_title_tiet.setText(bundleArgument.getString("service_name"));
+                enter_login_tiet.setText(bundleArgument.getString("login"));
+                enter_details_tiet.setText(bundleArgument.getString("description"));
+                enter_password_tiet.setText(bundleArgument.getString("generated_password"));
+            } else {
+                setPasswordNoteData(bundleArgument.getInt("password_note_id"));
+            }
         }
+
+        generate_password_btn = view.findViewById(R.id.generate_password_btn);
+        generate_password_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GeneratePasswordFragment generatePasswordFragment = new GeneratePasswordFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("isEdit", 1);
+
+                bundle.putString("service_name", String.valueOf(enter_service_title_tiet.getText()));
+                bundle.putString("login", String.valueOf(enter_login_tiet.getText()));
+                bundle.putString("description", String.valueOf(enter_details_tiet.getText()));
+                bundle.putString("generated_password", String.valueOf(enter_password_tiet.getText()));
+
+                generatePasswordFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_layout,  generatePasswordFragment).commit();
+            }
+        });
 
         update_password_btn = view.findViewById(R.id.update_password_btn);
         update_password_btn.setOnClickListener(view1 -> updatePasswordNote(bundleArgument.getInt("password_note_id")));
