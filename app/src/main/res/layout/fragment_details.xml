@@ -40,9 +40,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="20dp">
 
-            <!-- Password info -->
+            <!-- Text fields -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,164 +52,124 @@
                 android:padding="15dp"
                 android:background="@drawable/round_back_white_10_20">
 
-                <!-- Service info -->
+                <!-- Service title -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!-- Service label -->
-                    <TextView
-                        android:id="@+id/service_label"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/service_title_label"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        style="@style/CustomOutlineBox"
+                        android:hint="@string/enter_service_title_hint">
 
-                    <!-- Service value -->
-                    <TextView
-                        android:id="@+id/service_value"
-                        android:layout_toEndOf="@id/service_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="google"
-                        android:textColor="@color/white"
-                        android:textStyle="normal" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="normal"
+                            android:id="@+id/enter_service_title_field"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </RelativeLayout>
 
-                <!-- Login info -->
+                <!-- Login -->
                 <RelativeLayout
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!-- Login label -->
-                    <TextView
-                        android:id="@+id/login_label"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/login_label"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        style="@style/CustomOutlineBox"
+                        android:hint="@string/enter_login_hint">
 
-                    <!-- Login value -->
-                    <TextView
-                        android:id="@+id/login_value"
-                        android:layout_toEndOf="@id/login_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="google"
-                        android:textColor="@color/white"
-                        android:textStyle="normal" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFFFFF"
+                            android:inputType="text"
+                            android:textStyle="normal"
+                            android:id="@+id/enter_login_field"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </RelativeLayout>
 
-                <!-- Last modify info -->
+                <!-- Details -->
                 <RelativeLayout
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!-- Last modify label -->
-                    <TextView
-                        android:id="@+id/last_modify_label"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/last_modify_label"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        style="@style/CustomOutlineBox"
+                        android:hint="@string/enter_password_details_hint">
 
-                    <!-- Last modify value -->
-                    <TextView
-                        android:id="@+id/last_modify_value"
-                        android:layout_toEndOf="@id/last_modify_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="12-01-2021"
-                        android:textColor="@color/white"
-                        android:textStyle="normal" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:textColor="#FFFFFF"
+                            android:inputType="text"
+                            android:textStyle="normal"
+                            android:id="@+id/enter_details_field"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                 </RelativeLayout>
+            </LinearLayout>
+            <!-- Password field -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:background="@drawable/round_back_white_10_20">
 
-                <!-- Password info -->
+                <!-- Password -->
                 <RelativeLayout
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!-- Password label -->
-                    <TextView
-                        android:id="@+id/password_label"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/password_label"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        style="@style/PasswordCustomOutlineBox"
+                        android:hint="@string/enter_password_hint">
 
-                    <!-- Password value -->
-                    <TextView
-                        android:id="@+id/password_value"
-                        android:layout_toEndOf="@id/password_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="*******"
-                        android:textColor="@color/white"
-                        android:textStyle="normal"
-                        />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="normal"
+                            android:id="@+id/enter_password_field"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </RelativeLayout>
 
-                <!-- Security level info -->
-                <RelativeLayout
-                    android:layout_marginTop="5dp"
+                <!-- Generate password button -->
+                <Button
+                    android:id="@+id/generate_password_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/generate_btn"
+                    android:textColor="@color/settings_notifications"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:background="@drawable/update_password_btn"
+                    android:textAllCaps="false"/>
 
-                    <!-- Security level label -->
-                    <TextView
-                        android:id="@+id/security_level_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="@string/security_lvl_label"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <!-- Security level value -->
-                    <TextView
-                        android:id="@+id/security_level_value"
-                        android:layout_toEndOf="@id/security_level_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:text="7/10"
-                        android:textColor="@color/white"
-                        android:textStyle="normal" />
-
-                </RelativeLayout>
 
             </LinearLayout>
-
-            <!-- Buttons -->
+            <!-- Save password -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -226,10 +186,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/update_btn"
-                    android:textColor="@color/settings_notifications"
+                    android:textColor="@color/settings_languages"
                     android:textStyle="normal"
                     android:textSize="14sp"
-                    android:background="@drawable/update_password_btn"
+                    android:background="@drawable/save_password_btn"
                     android:textAllCaps="false"/>
 
 

@@ -17,6 +17,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,6 +68,12 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
             } else { updateFavouriteStatus(Id, 0); }
 
             notifyDataSetChanged();
+        });
+
+        holder.itemView.setOnClickListener(view -> {
+            MainActivity activity = (MainActivity) view.getContext();
+            Fragment myFragment = new DetailsFragment();
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, myFragment).addToBackStack(null).commit();
         });
     }
 
