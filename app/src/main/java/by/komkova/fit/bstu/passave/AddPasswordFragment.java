@@ -171,7 +171,7 @@ public class AddPasswordFragment extends Fragment {
         outState.putString("description", description);
         outState.putString("entered_password", entered_password);
 
-        Log.d(log_tag, service_name);
+        // Log.d(log_tag, service_name);
     }
 
 }

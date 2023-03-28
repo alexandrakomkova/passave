@@ -77,18 +77,6 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(rcAdapter);
     }
 
-    private String formatDate(String date) throws ParseException {
-
-        //current date format
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
-
-        Date objDate = dateFormat.parse(date);
-
-        //Expected date format
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-
-        return dateFormat2.format(objDate);
-    }
 
 
 }

@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,13 +69,22 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
                 updateFavouriteStatus(Id, 1);
             } else { updateFavouriteStatus(Id, 0); }
 
-            notifyDataSetChanged();
+            notifyDataSetChanged(); // how to update recyclerview in real time after changing favourite status
         });
 
         holder.itemView.setOnClickListener(view -> {
+            final RCModel rcItem = modelArrayList.get(pos);
+
             MainActivity activity = (MainActivity) view.getContext();
-            Fragment myFragment = new DetailsFragment();
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, myFragment).addToBackStack(null).commit();
+            Fragment detailsFragment = new DetailsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("password_note_id", rcItem.getId());
+
+            detailsFragment.setArguments(bundle);
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  detailsFragment).commit();
+
+            // activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, detailsFragment).addToBackStack(null).commit();
         });
     }
 
