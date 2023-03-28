@@ -1,17 +1,35 @@
 package by.komkova.fit.bstu.passave;
 
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
+
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class DetailsFragment extends Fragment {
     private String log_tag = DetailsFragment.class.getName();
@@ -19,6 +37,7 @@ public class DetailsFragment extends Fragment {
 
     private Integer Id;
     private TextInputEditText enter_service_title_tiet, enter_login_tiet, enter_details_tiet, enter_password_tiet;
+    private Button update_password_btn, delete_password_btn;
     SQLiteDatabase db;
     DatabaseHelper databaseHelper;
 
@@ -73,6 +92,13 @@ public class DetailsFragment extends Fragment {
         if (bundleArgument != null) {
             setPasswordNoteData(bundleArgument.getInt("password_note_id"));
         }
+
+        update_password_btn = view.findViewById(R.id.update_password_btn);
+        update_password_btn.setOnClickListener(view1 -> updatePasswordNote(bundleArgument.getInt("password_note_id")));
+
+        delete_password_btn = view.findViewById(R.id.delete_password_btn);
+        delete_password_btn.setOnClickListener(view1 -> deletePasswordNote(bundleArgument.getInt("password_note_id")));
+
         return view;
     }
 
@@ -101,5 +127,42 @@ public class DetailsFragment extends Fragment {
 
             cursor.close();
         }
+    }
+
+    public void updatePasswordNote(Integer Id) {
+        try {
+            ContentValues cv = new ContentValues();
+
+            cv.put(PN_COLUMN_SERVICE_NAME, enter_service_title_tiet.getText().toString().trim());
+            cv.put(PN_COLUMN_LOGIN, enter_login_tiet.getText().toString().trim());
+            cv.put(PN_COLUMN_PASSWORD, enter_password_tiet.getText().toString().trim());
+            cv.put(PN_COLUMN_DESCRIPTION, enter_details_tiet.getText().toString().trim());
+
+            Date currentDate = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+            cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
+
+            Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
+            int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
+
+            Log.d(log_tag, "updated");
+            goHome();
+        } catch (Exception e){
+            Log.d(log_tag, "error: " + e.getMessage());
+        }
+    }
+
+    public void goHome(){
+        FragmentTransaction fragmentTransaction = getActivity()
+                .getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+        fragmentTransaction.commit();
+    }
+
+    public void deletePasswordNote(Integer Id) {
+        Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
+        int rowCount = applicationContext.getContentResolver().delete(uri, null, null);
+
+        goHome();
     }
 }
