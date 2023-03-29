@@ -1,15 +1,22 @@
 package by.komkova.fit.bstu.passave;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.zip.Inflater;
 
 public class HomeFragment extends Fragment {
 
@@ -30,6 +38,15 @@ public class HomeFragment extends Fragment {
     DatabaseHelper dbHelper;
     SimpleDateFormat df;
 
+    private SearchView searchView = null;
+    private SearchView.OnQueryTextListener queryTextListener;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +58,6 @@ public class HomeFragment extends Fragment {
         modelArrayList = new ArrayList<RCModel>();
         df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
-
         recyclerView = view.findViewById(R.id.recyclerView);
         try {
             setInitialData();
@@ -49,7 +65,7 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
         rcAdapter = new RCAdapter(applicationContext, modelArrayList);
-        // устанавливаем для списка адаптер
+
         recyclerView.setAdapter(rcAdapter);
 
         return view;
@@ -76,6 +92,31 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(rcAdapter);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.action_bar, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                rcAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
 
 
 

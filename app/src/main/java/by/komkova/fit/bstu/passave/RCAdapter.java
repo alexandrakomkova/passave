@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -25,19 +27,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
+public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> implements Filterable{
 
     private String log_tag = getClass().getName();
     private Context applicationContext;
 
     Context context;
     ArrayList<RCModel> modelArrayList;
+    ArrayList<RCModel> filteredModelArrayList;
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
     public RCAdapter(Context context, ArrayList<RCModel> modelArrayList) {
         this.context = context;
         this.modelArrayList = modelArrayList;
+        this.filteredModelArrayList = modelArrayList;
     }
 
     @NonNull
@@ -52,7 +56,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RCViewHolder holder, int position) {
-        RCModel rcModel = modelArrayList.get(position);
+        RCModel rcModel = filteredModelArrayList.get(position);
         holder.rc_title.setText(rcModel.getTitle());
         holder.rc_lastDate.setText(rcModel.getLastUpdateDate());
 
@@ -62,7 +66,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
 
         int pos = holder.getAdapterPosition();
         holder.rc_favourite.setOnClickListener(view -> {
-            final RCModel rcItem = modelArrayList.get(pos);
+            final RCModel rcItem = filteredModelArrayList.get(pos);
             final int Id = rcItem.getId();
             final int favourite = rcItem.getFavourite();
             if (favourite == 0) {
@@ -73,7 +77,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
         });
 
         holder.itemView.setOnClickListener(view -> {
-            final RCModel rcItem = modelArrayList.get(pos);
+            final RCModel rcItem = filteredModelArrayList.get(pos);
 
             MainActivity activity = (MainActivity) view.getContext();
             Fragment detailsFragment = new DetailsFragment();
@@ -90,7 +94,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
 
     @Override
     public int getItemCount() {
-        return modelArrayList.size();
+        return filteredModelArrayList.size();
     }
 
     public static class RCViewHolder extends RecyclerView.ViewHolder {
@@ -121,5 +125,47 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
         } catch (Exception e){
             Log.d(log_tag, "error: " + e.getMessage());
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String searchString = charSequence.toString();
+
+                if (searchString.isEmpty()) {
+
+                    filteredModelArrayList = modelArrayList;
+
+                } else {
+
+                    ArrayList<RCModel> tempFilteredList = new ArrayList<RCModel>();
+
+                    for (RCModel rcItem : modelArrayList) {
+
+                        // search for user title
+                        if (rcItem.getTitle().toLowerCase().contains(searchString)) {
+
+                            tempFilteredList.add(rcItem);
+                        }
+                    }
+
+                    filteredModelArrayList = tempFilteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredModelArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredModelArrayList = (ArrayList<RCModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
