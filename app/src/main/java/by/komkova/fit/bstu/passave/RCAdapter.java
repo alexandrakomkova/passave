@@ -6,6 +6,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> implements Filterable{
 
@@ -59,6 +62,12 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         RCModel rcModel = filteredModelArrayList.get(position);
         holder.rc_title.setText(rcModel.getTitle());
         holder.rc_lastDate.setText(rcModel.getLastUpdateDate());
+        holder.rc_login.setText(rcModel.getLogin());
+
+        Random mRandom = new Random();
+        int color = Color.argb(255, mRandom.nextInt(256), mRandom.nextInt(256), mRandom.nextInt(256));
+        ((GradientDrawable) holder.rc_firstLetter.getBackground()).setColor(color);
+        holder.rc_firstLetter.setText(rcModel.getTitle().substring(0, 1));
 
         if (rcModel.getFavourite() > 0) {
             holder.rc_favourite.setImageResource(R.drawable.star_icon);
@@ -98,7 +107,9 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
     }
 
     public static class RCViewHolder extends RecyclerView.ViewHolder {
+        TextView rc_firstLetter;
         TextView rc_title;
+        TextView rc_login;
         TextView rc_lastDate;
         // ImageView rc_more;
         ImageView rc_favourite;
@@ -106,7 +117,9 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         public RCViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            rc_firstLetter = itemView.findViewById(R.id.firstLetter);
             rc_title = itemView.findViewById(R.id.titleTextView);
+            rc_login = itemView.findViewById(R.id.loginTextView);
             rc_lastDate = itemView.findViewById(R.id.lastDateUpdateTextView);
             // rc_more = itemView.findViewById(R.id.more);
             rc_favourite = itemView.findViewById(R.id.likedImageView);

@@ -4,6 +4,7 @@ public class RCModel {
 
     Integer id;
     String title;
+    String login;
     String lastUpdateDate;
     Integer favourite;
 
@@ -25,6 +26,14 @@ public class RCModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String lastUpdateDate) {
+        this.login = login;
     }
 
     public String getLastUpdateDate() {
