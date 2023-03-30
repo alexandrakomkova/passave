@@ -11,38 +11,74 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
+        <TextView
+            android:id="@+id/folderLabelTextView"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/folder_label"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/folderRecyclerViewBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="40dp">
 
         <Button
             android:id="@+id/add_folder_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="110dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/round_back_white_folder_10_50"
             android:text="+"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/round_back_white_folder_10_50"/>
+            android:textSize="30sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFolders"
             android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_height="110dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="15dp"
             android:layout_toEndOf="@+id/add_folder_btn"
             android:scrollbars="horizontal"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             app:layout_constraintTop_toTopOf="parent" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="170dp"
+        app:layout_constraintTop_toBottomOf="parent">
+        <TextView
+            android:id="@+id/passwordsLabelTextView"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/passwords_label" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="170dp"
             android:layout_gravity="center_horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

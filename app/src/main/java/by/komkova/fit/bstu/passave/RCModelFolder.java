@@ -16,7 +16,7 @@ public class RCModelFolder {
         return folderTitle;
     }
 
-    public void setFolderTitle(String title) {
+    public void setFolderTitle(String folderTitle) {
         this.folderTitle = folderTitle;
     }
 }

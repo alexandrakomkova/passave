@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,6 +42,8 @@ public class HomeFragment extends Fragment {
     DatabaseHelper dbHelper;
     SimpleDateFormat df;
 
+    private Button add_folder_btn;
+
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
 
@@ -60,6 +64,18 @@ public class HomeFragment extends Fragment {
         modelArrayList = new ArrayList<RCModel>();
         folderArrayList = new ArrayList<RCModelFolder>();
         df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+
+
+        add_folder_btn = view.findViewById(R.id.add_folder_btn);
+        add_folder_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_layout, new AddFolderFragment());
+                fragmentTransaction.commit();
+            }
+        });
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerViewFolder = view.findViewById(R.id.recyclerViewFolders);
@@ -120,7 +136,7 @@ public class HomeFragment extends Fragment {
             }
         }
         c1.close();
-        layoutManagerFolder = new LinearLayoutManager(applicationContext);
+        layoutManagerFolder = new LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false);
         rcAdapterFolder = new RCAdapterFolder(applicationContext, folderArrayList);
         recyclerViewFolder.setLayoutManager(layoutManagerFolder);
         recyclerViewFolder.setAdapter(rcAdapterFolder);

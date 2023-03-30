@@ -2,6 +2,7 @@ package by.komkova.fit.bstu.passave;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,10 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RCAdapterFolder.RCFolderViewHolder holder, int position) {
-        RCModelFolder rcModel = folderArrayList.get(position);
-        holder.rc_folder_title.setText(rcModel.getFolderTitle());
+    public void onBindViewHolder(@NonNull RCFolderViewHolder holder, int position) {
+        RCModelFolder rcItem = folderArrayList.get(position);
+        holder.rc_folder_title.setText(rcItem.getFolderTitle());
+        // Log.d(log_tag, rcItem.getFolderTitle());
     }
 
     @Override
