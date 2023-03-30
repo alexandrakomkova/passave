@@ -29,10 +29,12 @@ import java.util.zip.Inflater;
 
 public class HomeFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView recyclerView, recyclerViewFolder;
+    private RecyclerView.LayoutManager layoutManager, layoutManagerFolder;
     ArrayList<RCModel> modelArrayList;
+    ArrayList<RCModelFolder> folderArrayList;
     RCAdapter rcAdapter;
+    RCAdapterFolder rcAdapterFolder;
     private Context applicationContext;
     SQLiteDatabase db;
     DatabaseHelper dbHelper;
@@ -56,17 +58,27 @@ public class HomeFragment extends Fragment {
         dbHelper = new DatabaseHelper(applicationContext);
         db = dbHelper.getReadableDatabase();
         modelArrayList = new ArrayList<RCModel>();
+        folderArrayList = new ArrayList<RCModelFolder>();
         df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerViewFolder = view.findViewById(R.id.recyclerViewFolders);
         try {
             setInitialData();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
 
+        try {
+            setFolderInitialData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
         recyclerView.setAdapter(rcAdapter);
+
+        rcAdapterFolder = new RCAdapterFolder(applicationContext, folderArrayList);
+        recyclerViewFolder.setAdapter(rcAdapterFolder);
 
         return view;
     }
@@ -92,6 +104,26 @@ public class HomeFragment extends Fragment {
         rcAdapter = new RCAdapter(applicationContext, modelArrayList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(rcAdapter);
+    }
+
+    private void setFolderInitialData() throws ParseException {
+        folderArrayList.clear();
+
+        Cursor c1 = db.query(DatabaseHelper.FOLDER_TABLE, null, null, null, null, null, null);
+        if (c1 != null && c1.getCount() != 0) {
+            folderArrayList.clear();
+            while (c1.moveToNext()) {
+                RCModelFolder rcItem = new RCModelFolder();
+                rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.FOLDER_COLUMN_ID)));
+                rcItem.setFolderTitle(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME)));
+                folderArrayList.add(rcItem);
+            }
+        }
+        c1.close();
+        layoutManagerFolder = new LinearLayoutManager(applicationContext);
+        rcAdapterFolder = new RCAdapterFolder(applicationContext, folderArrayList);
+        recyclerViewFolder.setLayoutManager(layoutManagerFolder);
+        recyclerViewFolder.setAdapter(rcAdapterFolder);
     }
 
     @Override

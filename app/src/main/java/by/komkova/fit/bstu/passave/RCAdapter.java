@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> implements Filterable{
+public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> implements Filterable {
 
     private String log_tag = getClass().getName();
     private Context applicationContext;
