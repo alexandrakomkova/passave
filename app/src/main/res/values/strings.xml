@@ -79,4 +79,13 @@
     <string name="close_nav">Close Menu</string>
 
 
+    <!-- add folder screen -->
+    <string name="new_folder_screen_label">New folder</string>
+    <string name="save_folder_btn">Save folder</string>
+    <string name="enter_folder_title_hint">Enter Folder title</string>
+
+
+
+
+
 </resources>
