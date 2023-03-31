@@ -85,4 +85,9 @@
     <string name="enter_folder_title_hint">Enter Folder title</string>
     <string name="folder_label">Folders:</string>
     <string name="passwords_label">Passwords:</string>
+
+    <!-- folder details screen -->
+    <string name="details_folder_screen_label">Folder details</string>
+    <string name="update_folder_btn">Update folder</string>
+    <string name="delete_folder_btn">Delete folder</string>
 </resources>

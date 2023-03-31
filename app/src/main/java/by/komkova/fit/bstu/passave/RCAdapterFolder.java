@@ -53,16 +53,15 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
 
         holder.itemView.setOnLongClickListener(view -> {
             RCModelFolder rcItemFolder = folderArrayList.get(position);
-            
+
             MainActivity activity = (MainActivity) view.getContext();
-            Fragment addFolderFragment = new AddFolderFragment();
+            Fragment detailsFolderFragment = new DetailsFolderFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("folder_id", rcItemFolder.getId());
-            bundle.putBoolean("isEdit", true);
 
-            addFolderFragment.setArguments(bundle);
+            detailsFolderFragment.setArguments(bundle);
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  addFolderFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  detailsFolderFragment).commit();
 
             return true;
         });

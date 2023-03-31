@@ -88,4 +88,10 @@
     <string name="folder_label">Папки:</string>
     <string name="passwords_label">Пароли:</string>
 
+
+    <!-- folder details screen -->
+    <string name="details_folder_screen_label">Детали</string>
+    <string name="update_folder_btn">Редактировать папку</string>
+    <string name="delete_folder_btn">Удалить папку</string>
+
 </resources>
