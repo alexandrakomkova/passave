@@ -24,8 +24,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,8 +41,10 @@ public class DetailsFragment extends Fragment {
     private Context applicationContext;
 
     private Integer Id;
+    private TextView passwordDetailsTextView;
     private TextInputEditText enter_service_title_tiet, enter_login_tiet, enter_details_tiet, enter_password_tiet;
     private Button update_password_btn, delete_password_btn, generate_password_btn;
+    private ImageButton back_btn;
     SQLiteDatabase db;
     DatabaseHelper databaseHelper;
 
@@ -74,10 +80,12 @@ public class DetailsFragment extends Fragment {
         enter_login_tiet = view.findViewById(R.id.enter_login_field);
         enter_details_tiet = view.findViewById(R.id.enter_details_field);
         enter_password_tiet = view.findViewById(R.id.enter_password_field);
+        passwordDetailsTextView = view.findViewById(R.id.passwordDetailsTextView);
 
         if (savedInstanceState != null) {
             service_name = savedInstanceState.getString("service_name");
             enter_service_title_tiet.setText(service_name);
+            passwordDetailsTextView.setText(service_name);
 
             login = savedInstanceState.getString("login");
             enter_login_tiet.setText(login);
@@ -93,6 +101,7 @@ public class DetailsFragment extends Fragment {
         if (bundleArgument != null) {
             if (bundleArgument.getInt("isEdit") > 0 ) {
                 enter_service_title_tiet.setText(bundleArgument.getString("service_name"));
+                passwordDetailsTextView.setText(bundleArgument.getString("service_name"));
                 enter_login_tiet.setText(bundleArgument.getString("login"));
                 enter_details_tiet.setText(bundleArgument.getString("description"));
                 enter_password_tiet.setText(bundleArgument.getString("generated_password"));
@@ -126,6 +135,17 @@ public class DetailsFragment extends Fragment {
         delete_password_btn = view.findViewById(R.id.delete_password_btn);
         delete_password_btn.setOnClickListener(view1 -> deletePasswordNote(bundleArgument.getInt("password_note_id")));
 
+        back_btn = view.findViewById(R.id.backHome_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
         return view;
     }
 
@@ -145,6 +165,7 @@ public class DetailsFragment extends Fragment {
             while (!cursor.isAfterLast()) {
 
                 enter_service_title_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
+                passwordDetailsTextView.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
                 enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
                 enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
                 enter_password_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD)));

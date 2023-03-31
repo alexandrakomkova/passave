@@ -75,6 +75,17 @@
     <string name="nav_about">О нас</string>
     <string name="nav_password_generator">Генератор паролей</string>
     <string name="nav_add_password">Новый пароль</string>
-    <string name="open_nav">Open Menu</string>
-    <string name="close_nav">Close Menu</string>
+    <string name="nav_add_folder">Новая папка</string>
+
+    <string name="open_nav">Открыть меню</string>
+    <string name="close_nav">Закрыть меню</string>
+
+
+    <!-- add folder screen -->
+    <string name="new_folder_screen_label">Новая папка</string>
+    <string name="save_folder_btn">Схранить папку</string>
+    <string name="enter_folder_title_hint">Введите название папки</string>
+    <string name="folder_label">Папки:</string>
+    <string name="passwords_label">Пароли:</string>
+
 </resources>

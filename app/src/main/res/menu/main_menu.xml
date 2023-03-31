@@ -20,6 +20,11 @@
             android:icon="@drawable/generate_password_icon"
             android:title="@string/nav_password_generator"/>
 
+        <item
+            android:id="@+id/nav_add_folder"
+            android:icon="@drawable/folder_icon"
+            android:title="@string/nav_add_folder"/>
+
     </group>
 
     <item

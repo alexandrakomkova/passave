@@ -74,6 +74,7 @@
     <string name="nav_about">About</string>
     <string name="nav_password_generator">Password generator</string>
     <string name="nav_add_password">New password note</string>
+    <string name="nav_add_folder">New folder</string>
 
     <string name="open_nav">Open Menu</string>
     <string name="close_nav">Close Menu</string>
@@ -85,6 +86,11 @@
     <string name="enter_folder_title_hint">Enter Folder title</string>
     <string name="folder_label">Folders:</string>
     <string name="passwords_label">Passwords:</string>
+
+    <!-- folder details screen -->
+    <string name="details_folder_screen_label">Folder details</string>
+    <string name="update_folder_btn">Update folder</string>
+    <string name="delete_folder_btn">Delete folder</string>
 
 
 

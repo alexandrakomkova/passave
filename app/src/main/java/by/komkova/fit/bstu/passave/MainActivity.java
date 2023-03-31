@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_add_password:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddPasswordFragment()).commit();
                 break;
+            case R.id.nav_add_folder:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddFolderFragment()).commit();
+                break;
             default:
         }
 

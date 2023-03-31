@@ -5,6 +5,7 @@ import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -181,4 +182,31 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
             }
         };
     }
+
+//    public void sortPasswordsByFolderTitle(String folderTitle) {
+//        String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE + " where "+databaseHelper.PN_COLUMN_FOLDER_ID + " = "+ String.valueOf(Id);
+//        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+//
+//        Cursor cursor= null;
+//        if(db !=null)
+//        {
+//            cursor = db.rawQuery(query, null);
+//        }
+//        cursor.moveToFirst();
+//
+//        if(cursor!=null && cursor.getCount()!=0) {
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//
+//                enter_service_title_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
+//                enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
+//                enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
+//                enter_password_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD)));
+//
+//                cursor.moveToNext();
+//            }
+//
+//            cursor.close();
+//        }
+//    }
 }

@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/passwordDetailsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/password_details_screen_label"
@@ -22,7 +23,7 @@
             android:textSize="18sp"/>
 
         <ImageButton
-            android:id="@+id/backSettings_btn"
+            android:id="@+id/backHome_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
