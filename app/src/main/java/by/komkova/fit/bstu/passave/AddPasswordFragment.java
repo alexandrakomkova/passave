@@ -3,6 +3,7 @@ package by.komkova.fit.bstu.passave;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FAVOURITE;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FOLDER_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
@@ -11,10 +12,12 @@ import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,24 +26,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AddPasswordFragment extends Fragment {
 
     final String log_tag = getClass().getName();
     private Button generate_password_btn, save_password_btn;
     private TextInputEditText enter_password_tiet, enter_login_tiet, enter_details_tiet, enter_service_title_tiet;
+    private Spinner spinnerFolders;
     private Context applicationContext;
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
+    ArrayAdapter<String> spinnerAdapter;
+    List<String> foldersList;
+    Integer selectedFolderId = null;
 
     private String service_name = "";
     private String login = "";
@@ -88,6 +101,7 @@ public class AddPasswordFragment extends Fragment {
 
                 generatePasswordFragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
+                assert fragmentManager != null;
                 fragmentManager.beginTransaction().replace(R.id.fragment_layout,  generatePasswordFragment).commit();
             }
         });
@@ -111,10 +125,88 @@ public class AddPasswordFragment extends Fragment {
             }
         });
 
+        spinnerFolders = view.findViewById(R.id.spinnerFolders);
+        foldersList = new ArrayList<String>();
+        loadSpinnerData();
+
+        spinnerFolders.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedFolderId = findFolderId(spinnerFolders.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+
+        });
+
 
 
         return view;
     }
+
+    public void loadSpinnerData() {
+        String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE;
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+        assert cursor != null;
+        cursor.moveToFirst();
+
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                String s = cursor.getString(0);
+
+                foldersList.add(s);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+
+            spinnerAdapter = new ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_item, foldersList);
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerFolders.setAdapter(spinnerAdapter);
+            spinnerAdapter.notifyDataSetChanged();
+
+        }
+
+    }
+
+    public Integer findFolderId(String title) {
+        String query = "select "+ DatabaseHelper.FOLDER_COLUMN_ID +" from " + DatabaseHelper.FOLDER_TABLE
+                + " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " = \""+title+"\"";
+
+        int s = 0;
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+
+                s = cursor.getInt(0);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+        return s;
+    }
+
+
     public void validatePasswordNote(View v) {
         addPasswordNote(v);
     }
@@ -122,10 +214,10 @@ public class AddPasswordFragment extends Fragment {
     public void addPasswordNote(View v) {
         ContentValues cv = new ContentValues();
 
-        cv.put(PN_COLUMN_SERVICE_NAME, enter_service_title_tiet.getText().toString().trim());
-        cv.put(PN_COLUMN_LOGIN, enter_login_tiet.getText().toString().trim());
-        cv.put(PN_COLUMN_PASSWORD, enter_password_tiet.getText().toString().trim());
-        cv.put(PN_COLUMN_DESCRIPTION, enter_details_tiet.getText().toString().trim());
+        cv.put(PN_COLUMN_SERVICE_NAME, Objects.requireNonNull(enter_service_title_tiet.getText()).toString().trim());
+        cv.put(PN_COLUMN_LOGIN, Objects.requireNonNull(enter_login_tiet.getText()).toString().trim());
+        cv.put(PN_COLUMN_PASSWORD, Objects.requireNonNull(enter_password_tiet.getText()).toString().trim());
+        cv.put(PN_COLUMN_DESCRIPTION, Objects.requireNonNull(enter_details_tiet.getText()).toString().trim());
 
 //        Date c = Calendar.getInstance().getTime();
 //        Log.d(log_tag, "Current time => " + c); // Fri Mar 24 09:36:55 GMT+00:00 2023
@@ -138,8 +230,9 @@ public class AddPasswordFragment extends Fragment {
         cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
 
         cv.put(PN_COLUMN_FAVOURITE, 0);
+        cv.put(PN_COLUMN_FOLDER_ID, selectedFolderId);
 
-        // temporary(or not) without folder_id and favourite
+        // temporary(or not) without favourite
 
         Uri res =  applicationContext.getContentResolver().insert(PASSWORD_NOTE_URI, cv);
 
@@ -154,12 +247,12 @@ public class AddPasswordFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        service_name = enter_service_title_tiet.getText().toString().trim();
-        login = enter_login_tiet.getText().toString().trim();
-        description = enter_details_tiet.getText().toString().trim();
-        entered_password = enter_password_tiet.getText().toString().trim();
+        service_name = Objects.requireNonNull(enter_service_title_tiet.getText()).toString().trim();
+        login = Objects.requireNonNull(enter_login_tiet.getText()).toString().trim();
+        description = Objects.requireNonNull(enter_details_tiet.getText()).toString().trim();
+        entered_password = Objects.requireNonNull(enter_password_tiet.getText()).toString().trim();
 
         outState.putString("service_name", service_name);
         outState.putString("login", login);
