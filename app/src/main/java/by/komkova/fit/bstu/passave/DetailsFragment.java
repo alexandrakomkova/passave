@@ -23,8 +23,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -32,8 +35,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class DetailsFragment extends Fragment {
@@ -45,8 +50,13 @@ public class DetailsFragment extends Fragment {
     private TextInputEditText enter_service_title_tiet, enter_login_tiet, enter_details_tiet, enter_password_tiet;
     private Button update_password_btn, delete_password_btn, generate_password_btn;
     private ImageButton back_btn;
+    private Spinner spinnerFolders;
+
     SQLiteDatabase db;
     DatabaseHelper databaseHelper;
+    ArrayAdapter<String> spinnerAdapter;
+    List<String> foldersList;
+    Integer selectedFolderId = null;
 
     private String service_name = "";
     private String login = "";
@@ -96,6 +106,24 @@ public class DetailsFragment extends Fragment {
             entered_password = savedInstanceState.getString("entered_password");
             enter_password_tiet.setText(entered_password);
         }
+
+        spinnerFolders = view.findViewById(R.id.spinnerFolders);
+        foldersList = new ArrayList<String>();
+        loadSpinnerData();
+
+        spinnerFolders.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedFolderId = findFolderId(spinnerFolders.getSelectedItem().toString());
+                // AppLogs.log(applicationContext, log_tag, spinnerFolders.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+
+        });
 
         Bundle bundleArgument = getArguments();
         if (bundleArgument != null) {
@@ -149,6 +177,69 @@ public class DetailsFragment extends Fragment {
         return view;
     }
 
+    public Integer findFolderId(String title) {
+        String query = "select "+ DatabaseHelper.FOLDER_COLUMN_ID +" from " + DatabaseHelper.FOLDER_TABLE
+                + " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " = \""+title+"\"";
+
+        int s = 0;
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+
+                s = cursor.getInt(0);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+        return s;
+    }
+
+    public void loadSpinnerData() {
+        String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE;
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+        assert cursor != null;
+        cursor.moveToFirst();
+
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                String s = cursor.getString(0);
+
+                foldersList.add(s);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+
+            spinnerAdapter = new ArrayAdapter<String>(applicationContext, R.layout.spinner_item_selected, foldersList);
+            spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+            spinnerFolders.setAdapter(spinnerAdapter);
+            spinnerAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    private void setSetectedFolderSpinner(Integer Id) {
+        spinnerFolders.setSelection(Id);
+    }
+
     private void setPasswordNoteData(Integer Id) {
         String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE + " where "+databaseHelper.PN_COLUMN_ID + " = "+ String.valueOf(Id);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
@@ -169,6 +260,7 @@ public class DetailsFragment extends Fragment {
                 enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
                 enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
                 enter_password_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD)));
+                setSetectedFolderSpinner(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FOLDER_ID)));
 
                 cursor.moveToNext();
             }

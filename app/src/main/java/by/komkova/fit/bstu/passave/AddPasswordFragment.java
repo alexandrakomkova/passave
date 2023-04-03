@@ -129,12 +129,13 @@ public class AddPasswordFragment extends Fragment {
         spinnerFolders = view.findViewById(R.id.spinnerFolders);
         foldersList = new ArrayList<String>();
         loadSpinnerData();
+        spinnerFolders.setSelection(1); // 'no folder' id
 
         spinnerFolders.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedFolderId = findFolderId(spinnerFolders.getSelectedItem().toString());
-                AppLogs.log(applicationContext, log_tag, spinnerFolders.getSelectedItem().toString());
+                // AppLogs.log(applicationContext, log_tag, spinnerFolders.getSelectedItem().toString());
             }
 
             @Override
@@ -233,7 +234,7 @@ public class AddPasswordFragment extends Fragment {
         cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
 
         cv.put(PN_COLUMN_FAVOURITE, 0);
-        cv.put(PN_COLUMN_FOLDER_ID, selectedFolderId);
+        cv.put(PN_COLUMN_FOLDER_ID, selectedFolderId); // favourite 1, without folder 0
 
         // temporary(or not) without favourite
 

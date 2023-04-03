@@ -128,6 +128,7 @@ public class HomeFragment extends Fragment {
         Cursor c1 = db.query(DatabaseHelper.FOLDER_TABLE, null, null, null, null, null, null);
         if (c1 != null && c1.getCount() != 0) {
             folderArrayList.clear();
+            c1.moveToFirst();
             while (c1.moveToNext()) {
                 RCModelFolder rcItem = new RCModelFolder();
                 rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.FOLDER_COLUMN_ID)));

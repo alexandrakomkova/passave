@@ -112,7 +112,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
-                            android:layout_height="80dp"
+                            android:layout_height="wrap_content"
                             android:textColor="#FFFFFF"
                             android:inputType="text"
                             android:textStyle="normal"
@@ -121,6 +121,20 @@
 
 
                 </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <Spinner
+                        android:id="@+id/spinnerFolders"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:background="@drawable/spinner_bg"
+                        android:stateListAnimator="@drawable/spinner_sla" />
+                </RelativeLayout>
             </LinearLayout>
             <!-- Password field -->
             <LinearLayout
@@ -128,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:padding="15dp"
                 android:background="@drawable/round_back_white_10_20">
@@ -176,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:padding="15dp"
                 android:background="@drawable/round_back_white_10_20">

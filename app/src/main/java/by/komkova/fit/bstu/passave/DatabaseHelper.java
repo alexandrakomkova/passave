@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     // private static final String SETTINGS_DB_NAME = "settings.db";
     private static final String MAIN_DB_NAME = "main_db.db";
@@ -62,6 +67,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references " + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +")"
                 + " on delete set null on update cascade);");
 
+        insertFoldersToDatabase(sqLiteDatabase);
+
+
 //        "CREATE TABLE \"password_note\" (\n" +
 //                "\t\"_id\"\tINTEGER NOT NULL,\n" +
 //                "\t\"service_name\"\tTEXT NOT NULL,\n" +
@@ -107,6 +115,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor = db.rawQuery(query, null);
         }
         return cursor;
+    }
+
+    public void insertFoldersToDatabase(SQLiteDatabase db) {
+
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+
+        db.execSQL("INSERT INTO " + FOLDER_TABLE +
+                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
+                " VALUES ('No folder', \'"+ df.format(currentDate) + "\');");
+
+        db.execSQL("INSERT INTO " + FOLDER_TABLE +
+                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
+                " VALUES ('Favourite', \'"+ df.format(currentDate) + "\');");
     }
 
 }
