@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -133,6 +134,7 @@ public class AddPasswordFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedFolderId = findFolderId(spinnerFolders.getSelectedItem().toString());
+                AppLogs.log(applicationContext, log_tag, spinnerFolders.getSelectedItem().toString());
             }
 
             @Override
@@ -171,8 +173,9 @@ public class AddPasswordFragment extends Fragment {
 
             cursor.close();
 
-            spinnerAdapter = new ArrayAdapter<String>(applicationContext, android.R.layout.simple_spinner_item, foldersList);
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerAdapter = new ArrayAdapter<String>(applicationContext, R.layout.spinner_item_selected, foldersList);
+            spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
             spinnerFolders.setAdapter(spinnerAdapter);
             spinnerAdapter.notifyDataSetChanged();
 
