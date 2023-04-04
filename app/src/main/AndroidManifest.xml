@@ -68,6 +68,14 @@
             android:grantUriPermissions="true"
             android:readPermission="true"
             android:writePermission="true"/>
+
+        <provider
+            android:name=".NoteProvider"
+            android:authorities="by.komkova.fit.bstu.passave.providers.NoteList"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:readPermission="true"
+            android:writePermission="true"/>
     </application>
 
 </manifest>

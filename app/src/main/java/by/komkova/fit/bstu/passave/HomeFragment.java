@@ -158,9 +158,11 @@ public class HomeFragment extends Fragment {
         if(!clicked) {
             add_password_floating_btn.setVisibility(View.VISIBLE);
             add_folder_floating_btn.setVisibility(View.VISIBLE);
+            add_note_floating_btn.setVisibility(View.VISIBLE);
         } else {
             add_password_floating_btn.setVisibility(View.INVISIBLE);
             add_folder_floating_btn.setVisibility(View.INVISIBLE);
+            add_note_floating_btn.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -169,10 +171,12 @@ public class HomeFragment extends Fragment {
         if(!clicked) {
             add_password_floating_btn.startAnimation(fromBottom);
             add_folder_floating_btn.startAnimation(fromBottom);
+            add_note_floating_btn.startAnimation(fromBottom);
             add_floating_btn.startAnimation(rotateOpen);
         } else {
             add_password_floating_btn.startAnimation(toBottom);
             add_folder_floating_btn.startAnimation(toBottom);
+            add_note_floating_btn.startAnimation(toBottom);
             add_floating_btn.startAnimation(rotateClose);
         }
     }
