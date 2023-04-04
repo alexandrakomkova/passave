@@ -204,7 +204,8 @@ public class DetailsFragment extends Fragment {
     }
 
     public void loadSpinnerData() {
-        String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE;
+        String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE +
+                " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " != \'Favourite\'";
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
         Cursor cursor= null;

@@ -129,7 +129,7 @@ public class AddPasswordFragment extends Fragment {
         spinnerFolders = view.findViewById(R.id.spinnerFolders);
         foldersList = new ArrayList<String>();
         loadSpinnerData();
-        spinnerFolders.setSelection(1); // 'no folder' id
+        spinnerFolders.setSelection(0); // 'no folder' id
 
         spinnerFolders.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -151,7 +151,8 @@ public class AddPasswordFragment extends Fragment {
     }
 
     public void loadSpinnerData() {
-        String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE;
+        String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE +
+                " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " != \'Favourite\'";
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
         Cursor cursor= null;

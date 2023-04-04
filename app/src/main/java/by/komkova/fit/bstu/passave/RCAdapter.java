@@ -81,40 +81,6 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
             holder.rc_favourite.setChecked(false);
         }
 
-//        if (rcModel.getFavourite() == 2) {
-//            holder.rc_favourite.setImageResource(R.drawable.star_icon);
-//        } else {
-//            holder.rc_favourite.setImageResource(R.drawable.star_border_icon);
-//        }
-
-//        holder.rc_favourite.setOnCheckedChangeListener(new View.OnClickListener() {
-//            final RCModel rcItem = filteredModelArrayList.get(pos);
-//            final int Id = rcItem.getId();
-//            final int favourite = rcItem.getFavourite();
-//            CheckBox likedCheckBox = view.findViewById(R.id.likedCheckBox);
-//
-////            if (favourite == 2) {
-////                updateFavouriteStatus(Id, 0, 1);
-////                likedImageView.setImageResource(R.drawable.star_border_icon);
-////                AppLogs.log(applicationContext, log_tag, "set as not favourite");
-////            } else {
-////                updateFavouriteStatus(Id, 1, 2); // 'favourite' folder id
-////                likedImageView.setImageResource(R.drawable.star_icon);
-////                AppLogs.log(applicationContext, log_tag, "set as favourite");
-////            }  // 'no folder' folder id
-//
-//            notifyItemChanged(Id);
-//        });
-
-
-//        holder.rc_favourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//
-//            }
-//        });
-
         holder.rc_favourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
             final RCModel rcItem = filteredModelArrayList.get(pos);
@@ -124,11 +90,11 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    AppLogs.log(applicationContext, log_tag, "set as favourite");
-                    updateFavouriteStatus(Id, 0, 1);
+                    AppLogs.log(applicationContext, log_tag, "Password set as favourite");
+                    updateFavouriteStatus(Id, 1); // 'favourite' id
                 } else {
-                    AppLogs.log(applicationContext, log_tag, "set as not favourite");
-                    updateFavouriteStatus(Id, 1, 2); // 'favourite' folder id
+                    AppLogs.log(applicationContext, log_tag, "Password set as not favourite");
+                    updateFavouriteStatus(Id, 0); // 'not favourite' id
                 }
             }
         });
@@ -176,12 +142,11 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         }
     }
 
-    public void updateFavouriteStatus(Integer Id, Integer favourite, Integer folderId) {
+    public void updateFavouriteStatus(Integer Id, Integer favourite) {
         try {
             ContentValues cv = new ContentValues();
 
             cv.put(DatabaseHelper.PN_COLUMN_FAVOURITE, favourite);
-            cv.put(DatabaseHelper.PN_COLUMN_FOLDER_ID, folderId);
 
             Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);

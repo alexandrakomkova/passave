@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,7 +52,10 @@ public class HomeFragment extends Fragment {
     private Button add_folder_btn;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
-    private FloatingActionButton add_password_floating_btn;
+    private FloatingActionButton add_password_floating_btn, add_floating_btn, add_folder_floating_btn;
+
+    private Animation rotateOpen, rotateClose, fromBottom, toBottom;
+    private boolean clicked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,18 +74,6 @@ public class HomeFragment extends Fragment {
         modelArrayList = new ArrayList<RCModel>();
         folderArrayList = new ArrayList<RCModelFolder>();
         df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-
-
-        add_folder_btn = view.findViewById(R.id.add_folder_btn);
-        add_folder_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new AddFolderFragment());
-                fragmentTransaction.commit();
-            }
-        });
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerViewFolder = view.findViewById(R.id.recyclerViewFolders);
@@ -100,6 +94,30 @@ public class HomeFragment extends Fragment {
         rcAdapterFolder = new RCAdapterFolder(applicationContext, folderArrayList);
         recyclerViewFolder.setAdapter(rcAdapterFolder);
 
+        rotateOpen = AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_open_anim);
+        rotateClose = AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_close_anim);
+        fromBottom = AnimationUtils.loadAnimation(applicationContext, R.anim.from_bottom_anim);
+        toBottom = AnimationUtils.loadAnimation(applicationContext, R.anim.to_bottom_anim);
+
+        add_floating_btn = view.findViewById(R.id.add_floating_btn);
+
+        add_floating_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddButtonClicked();
+            }
+        });
+        add_folder_floating_btn = view.findViewById(R.id.add_folder_floating_btn);
+        add_folder_floating_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_layout, new AddFolderFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
         add_password_floating_btn = view.findViewById(R.id.add_password_floating_btn);
         add_password_floating_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -113,6 +131,37 @@ public class HomeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void onAddButtonClicked() {
+        setVisibility(clicked);
+        setAnimation(clicked);
+
+        clicked = !clicked;
+    }
+
+    private void setVisibility(boolean clicked) {
+
+        if(!clicked) {
+            add_password_floating_btn.setVisibility(View.VISIBLE);
+            add_folder_floating_btn.setVisibility(View.VISIBLE);
+        } else {
+            add_password_floating_btn.setVisibility(View.INVISIBLE);
+            add_folder_floating_btn.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void setAnimation(boolean clicked) {
+
+        if(!clicked) {
+            add_password_floating_btn.startAnimation(fromBottom);
+            add_folder_floating_btn.startAnimation(fromBottom);
+            add_floating_btn.startAnimation(rotateOpen);
+        } else {
+            add_password_floating_btn.startAnimation(toBottom);
+            add_folder_floating_btn.startAnimation(toBottom);
+            add_floating_btn.startAnimation(rotateClose);
+        }
     }
 
     private void setInitialData() throws ParseException {
