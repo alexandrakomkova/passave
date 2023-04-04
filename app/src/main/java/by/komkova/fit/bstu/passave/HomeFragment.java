@@ -36,6 +36,8 @@ import java.util.zip.Inflater;
 
 public class HomeFragment extends Fragment {
 
+    private String log_tag = getClass().getName();
+
     RecyclerView recyclerView, recyclerViewFolder;
     private RecyclerView.LayoutManager layoutManager, layoutManagerFolder;
     ArrayList<RCModel> modelArrayList;
@@ -52,7 +54,7 @@ public class HomeFragment extends Fragment {
     private Button add_folder_btn;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
-    private FloatingActionButton add_password_floating_btn, add_floating_btn, add_folder_floating_btn;
+    private FloatingActionButton add_password_floating_btn, add_floating_btn, add_folder_floating_btn, add_note_floating_btn;
 
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
     private boolean clicked = false;
@@ -100,7 +102,6 @@ public class HomeFragment extends Fragment {
         toBottom = AnimationUtils.loadAnimation(applicationContext, R.anim.to_bottom_anim);
 
         add_floating_btn = view.findViewById(R.id.add_floating_btn);
-
         add_floating_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,6 +127,18 @@ public class HomeFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_layout, new AddPasswordFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
+        add_note_floating_btn = view.findViewById(R.id.add_note_floating_btn);
+        add_note_floating_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_layout, new AddNoteFragment());
                 fragmentTransaction.commit();
             }
         });
@@ -172,6 +185,8 @@ public class HomeFragment extends Fragment {
             modelArrayList.clear();
             while (c1.moveToNext()) {
                 RCModel rcItem = new RCModel();
+                // AppLogs.log(applicationContext, log_tag, c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)) );
+
                 rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
                 rcItem.setTitle(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
                 rcItem.setLogin(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));

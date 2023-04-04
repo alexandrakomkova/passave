@@ -44,8 +44,8 @@
 
     <!-- generate password screen -->
     <string name="generate_password_screen_label">Generate password</string>
-    <string name="caps_letters_label">Only caps letters</string>
-    <string name="down_letters_label">Only downcase letters</string>
+    <string name="caps_letters_label">Uppercase letters</string>
+    <string name="down_letters_label">Lowercase letters</string>
     <string name="all_letters_label">Caps and Downcase letters</string>
     <string name="numbers_label">Numbers (0–9)</string>
     <string name="special_symbols_label">Special symbols (!#@_.,)</string>
@@ -75,6 +75,7 @@
     <string name="nav_password_generator">Password generator</string>
     <string name="nav_add_password">New password note</string>
     <string name="nav_add_folder">New folder</string>
+    <string name="nav_notes">Notes</string>
 
     <string name="open_nav">Open Menu</string>
     <string name="close_nav">Close Menu</string>
@@ -90,4 +91,14 @@
     <string name="details_folder_screen_label">Folder details</string>
     <string name="update_folder_btn">Update folder</string>
     <string name="delete_folder_btn">Delete folder</string>
+
+    <!-- add note screen -->
+    <string name="add_note_screen_label">New note</string>
+    <string name="enter_note_text_hint">Enter note</string>
+    <string name="save_note_btn">Save note</string>
+
+    <!-- note details screen -->
+    <string name="edit_note_screen_label">Edit note</string>
+    <string name="update_note_btn">Update note</string>
+    <string name="delete_note_btn">Delete note</string>
 </resources>

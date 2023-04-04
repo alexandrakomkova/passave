@@ -45,8 +45,8 @@
 
     <!-- generate password screen -->
     <string name="generate_password_screen_label">Сгенерировать пароль</string>
-    <string name="caps_letters_label">Буквы только в верхнем регистре</string>
-    <string name="down_letters_label">Буквы только в нижнем регистре</string>
+    <string name="caps_letters_label">Буквы в верхнем регистре</string>
+    <string name="down_letters_label">Буквы в нижнем регистре</string>
     <string name="all_letters_label">Буквы в верхнем и нижнем регистрах</string>
     <string name="numbers_label">Числа</string>
     <string name="special_symbols_label">Специальные символы (!#@_.,)</string>
@@ -76,6 +76,7 @@
     <string name="nav_password_generator">Генератор паролей</string>
     <string name="nav_add_password">Новый пароль</string>
     <string name="nav_add_folder">Новая папка</string>
+    <string name="nav_notes">Заметки</string>
 
     <string name="open_nav">Открыть меню</string>
     <string name="close_nav">Закрыть меню</string>
@@ -93,5 +94,17 @@
     <string name="details_folder_screen_label">Детали</string>
     <string name="update_folder_btn">Редактировать папку</string>
     <string name="delete_folder_btn">Удалить папку</string>
+
+
+    <!-- add note screen -->
+    <string name="add_note_screen_label">Новая заметка</string>
+    <string name="enter_note_text_hint">Введите текст</string>
+    <string name="save_note_btn">Сохранить заметку</string>
+
+    <!-- note details screen -->
+    <string name="edit_note_screen_label">Редактирование заметки</string>
+    <string name="update_note_btn">Редактировать заметку</string>
+    <string name="delete_note_btn">Удалить заметку</string>
+
 
 </resources>
