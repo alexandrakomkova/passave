@@ -11,21 +11,10 @@
     android:background="@drawable/round_back_white_folder_10_50"
     android:layout_margin="1dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/folder_icon"
-        app:layout_constraintBottom_toTopOf="@+id/folderTitleTextview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/folderTitleTextview"
         android:padding="4dp"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:text="Folder 1"
         android:gravity="center"
         android:textAlignment="center"

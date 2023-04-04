@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -27,6 +29,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -70,21 +74,66 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         ((GradientDrawable) holder.rc_firstLetter.getBackground()).setColor(color);
         holder.rc_firstLetter.setText(rcModel.getTitle().substring(0, 1));
 
-        if (rcModel.getFavourite() > 0) {
-            holder.rc_favourite.setImageResource(R.drawable.star_icon);
+        int pos = holder.getAdapterPosition();
+        if(rcModel.getFavourite() == 1) {
+            holder.rc_favourite.setChecked(true);
+        } else {
+            holder.rc_favourite.setChecked(false);
         }
 
-        int pos = holder.getAdapterPosition();
-        holder.rc_favourite.setOnClickListener(view -> {
+//        if (rcModel.getFavourite() == 2) {
+//            holder.rc_favourite.setImageResource(R.drawable.star_icon);
+//        } else {
+//            holder.rc_favourite.setImageResource(R.drawable.star_border_icon);
+//        }
+
+//        holder.rc_favourite.setOnCheckedChangeListener(new View.OnClickListener() {
+//            final RCModel rcItem = filteredModelArrayList.get(pos);
+//            final int Id = rcItem.getId();
+//            final int favourite = rcItem.getFavourite();
+//            CheckBox likedCheckBox = view.findViewById(R.id.likedCheckBox);
+//
+////            if (favourite == 2) {
+////                updateFavouriteStatus(Id, 0, 1);
+////                likedImageView.setImageResource(R.drawable.star_border_icon);
+////                AppLogs.log(applicationContext, log_tag, "set as not favourite");
+////            } else {
+////                updateFavouriteStatus(Id, 1, 2); // 'favourite' folder id
+////                likedImageView.setImageResource(R.drawable.star_icon);
+////                AppLogs.log(applicationContext, log_tag, "set as favourite");
+////            }  // 'no folder' folder id
+//
+//            notifyItemChanged(Id);
+//        });
+
+
+//        holder.rc_favourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+//            }
+//        });
+
+        holder.rc_favourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
             final RCModel rcItem = filteredModelArrayList.get(pos);
             final int Id = rcItem.getId();
             final int favourite = rcItem.getFavourite();
-            if (favourite == 0) {
-                updateFavouriteStatus(Id, 1);
-            } else { updateFavouriteStatus(Id, 0); }
 
-            notifyDataSetChanged(); // how to update recyclerview in real time after changing favourite status
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    AppLogs.log(applicationContext, log_tag, "set as favourite");
+                    updateFavouriteStatus(Id, 0, 1);
+                } else {
+                    AppLogs.log(applicationContext, log_tag, "set as not favourite");
+                    updateFavouriteStatus(Id, 1, 2); // 'favourite' folder id
+                }
+            }
         });
+
+
 
         holder.itemView.setOnClickListener(view -> {
             final RCModel rcItem = filteredModelArrayList.get(pos);
@@ -112,8 +161,8 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         TextView rc_title;
         TextView rc_login;
         TextView rc_lastDate;
+        CheckBox rc_favourite;
         // ImageView rc_more;
-        ImageView rc_favourite;
 
         public RCViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,20 +171,23 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
             rc_title = itemView.findViewById(R.id.titleTextView);
             rc_login = itemView.findViewById(R.id.loginTextView);
             rc_lastDate = itemView.findViewById(R.id.lastDateUpdateTextView);
+            rc_favourite = (CheckBox) itemView.findViewById(R.id.likedCheckBox);
             // rc_more = itemView.findViewById(R.id.more);
-            rc_favourite = itemView.findViewById(R.id.likedImageView);
         }
     }
 
-    public void updateFavouriteStatus(Integer Id, Integer favourite) {
+    public void updateFavouriteStatus(Integer Id, Integer favourite, Integer folderId) {
         try {
             ContentValues cv = new ContentValues();
 
             cv.put(DatabaseHelper.PN_COLUMN_FAVOURITE, favourite);
+            cv.put(DatabaseHelper.PN_COLUMN_FOLDER_ID, folderId);
 
             Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
             Log.d(log_tag, "updated");
+
+
         } catch (Exception e){
             Log.d(log_tag, "error: " + e.getMessage());
         }

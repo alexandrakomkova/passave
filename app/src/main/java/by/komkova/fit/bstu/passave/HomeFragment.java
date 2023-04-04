@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,15 +39,17 @@ public class HomeFragment extends Fragment {
     ArrayList<RCModelFolder> folderArrayList;
     RCAdapter rcAdapter;
     RCAdapterFolder rcAdapterFolder;
+
     private Context applicationContext;
+
     SQLiteDatabase db;
     DatabaseHelper dbHelper;
     SimpleDateFormat df;
 
     private Button add_folder_btn;
-
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
+    private FloatingActionButton add_password_floating_btn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,18 @@ public class HomeFragment extends Fragment {
 
         rcAdapterFolder = new RCAdapterFolder(applicationContext, folderArrayList);
         recyclerViewFolder.setAdapter(rcAdapterFolder);
+
+        add_password_floating_btn = view.findViewById(R.id.add_password_floating_btn);
+        add_password_floating_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_layout, new AddPasswordFragment());
+                fragmentTransaction.commit();
+            }
+        });
 
         return view;
     }

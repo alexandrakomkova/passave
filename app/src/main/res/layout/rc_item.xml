@@ -36,12 +36,13 @@
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintTop_toBottomOf="@id/nameTextView" />
 
-    <ImageView
-        android:id="@+id/likedImageView"
+    <CheckBox
+        android:id="@+id/likedCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
-        android:src="@drawable/star_icon"
+        android:button="@drawable/favourite_checkbox"
+        app:useMaterialThemeColors="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/more"
         app:layout_constraintTop_toTopOf="parent" />
