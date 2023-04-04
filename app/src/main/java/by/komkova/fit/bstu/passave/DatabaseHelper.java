@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String SETTINGS_TABLE = "settings";
     static final String FOLDER_TABLE = "folder";
     static final String PASSWORD_NOTE_TABLE = "password_note";
+    static final String NOTE_TABLE = "note";
 
     // settings db
     public static final String SETTINGS_COLUMN_THEME = "_id";
@@ -30,6 +31,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FOLDER_COLUMN_ID = "_id";
     public static final String FOLDER_COLUMN_FOLDER_NAME = "folder_name";
     public static final String FOLDER_COLUMN_UPDATED = "updated";
+
+    // note table
+    public static final String NOTE_COLUMN_ID = "_id";
+    public static final String NOTE_COLUMN_TEXT = "note_text";
+    public static final String NOTE_COLUMN_UPDATED = "updated";
 
     // password notes table
     public static final String PN_COLUMN_ID = "_id";
@@ -53,6 +59,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " (" + FOLDER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                 + FOLDER_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + FOLDER_COLUMN_FOLDER_NAME + " TEXT UNIQUE NOT NULL);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE " + NOTE_TABLE
+                + " (" + NOTE_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + NOTE_COLUMN_UPDATED + " TEXT NOT NULL, "
+                + NOTE_COLUMN_TEXT + " TEXT NOT NULL);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + PASSWORD_NOTE_TABLE
                 + " (" + PN_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
@@ -88,6 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SETTINGS_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FOLDER_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PASSWORD_NOTE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + NOTE_TABLE);
         onCreate(sqLiteDatabase);
     }
 
