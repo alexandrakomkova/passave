@@ -104,4 +104,7 @@
     <string name="update_note_btn">Update note</string>
     <string name="delete_note_btn">Delete note</string>
 
+    <!-- all note screen -->
+    <string name="note_screen_label">Notes</string>
+
 </resources>
