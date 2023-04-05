@@ -20,22 +20,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String FOLDER_TABLE = "folder";
     static final String PASSWORD_NOTE_TABLE = "password_note";
     static final String NOTE_TABLE = "note";
+    static final String TAG_TABLE = "tag";
+    static final String SECURITY_TABLE = "security_algorithm";
 
-    // settings db
-    public static final String SETTINGS_COLUMN_THEME = "_id";
-    public static final String SETTINGS_COLUMN_LANGUAGE = "name";
-    public static final String SETTINGS_COLUMN_MASTERKEY = "year";
-    // public static final String SETTINGS_COLUMN_CREATION_DATE = "year";
+    // settings table
+    public static final String SETTINGS_COLUMN_THEME = "theme";
+    public static final String SETTINGS_COLUMN_LANGUAGE = "language";
+    public static final String SETTINGS_COLUMN_MASTER_KEY = "mk";
+    public static final String SETTINGS_COLUMN_CREATION_DATE = "created";
+    public static final String SETTINGS_COLUMN_UPDATED_DATE = "updated";
+
+    // security table
+    public static final String SECURITY_COLUMN_ID = "_id";
+    public static final String SECURITY_COLUMN_ALGORITHM_NAME = "folder_name";
 
     // folder table
     public static final String FOLDER_COLUMN_ID = "_id";
     public static final String FOLDER_COLUMN_FOLDER_NAME = "folder_name";
     public static final String FOLDER_COLUMN_UPDATED = "updated";
+    public static final String FOLDER_COLUMN_TAG_ID = "tag_id";
+
+    // tag table
+    public static final String TAG_COLUMN_ID = "_id";
+    public static final String TAG_COLUMN_TAG_NAME = "tag_name";
+    public static final String TAG_COLUMN_UPDATED = "updated";
 
     // note table
     public static final String NOTE_COLUMN_ID = "_id";
     public static final String NOTE_COLUMN_TEXT = "note_text";
     public static final String NOTE_COLUMN_UPDATED = "updated";
+    public static final String NOTE_COLUMN_TAG_ID = "tag_id";
 
     // password notes table
     public static final String PN_COLUMN_ID = "_id";
@@ -45,8 +59,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PN_COLUMN_DESCRIPTION = "description";
     public static final String PN_COLUMN_FOLDER_ID = "folder_id";
     public static final String PN_COLUMN_FAVOURITE = "favourite";
-     public static final String PN_COLUMN_CREATED = "created";
-     public static final String PN_COLUMN_UPDATED = "updated";
+    public static final String PN_COLUMN_CREATED = "created";
+    public static final String PN_COLUMN_UPDATED = "updated";
+    public static final String PN_COLUMN_TAG_ID = "tag_id";
+    public static final String PN_SECURITY_ALGORITHM_ID = "security_algorithm_id";
 
     public DatabaseHelper(Context context) {
         // super(context, SETTINGS_DB_NAME, null, SCHEMA);
@@ -64,6 +80,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " (" + NOTE_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                 + NOTE_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + NOTE_COLUMN_TEXT + " TEXT NOT NULL);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE " + TAG_TABLE
+                + " (" + TAG_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + TAG_COLUMN_UPDATED + " TEXT NOT NULL, "
+                + TAG_COLUMN_TAG_NAME + " TEXT NOT NULL);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE " + SECURITY_TABLE
+                + " (" + SECURITY_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + SECURITY_COLUMN_ALGORITHM_NAME + " TEXT NOT NULL);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + PASSWORD_NOTE_TABLE
                 + " (" + PN_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
@@ -100,33 +125,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FOLDER_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PASSWORD_NOTE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + NOTE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TAG_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SECURITY_TABLE);
         onCreate(sqLiteDatabase);
-    }
-
-    public Cursor readAllFoldersData()
-    {
-        String query = "select * from " + FOLDER_TABLE;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor= null;
-        if(db !=null)
-        {
-            cursor = db.rawQuery(query, null);
-        }
-        return cursor;
-    }
-
-    public Cursor readAllPasswordNotesData()
-    {
-        String query = "select * from " + PASSWORD_NOTE_TABLE;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor= null;
-        if(db !=null)
-        {
-            cursor = db.rawQuery(query, null);
-        }
-        return cursor;
     }
 
     public void insertFoldersToDatabase(SQLiteDatabase db) {

@@ -42,6 +42,9 @@
     <string name="enter_login_hint">Введите логин</string>
     <string name="enter_password_hint">Введите пароль</string>
     <string name="enter_password_details_hint">Введите дополнительную информацию</string>
+    <string name="aes_label">AES</string>
+    <string name="sha256_label">SHA-256</string>
+    <string name="rsa_label">RSA</string>
 
     <!-- generate password screen -->
     <string name="generate_password_screen_label">Сгенерировать пароль</string>
