@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/settings_notifications"
-        android:src="@drawable/note_icon"
+        android:src="@drawable/edit_note_icon"
         android:layout_gravity="bottom|end"
         android:clickable="true"
         android:focusable="true"

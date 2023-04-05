@@ -32,8 +32,12 @@
         <menu>
             <item
                 android:id="@+id/nav_notes"
-                android:icon="@drawable/note_icon"
+                android:icon="@drawable/notes_icon"
                 android:title="@string/nav_notes"/>
+            <item
+                android:id="@+id/nav_edit_notes"
+                android:icon="@drawable/edit_note_icon"
+                android:title="@string/nav_edit_notes"/>
         </menu>
     </item>
 

@@ -76,6 +76,7 @@
     <string name="nav_add_password">New password note</string>
     <string name="nav_add_folder">New folder</string>
     <string name="nav_notes">Notes</string>
+    <string name="nav_edit_notes">Add note</string>
 
     <string name="open_nav">Open Menu</string>
     <string name="close_nav">Close Menu</string>
