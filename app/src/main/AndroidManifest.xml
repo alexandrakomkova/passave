@@ -83,6 +83,13 @@
             android:grantUriPermissions="true"
             android:readPermission="true"
             android:writePermission="true"/>
+        <provider
+            android:name=".SecurityProvider"
+            android:authorities="by.komkova.fit.bstu.passave.providers.SecurityList"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:readPermission="true"
+            android:writePermission="true"/>
     </application>
 
 </manifest>
