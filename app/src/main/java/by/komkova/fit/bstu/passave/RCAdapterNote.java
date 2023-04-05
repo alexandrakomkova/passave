@@ -2,12 +2,15 @@ package by.komkova.fit.bstu.passave;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +44,19 @@ public class RCAdapterNote extends RecyclerView.Adapter<RCAdapterNote.RCNoteView
     public void onBindViewHolder(@NonNull RCAdapterNote.RCNoteViewHolder holder, int position) {
         RCModelNote rcModel = noteArrayList.get(position);
         holder.rc_note_text.setText(rcModel.getNoteText());
+
+        holder.itemView.setOnClickListener(view -> {
+            RCModelNote rcItemNote = noteArrayList.get(position);
+
+            MainActivity activity = (MainActivity) view.getContext();
+            Fragment detailsNoteFragment = new DetailsNoteFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("note_id", rcItemNote.getId());
+
+            detailsNoteFragment.setArguments(bundle);
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  detailsNoteFragment).commit();
+        });
     }
 
     @Override
