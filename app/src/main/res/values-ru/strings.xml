@@ -80,7 +80,7 @@
     <string name="nav_add_password">Новый пароль</string>
     <string name="nav_add_folder">Новая папка</string>
     <string name="nav_notes">Заметки</string>
-    <string name="nav_edit_notes">Добавить заметку</string>
+    <string name="nav_edit_notes">Новая заметка</string>
 
     <string name="open_nav">Открыть меню</string>
     <string name="close_nav">Закрыть меню</string>

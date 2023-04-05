@@ -76,6 +76,13 @@
             android:grantUriPermissions="true"
             android:readPermission="true"
             android:writePermission="true"/>
+        <provider
+            android:name=".TagProvider"
+            android:authorities="by.komkova.fit.bstu.passave.providers.TagList"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:readPermission="true"
+            android:writePermission="true"/>
     </application>
 
 </manifest>
