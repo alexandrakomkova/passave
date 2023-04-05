@@ -1,6 +1,7 @@
 package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TEXT;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FAVOURITE;
@@ -87,16 +88,21 @@ public class AddNoteFragment extends Fragment {
         ContentValues cv = new ContentValues();
 
         cv.put(NOTE_COLUMN_TEXT, Objects.requireNonNull(enter_note_text_field.getText()).toString().trim());
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        cv.put(NOTE_COLUMN_UPDATED, df.format(currentDate));
 
         Uri res =  applicationContext.getContentResolver().insert(NOTE_URI, cv);
 
-        goHome();
+        AppLogs.log(applicationContext, log_tag, "Note created");
+
+        goNotes();
     }
 
-    public void goHome(){
+    public void goNotes(){
         FragmentTransaction fragmentTransaction = getActivity()
                 .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+        fragmentTransaction.replace(R.id.fragment_layout, new NotesFragment());
         fragmentTransaction.commit();
     }
 

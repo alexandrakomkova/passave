@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/round_back_white_10_20"
-    android:padding="8dp"
+    android:padding="14dp"
     android:layout_marginHorizontal="14dp"
     android:layout_marginVertical="8dp"
     android:id="@+id/noteBlock">
