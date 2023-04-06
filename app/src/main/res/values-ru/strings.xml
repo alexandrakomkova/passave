@@ -111,5 +111,9 @@
     <string name="update_note_btn">Редактировать заметку</string>
     <string name="delete_note_btn">Удалить заметку</string>
 
+    <!-- all note screen -->
+    <string name="note_screen_label">Заметки</string>
+    <string name="folder_table_name">folder</string>
+
 
 </resources>

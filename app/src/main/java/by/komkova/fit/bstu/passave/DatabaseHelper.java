@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    // private static final String SETTINGS_DB_NAME = "settings.db";
+
     private static final String MAIN_DB_NAME = "main_db.db";
     private static final int SCHEMA = 1;
     static final String SETTINGS_TABLE = "settings";
@@ -65,7 +65,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PN_SECURITY_ALGORITHM_ID = "security_algorithm_id";
 
     public DatabaseHelper(Context context) {
-        // super(context, SETTINGS_DB_NAME, null, SCHEMA);
         super(context, MAIN_DB_NAME, null, SCHEMA);
     }
 
@@ -104,19 +103,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " on delete set null on update cascade);");
 
         insertFoldersToDatabase(sqLiteDatabase);
-
-
-//        "CREATE TABLE \"password_note\" (\n" +
-//                "\t\"_id\"\tINTEGER NOT NULL,\n" +
-//                "\t\"service_name\"\tTEXT NOT NULL,\n" +
-//                "\t\"folder_id\"\tINTEGER,\n" +
-//                "\t\"login\"\tTEXT NOT NULL,\n" +
-//                "\t\"password\"\tTEXT NOT NULL,\n" +
-//                "\t\"description\"\tTEXT,\n" +
-//                "\t\"favourite\"\tINTEGER CHECK(\"favourite\" = 0 OR \"favourite\" = 1),\n" +
-//                "\tFOREIGN KEY(\"folder_id\") REFERENCES \"folder\"(\"_id\") on delete set null on update cascade,\n" +
-//                "\tPRIMARY KEY(\"_id\" AUTOINCREMENT)\n" +
-//                ");"
     }
 
     @Override
