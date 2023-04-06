@@ -74,6 +74,7 @@
 
     <!-- menu -->
     <string name="nav_home">Главная</string>
+    <string name="nav_password_notes">Пароли</string>
     <string name="nav_settings">Настройки</string>
     <string name="nav_about">О нас</string>
     <string name="nav_password_generator">Генератор паролей</string>

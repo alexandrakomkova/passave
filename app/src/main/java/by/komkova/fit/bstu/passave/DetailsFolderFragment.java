@@ -2,13 +2,7 @@ package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
-import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -139,7 +133,7 @@ public class DetailsFolderFragment extends Fragment {
     public void goHome(){
         FragmentTransaction fragmentTransaction = getActivity()
                 .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+        fragmentTransaction.replace(R.id.fragment_layout, new PasswordNotesFragment());
         fragmentTransaction.commit();
     }
 

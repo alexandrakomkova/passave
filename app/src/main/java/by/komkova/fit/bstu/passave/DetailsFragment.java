@@ -32,8 +32,6 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -169,7 +167,7 @@ public class DetailsFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+                fragmentTransaction.replace(R.id.fragment_layout, new PasswordNotesFragment());
                 fragmentTransaction.commit();
             }
         });
@@ -296,7 +294,7 @@ public class DetailsFragment extends Fragment {
     public void goHome(){
         FragmentTransaction fragmentTransaction = getActivity()
                 .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+        fragmentTransaction.replace(R.id.fragment_layout, new PasswordNotesFragment());
         fragmentTransaction.commit();
     }
 

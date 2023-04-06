@@ -2,15 +2,7 @@ package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_CREATED;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FAVOURITE;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
-import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -94,7 +85,7 @@ public class AddFolderFragment extends Fragment {
     public void goHome(){
         FragmentTransaction fragmentTransaction = getActivity()
                 .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+        fragmentTransaction.replace(R.id.fragment_layout, new PasswordNotesFragment());
         fragmentTransaction.commit();
     }
 

@@ -3,24 +3,15 @@ package by.komkova.fit.bstu.passave;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new PasswordNotesFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
 
         }
@@ -63,24 +54,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new HomeFragment()).commit();
                 break;
+            case R.id.nav_passwords:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new PasswordNotesFragment()).commit();
+                break;
             case R.id.nav_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new SettingsFragment()).commit();
                 break;
             case R.id.nav_password_generator:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new GeneratePasswordFragment()).commit();
                 break;
-            case R.id.nav_add_password:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddPasswordFragment()).commit();
-                break;
-            case R.id.nav_add_folder:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddFolderFragment()).commit();
-                break;
+//            case R.id.nav_add_password:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddPasswordFragment()).commit();
+//                break;
+//            case R.id.nav_add_folder:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddFolderFragment()).commit();
+//                break;
             case R.id.nav_notes:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new NotesFragment()).commit();
                 break;
-            case R.id.nav_edit_notes:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddNoteFragment()).commit();
-                break;
+//            case R.id.nav_edit_notes:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddNoteFragment()).commit();
+//                break;
             default:
         }
 
