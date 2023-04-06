@@ -116,7 +116,7 @@
     <string name="save_tag_btn">Save tag</string>
 
     <!-- tag details screen -->
-    <string name="edit_tag_screen_label">Edit tag</string>
+    <string name="details_tag_screen_label">Edit tag</string>
     <string name="update_tag_btn">Update tag</string>
     <string name="delete_tag_btn">Delete tag</string>
 </resources>
