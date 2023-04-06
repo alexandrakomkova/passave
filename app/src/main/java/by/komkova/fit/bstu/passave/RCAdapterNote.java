@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RCAdapterNote extends RecyclerView.Adapter<RCAdapterNote.RCNoteViewHolder>{
+public class RCAdapterNote extends RecyclerView.Adapter<RCAdapterNote.RCNoteViewHolder> {
     private String log_tag = getClass().getName();
     private Context applicationContext;
 

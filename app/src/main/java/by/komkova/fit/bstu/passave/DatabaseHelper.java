@@ -107,7 +107,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        // sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SETTINGS_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FOLDER_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PASSWORD_NOTE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + NOTE_TABLE);

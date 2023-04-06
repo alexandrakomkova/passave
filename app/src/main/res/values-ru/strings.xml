@@ -113,7 +113,16 @@
 
     <!-- all note screen -->
     <string name="note_screen_label">Заметки</string>
-    <string name="folder_table_name">folder</string>
+
+    <!-- add tag screen -->
+    <string name="add_tag_screen_label">Новый тег</string>
+    <string name="enter_tag_name_hint">Введите название тега</string>
+    <string name="save_tag_btn">Сохранить тег</string>
+
+    <!-- tag details screen -->
+    <string name="edit_tag_screen_label">Редактировать тег</string>
+    <string name="update_tag_btn">Редактировать тег</string>
+    <string name="delete_tag_btn">Удалить тег</string>
 
 
 </resources>

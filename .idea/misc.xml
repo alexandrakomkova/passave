@@ -12,6 +12,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/round_back_night_mode.xml" value="0.3828125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/round_back_notifications.xml" value="0.3828125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/round_back_security.xml" value="0.3828125" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/round_back_tag_10_20.xml" value="0.18958333333333333" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/round_back_white_10_10.xml" value="0.14739583333333334" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/round_back_white_10_20.xml" value="0.3828125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/round_back_white_folder_10_50.xml" value="0.2203125" />
@@ -33,6 +34,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_folder.xml" value="0.264" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_note.xml" value="0.3463541666666667" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_password.xml" value="0.2" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_tag.xml" value="0.4" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_create_master_key.xml" value="0.3302083333333333" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_details.xml" value="0.2" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_details_folder.xml" value="0.25416666666666665" />
@@ -51,6 +53,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/rc_item_folder.xml" value="0.4" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/rc_item_note.xml" value="0.22552083333333334" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/rc_item_password_note.xml" value="0.25416666666666665" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/rc_item_tag.xml" value="0.264" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/settings.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.22552083333333334" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/spinner_item_selected.xml" value="0.22552083333333334" />

@@ -114,7 +114,14 @@
     <!-- all note screen -->
     <string name="note_screen_label">Notes</string>
 
+    <!-- add tag screen -->
+    <string name="add_tag_screen_label">New tag</string>
+    <string name="enter_tag_name_hint">Enter tag name</string>
+    <string name="save_tag_btn">Save tag</string>
 
-    <string name="folder_table_name">folder</string>
+    <!-- tag details screen -->
+    <string name="edit_tag_screen_label">Edit tag</string>
+    <string name="update_tag_btn">Update tag</string>
+    <string name="delete_tag_btn">Delete tag</string>
 
 </resources>
