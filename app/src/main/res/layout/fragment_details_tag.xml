@@ -24,6 +24,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
                 android:padding="15dp"
                 android:background="@drawable/round_back_white_10_20">
 
-                <!-- Service title -->
+                <!-- tag name -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -68,7 +69,7 @@
             </LinearLayout>
 
 
-            <!-- Save folder -->
+            <!-- Save tag -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +80,7 @@
                 android:padding="15dp"
                 android:background="@drawable/round_back_white_10_20">
 
-                <!-- update folder button -->
+                <!-- update tag button -->
                 <Button
                     android:id="@+id/update_tag_btn"
                     android:layout_width="match_parent"
@@ -91,7 +92,7 @@
                     android:background="@drawable/save_password_btn"
                     android:textAllCaps="false"/>
 
-                <!-- delete folder button -->
+                <!-- delete tag button -->
                 <Button
                     android:id="@+id/delete_tag_btn"
                     android:layout_width="match_parent"
