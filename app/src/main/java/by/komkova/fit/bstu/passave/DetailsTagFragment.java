@@ -1,6 +1,7 @@
 package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.TAG_COLUMN_TAG_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.TAG_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.TagProvider.TAG_URI;
 
@@ -23,6 +24,11 @@ import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class DetailsTagFragment extends Fragment {
     final String log_tag = getClass().getName();
     private Button update_tag_btn, delete_tag_btn;
@@ -40,12 +46,11 @@ public class DetailsTagFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details_tag, container, false);
 
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext = TagActivity.getContextOfApplication();
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
 
-
-        enter_tag_name_field = view.findViewById(R.id.enter_folder_title_field);
+        enter_tag_name_field = view.findViewById(R.id.enter_tag_name_field);
 
         if (savedInstanceState != null) {
             tag_name = savedInstanceState.getString("tag_name");
@@ -54,14 +59,16 @@ public class DetailsTagFragment extends Fragment {
 
         Bundle bundleArgument = getArguments();
         if (bundleArgument != null) {
-            setTagData(bundleArgument.getInt("folder_id"));
+            // AppLogs.log(applicationContext, log_tag, String.valueOf(bundleArgument.getInt("tag_id")));
+            setTagData(bundleArgument.getInt("tag_id"));
         }
 
-        update_tag_btn = view.findViewById(R.id.update_folder_btn);
-        update_tag_btn.setOnClickListener(view12 -> validateTag(bundleArgument.getInt("folder_id")));
+        update_tag_btn = view.findViewById(R.id.update_tag_btn);
+        update_tag_btn.setOnClickListener(view12 -> validateTag(bundleArgument.getInt("tag_id")));
 
-        delete_tag_btn = view.findViewById(R.id.delete_folder_btn);
-        delete_tag_btn.setOnClickListener(view1 -> deleteTag(bundleArgument.getInt("folder_id")));
+
+        delete_tag_btn = view.findViewById(R.id.delete_tag_btn);
+        delete_tag_btn.setOnClickListener(view1 -> deleteTag(bundleArgument.getInt("tag_id")));
 
         return view;
     }
@@ -102,9 +109,9 @@ public class DetailsTagFragment extends Fragment {
 
             cv.put(TAG_COLUMN_TAG_NAME, enter_tag_name_field.getText().toString().trim());
 
-//            Date currentDate = Calendar.getInstance().getTime();
-//            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-//            cv.put(FOLDER_COLUMN_UPDATED, df.format(currentDate));
+            Date currentDate = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+            cv.put(TAG_COLUMN_UPDATED, df.format(currentDate));
 
             Uri uri = ContentUris.withAppendedId(TAG_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);

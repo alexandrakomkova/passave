@@ -3,6 +3,7 @@ package by.komkova.fit.bstu.passave;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.TAG_COLUMN_TAG_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.TAG_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.TagProvider.TAG_URI;
 
@@ -45,7 +46,7 @@ public class AddTagFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_tag, container, false);
 
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext = TagActivity.getContextOfApplication();
 
         enter_tag_name_field = view.findViewById(R.id.enter_tag_name_field);
 
@@ -77,9 +78,9 @@ public class AddTagFragment extends Fragment {
 
         cv.put(TAG_COLUMN_TAG_NAME, enter_tag_name_field.getText().toString().trim());
 
-//        Date currentDate = Calendar.getInstance().getTime();
-//        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-//        cv.put(TAG_COLUMN_UPDATED, df.format(currentDate));
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        cv.put(TAG_COLUMN_UPDATED, df.format(currentDate));
 
         Uri res =  applicationContext.getContentResolver().insert(TAG_URI, cv);
 
