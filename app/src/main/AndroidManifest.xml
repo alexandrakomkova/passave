@@ -20,9 +20,8 @@
             android:name=".GeneratePasswordActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".TagActivity"
             android:exported="true" />
-
         <activity
             android:name=".SettingsSecurityActivity"
             android:exported="true" />
@@ -38,7 +37,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".TagActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

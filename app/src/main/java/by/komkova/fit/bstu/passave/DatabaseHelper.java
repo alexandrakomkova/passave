@@ -27,8 +27,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SETTINGS_COLUMN_THEME = "theme";
     public static final String SETTINGS_COLUMN_LANGUAGE = "language";
     public static final String SETTINGS_COLUMN_MASTER_KEY = "mk";
-    public static final String SETTINGS_COLUMN_CREATION_DATE = "created";
-    public static final String SETTINGS_COLUMN_UPDATED_DATE = "updated";
+    public static final String SETTINGS_COLUMN_CREATED = "created";
+    public static final String SETTINGS_COLUMN_UPDATED = "updated";
 
     // security table
     public static final String SECURITY_COLUMN_ID = "_id";
@@ -101,6 +101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PN_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + " constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references " + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +")"
                 + " on delete set null on update cascade);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE " + SETTINGS_TABLE
+                + " (" + SETTINGS_COLUMN_MASTER_KEY + " TEXT NOT NULL, "
+                + SETTINGS_COLUMN_CREATED + " TEXT NOT NULL);");
 
         insertFoldersToDatabase(sqLiteDatabase);
     }

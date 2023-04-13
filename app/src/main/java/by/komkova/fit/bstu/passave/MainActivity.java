@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     final String log_tag = getClass().getName();
+    public static String TAG_ID;
 
     private DrawerLayout drawerLayout;
     public static Context contextOfApplication;
@@ -30,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         contextOfApplication = getApplicationContext();
+
+        Bundle arguments = getIntent().getExtras();
+        TAG_ID = arguments.get("tag_id").toString();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

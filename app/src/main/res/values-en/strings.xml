@@ -42,7 +42,7 @@
     <string name="enter_password_hint">Enter Password</string>
     <string name="enter_password_details_hint">Enter Details</string>
     <string name="aes_label">AES</string>
-    <string name="sha256_label">SHA-256</string>
+    <string name="md5_label">MD5</string>
     <string name="rsa_label">RSA</string>
 
     <!-- generate password screen -->
