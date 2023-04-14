@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -126,6 +127,23 @@ public class CreateMasterKeyActivity extends Activity {
     }
 
     private void saveMkToDatabase() {
+        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY+ " from " + DatabaseHelper.SETTINGS_TABLE;
+
+        int rowcount = 0;
+
+        Cursor cursor = null;
+        if (db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+            rowcount = cursor.getCount();
+            // cursor.close();
+
+            if (rowcount == 1) {
+                AppLogs.log(CreateMasterKeyActivity.this, log_tag, "Master key already created");
+                return;
+            }
+        }
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(SETTINGS_COLUMN_MASTER_KEY, md5Custom(repeatMasterKey_tiet.getText().toString().trim()));
 

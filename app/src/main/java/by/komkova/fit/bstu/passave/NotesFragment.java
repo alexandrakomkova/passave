@@ -1,5 +1,10 @@
 package by.komkova.fit.bstu.passave;
 
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TAG_ID;
+import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -86,8 +91,11 @@ public class NotesFragment extends Fragment {
 
     private void setInitialData() throws ParseException {
         noteArrayList.clear();
+        String whereclause = NOTE_COLUMN_TAG_ID + "=?";
+        String[] whereargs = new String[]{ TAG_ID };
+        Cursor c1 = db.query(DatabaseHelper.NOTE_TABLE,null, whereclause, whereargs,null,null,null);
 
-        Cursor c1 = db.query(DatabaseHelper.NOTE_TABLE, null, null, null, null, null, null);
+        // Cursor c1 = db.query(DatabaseHelper.NOTE_TABLE, null, null, null, null, null, null);
         if (c1 != null && c1.getCount() != 0) {
             noteArrayList.clear();
             while (c1.moveToNext()) {

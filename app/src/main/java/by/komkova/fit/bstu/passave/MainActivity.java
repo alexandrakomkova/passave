@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new PasswordNotesFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_passwords);
+            // AppLogs.log(getContextOfApplication(), log_tag, TAG_ID);
 
         }
     }

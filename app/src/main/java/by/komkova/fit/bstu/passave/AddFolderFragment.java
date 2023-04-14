@@ -1,8 +1,10 @@
 package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
+import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -31,9 +33,6 @@ public class AddFolderFragment extends Fragment {
     private Button save_folder_btn;
     private TextInputEditText enter_folder_title_tiet;
     private Context applicationContext;
-
-    DatabaseHelper databaseHelper;
-    SQLiteDatabase db;
 
     private String folder_title = "";
 
@@ -76,6 +75,7 @@ public class AddFolderFragment extends Fragment {
         Date currentDate = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         cv.put(FOLDER_COLUMN_UPDATED, df.format(currentDate));
+        cv.put(FOLDER_COLUMN_TAG_ID, TAG_ID);
 
         Uri res =  applicationContext.getContentResolver().insert(FOLDER_URI, cv);
 

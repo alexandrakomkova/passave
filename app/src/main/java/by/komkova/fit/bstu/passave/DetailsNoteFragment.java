@@ -2,9 +2,11 @@ package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TEXT;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
+import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.NoteProvider.NOTE_URI;
 
 import android.content.ContentUris;
@@ -113,6 +115,7 @@ public class DetailsNoteFragment extends Fragment {
             Date currentDate = Calendar.getInstance().getTime();
             SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
             cv.put(NOTE_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(NOTE_COLUMN_TAG_ID, TAG_ID);
 
             Uri uri = ContentUris.withAppendedId(NOTE_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);

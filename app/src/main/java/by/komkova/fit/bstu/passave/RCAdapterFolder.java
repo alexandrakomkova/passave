@@ -4,16 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -27,6 +26,10 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
+    RCAdapter rcAdapter;
+    ArrayList<RCModel> modelArrayList;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     public RCAdapterFolder(Context context, ArrayList<RCModelFolder> folderArrayList) {
         this.context = context;
@@ -39,6 +42,7 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.rc_item_folder, parent, false);
         applicationContext = MainActivity.getContextOfApplication();
+        layoutManager = new LinearLayoutManager(applicationContext);
 
         return new RCAdapterFolder.RCFolderViewHolder(view);
     }
@@ -65,6 +69,20 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
 
             return true;
         });
+
+        holder.itemView.setOnClickListener(view -> {
+            RCModelFolder rcItemFolder = folderArrayList.get(position);
+
+            modelArrayList = new ArrayList<RCModel>();
+            databaseHelper = new DatabaseHelper(applicationContext);
+            db = databaseHelper.getReadableDatabase();
+
+            if (rcItemFolder.getFolderTitle().equals("Favourite")) {
+                sortFavouritePasswordNotes();
+                // AppLogs.log(applicationContext, log_tag, "tap fav");
+            }
+
+        });
     }
 
     @Override
@@ -80,31 +98,37 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
         }
     }
 
-//    private void sortPasswordsByFolderTitle(String folderTitle) {
-//        String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE + " where "+databaseHelper.PN + " = "+ String.valueOf(Id);
-//        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-//
-//        Cursor cursor= null;
-//        if(db !=null)
-//        {
-//            cursor = db.rawQuery(query, null);
-//        }
-//        cursor.moveToFirst();
-//
-//        if(cursor!=null && cursor.getCount()!=0) {
-//            cursor.moveToFirst();
-//            while (!cursor.isAfterLast()) {
-//
-//                enter_service_title_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
-//                enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
-//                enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
-//                enter_password_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD)));
-//
-//                cursor.moveToNext();
-//            }
-//
-//            cursor.close();
-//        }
-//    }
+    private void sortFavouritePasswordNotes() {
+        String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE
+                + " where " + databaseHelper.PN_COLUMN_FAVOURITE+ " = 1";
+
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+        cursor.moveToFirst();
+
+        if (cursor != null && cursor.getCount() != 0) {
+            modelArrayList.clear();
+            while (cursor.moveToNext()) {
+                RCModel rcItem = new RCModel();
+                rcItem.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
+                rcItem.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
+                rcItem.setLogin(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
+                rcItem.setLastUpdateDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_UPDATED)));
+                rcItem.setFavourite(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
+                modelArrayList.add(rcItem);
+            }
+        }
+        cursor.close();
+
+        Fragment homeFragment = new PasswordNotesFragment();
+        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
+
+        ((PasswordNotesFragment) homeFragment).recyclerView.setLayoutManager(layoutManager);
+        ((PasswordNotesFragment) homeFragment).recyclerView.setAdapter(rcAdapter);
+    }
+
 
 }

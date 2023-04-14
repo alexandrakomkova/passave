@@ -68,6 +68,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         holder.rc_title.setText(rcModel.getTitle());
         holder.rc_lastDate.setText(rcModel.getLastUpdateDate());
         holder.rc_login.setText(rcModel.getLogin());
+        // AppLogs.log(applicationContext, log_tag, rcModel.getLogin());
 
         Random mRandom = new Random();
         int color = Color.argb(255, mRandom.nextInt(256), mRandom.nextInt(256), mRandom.nextInt(256));
@@ -75,11 +76,8 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         holder.rc_firstLetter.setText(rcModel.getTitle().substring(0, 1));
 
         int pos = holder.getAdapterPosition();
-        if(rcModel.getFavourite() == 1) {
-            holder.rc_favourite.setChecked(true);
-        } else {
-            holder.rc_favourite.setChecked(false);
-        }
+
+        holder.rc_favourite.setChecked(rcModel.getFavourite() == 1); // tut cheta pomenyala
 
         holder.rc_favourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
@@ -98,8 +96,6 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
                 }
             }
         });
-
-
 
         holder.itemView.setOnClickListener(view -> {
             final RCModel rcItem = filteredModelArrayList.get(pos);
@@ -199,31 +195,4 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
             }
         };
     }
-
-//    public void sortPasswordsByFolderTitle(String folderTitle) {
-//        String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE + " where "+databaseHelper.PN_COLUMN_FOLDER_ID + " = "+ String.valueOf(Id);
-//        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-//
-//        Cursor cursor= null;
-//        if(db !=null)
-//        {
-//            cursor = db.rawQuery(query, null);
-//        }
-//        cursor.moveToFirst();
-//
-//        if(cursor!=null && cursor.getCount()!=0) {
-//            cursor.moveToFirst();
-//            while (!cursor.isAfterLast()) {
-//
-//                enter_service_title_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
-//                enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
-//                enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
-//                enter_password_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD)));
-//
-//                cursor.moveToNext();
-//            }
-//
-//            cursor.close();
-//        }
-//    }
 }

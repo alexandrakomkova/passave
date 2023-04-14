@@ -23,7 +23,7 @@ public class LoginActivity extends Activity {
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
-    private String mk;
+    private String mk = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,8 @@ public class LoginActivity extends Activity {
     }
 
     private void validatePassword() {
+        // AppLogs.log(LoginActivity.this, log_tag, "mk:" + mk);
+        // AppLogs.log(LoginActivity.this, log_tag, md5Custom(enter_masterkey_field.getText().toString().trim()));
         if (mk.equals(md5Custom(enter_masterkey_field.getText().toString().trim()))) {
             goTagActivity();
             AppLogs.log(LoginActivity.this, log_tag, "Login successful");
@@ -73,6 +75,24 @@ public class LoginActivity extends Activity {
         {
             cursor = db.rawQuery(query, null);
         }
+
+//        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY+ " from " + DatabaseHelper.SETTINGS_TABLE;
+//
+//        int rowcount = 0;
+//
+//        Cursor cursor = null;
+//        if (db !=null)
+//        {
+//            cursor = db.rawQuery(query, null);
+//            rowcount = cursor.getCount();
+//            // cursor.close();
+//
+//            if (rowcount == 1) {
+//                AppLogs.log(LoginActivity.this, log_tag, "Master key already created");
+//                return;
+//            }
+//        }
+
         assert cursor != null;
         cursor.moveToFirst();
 

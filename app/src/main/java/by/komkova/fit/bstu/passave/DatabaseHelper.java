@@ -72,13 +72,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + FOLDER_TABLE
                 + " (" + FOLDER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + FOLDER_COLUMN_TAG_ID + " INTEGER, "
                 + FOLDER_COLUMN_UPDATED + " TEXT NOT NULL, "
-                + FOLDER_COLUMN_FOLDER_NAME + " TEXT UNIQUE NOT NULL);");
+                + FOLDER_COLUMN_FOLDER_NAME + " TEXT NOT NULL, "
+                + "constraint tag_id_fk foreign key(" + FOLDER_COLUMN_TAG_ID + ") references "
+                + TAG_TABLE + "(" + TAG_COLUMN_ID +") on delete set null on update cascade);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + NOTE_TABLE
                 + " (" + NOTE_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + NOTE_COLUMN_TAG_ID + " INTEGER, "
                 + NOTE_COLUMN_UPDATED + " TEXT NOT NULL, "
-                + NOTE_COLUMN_TEXT + " TEXT NOT NULL);");
+                + NOTE_COLUMN_TEXT + " TEXT NOT NULL, "
+                + "constraint tag_id_fk foreign key(" + NOTE_COLUMN_TAG_ID + ") references "
+                + TAG_TABLE + "(" + TAG_COLUMN_ID +") on delete set null on update cascade);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TAG_TABLE
                 + " (" + TAG_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
@@ -96,17 +102,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PN_COLUMN_PASSWORD + " TEXT NOT NULL, "
                 + PN_COLUMN_DESCRIPTION + " TEXT, "
                 + PN_COLUMN_FOLDER_ID + " INTEGER, "
+                + PN_COLUMN_TAG_ID + " INTEGER, "
                 + PN_COLUMN_FAVOURITE + " INTEGER CHECK(" + PN_COLUMN_FAVOURITE + " = 0 OR " + PN_COLUMN_FAVOURITE +" = 1) DEFAULT 0, "
                 + PN_COLUMN_CREATED + " TEXT NOT NULL, "
                 + PN_COLUMN_UPDATED + " TEXT NOT NULL, "
-                + " constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references " + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +")"
-                + " on delete set null on update cascade);");
+                + "constraint tag_id_fk foreign key(" + PN_COLUMN_TAG_ID + ") references "
+                + TAG_TABLE + "(" + TAG_COLUMN_ID + ") on delete set null on update cascade, "
+                + "constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references "
+                + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +") on delete set null on update cascade);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + SETTINGS_TABLE
                 + " (" + SETTINGS_COLUMN_MASTER_KEY + " TEXT NOT NULL, "
                 + SETTINGS_COLUMN_CREATED + " TEXT NOT NULL);");
 
-        insertFoldersToDatabase(sqLiteDatabase);
+        // insertFoldersToDatabase(sqLiteDatabase);
     }
 
     @Override

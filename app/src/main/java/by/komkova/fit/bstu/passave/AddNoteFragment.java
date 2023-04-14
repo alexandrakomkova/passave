@@ -1,5 +1,6 @@
 package by.komkova.fit.bstu.passave;
 
+import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TEXT;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_CREATED;
@@ -10,6 +11,7 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.NoteProvider.NOTE_URI;
 import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
@@ -91,6 +93,7 @@ public class AddNoteFragment extends Fragment {
         Date currentDate = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         cv.put(NOTE_COLUMN_UPDATED, df.format(currentDate));
+        cv.put(NOTE_COLUMN_TAG_ID, TAG_ID);
 
         Uri res =  applicationContext.getContentResolver().insert(NOTE_URI, cv);
 

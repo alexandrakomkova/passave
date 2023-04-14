@@ -4,7 +4,9 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
 import android.content.ContentUris;
@@ -280,6 +282,7 @@ public class DetailsFragment extends Fragment {
             Date currentDate = Calendar.getInstance().getTime();
             SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
             cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(PN_COLUMN_TAG_ID, TAG_ID);
 
             Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
