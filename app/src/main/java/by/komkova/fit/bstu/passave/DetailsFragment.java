@@ -1,5 +1,7 @@
 package by.komkova.fit.bstu.passave;
 
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
@@ -204,14 +206,23 @@ public class DetailsFragment extends Fragment {
     }
 
     public void loadSpinnerData() {
-        String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE +
-                " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " != \'Favourite\'";
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        // String query = "select " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " from " + DatabaseHelper.FOLDER_TABLE +
+               // " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " != \'Favourite\'";
+        // SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        String whereclause = FOLDER_COLUMN_TAG_ID + "=? AND " + FOLDER_COLUMN_FOLDER_NAME + " != \'Favourite\'";
+        String[] whereargs = new String[]{ TAG_ID };
+        String [] columns = new String[] { FOLDER_COLUMN_FOLDER_NAME };
+        // Cursor csr = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
+
+
 
         Cursor cursor= null;
         if(db !=null)
         {
-            cursor = db.rawQuery(query, null);
+            // cursor = db.rawQuery(query, null);
+            cursor = db.query(DatabaseHelper.FOLDER_TABLE, columns, whereclause, whereargs,null,null,null);
+
         }
         assert cursor != null;
         cursor.moveToFirst();
@@ -242,13 +253,15 @@ public class DetailsFragment extends Fragment {
     }
 
     private void setPasswordNoteData(Integer Id) {
-        String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE + " where "+databaseHelper.PN_COLUMN_ID + " = "+ String.valueOf(Id);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+         String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE + " where "+databaseHelper.PN_COLUMN_ID + " = "+ String.valueOf(Id);
+         SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
 
         Cursor cursor= null;
         if(db !=null)
         {
             cursor = db.rawQuery(query, null);
+            // cursor = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
         }
         cursor.moveToFirst();
 
