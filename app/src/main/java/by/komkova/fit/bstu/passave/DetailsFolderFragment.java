@@ -1,8 +1,10 @@
 package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
@@ -73,13 +75,18 @@ public class DetailsFolderFragment extends Fragment {
         return view;
     }
     private void setFolderData(Integer Id) {
-        String query = "select * from " + databaseHelper.FOLDER_TABLE + " where "+databaseHelper.FOLDER_COLUMN_ID + " = "+ String.valueOf(Id);
+        String whereclause = FOLDER_COLUMN_ID + "=?";
+        String[] whereargs = new String[]{ String.valueOf(Id) };
+       //  Cursor c1 = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
+
+        // String query = "select * from " + databaseHelper.FOLDER_TABLE + " where "+databaseHelper.FOLDER_TABLE + " = "+ String.valueOf(Id);
         db = databaseHelper.getReadableDatabase();
 
         Cursor cursor= null;
         if(db !=null)
         {
-            cursor = db.rawQuery(query, null);
+            // cursor = db.rawQuery(query, null);
+            cursor = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
         }
         cursor.moveToFirst();
 

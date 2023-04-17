@@ -1,8 +1,12 @@
 package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FAVOURITE;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FOLDER_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
@@ -157,6 +161,20 @@ public class PasswordNotesFragment extends Fragment {
             }
         });
 
+        Bundle bundleArgument = getArguments();
+        if (bundleArgument != null) {
+            try {
+                if (bundleArgument.getBoolean("isSortByFolder")) {
+                    setSortedByFolderData(bundleArgument.getInt("folder_id"));
+                }
+                if (bundleArgument.getBoolean("isSortByFavourite")) {
+                    setSortedByFavouriteData(1);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         return view;
     }
 
@@ -197,10 +215,14 @@ public class PasswordNotesFragment extends Fragment {
 
     private void setInitialData() throws ParseException {
         modelArrayList.clear();
+        String whereclause = PN_COLUMN_TAG_ID + "=?";
+        String[] whereargs = new String[]{ TAG_ID };
 
         // Cursor c1 = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE, null, null, null, null, null, null);
-        String query = "select * from " + DatabaseHelper.PASSWORD_NOTE_TABLE + " where " + DatabaseHelper.PN_COLUMN_TAG_ID + " = " + TAG_ID;
-        Cursor c1 = db.rawQuery(query, null);
+        // String query = "select * from " + DatabaseHelper.PASSWORD_NOTE_TABLE + " where " + PN_COLUMN_TAG_ID + " = " + TAG_ID;
+        // Cursor c1 = db.rawQuery(query, null);
+        Cursor c1 = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE,null, whereclause, whereargs,null,null,null);
+
         if (c1 != null && c1.getCount() != 0) {
             modelArrayList.clear();
             while (c1.moveToNext()) {
@@ -221,6 +243,64 @@ public class PasswordNotesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(rcAdapter);
     }
+
+    private void setSortedByFolderData(Integer folderId) throws ParseException {
+        modelArrayList.clear();
+        String whereclause = PN_COLUMN_TAG_ID + "=? AND " + PN_COLUMN_FOLDER_ID + "=?";
+        String[] whereargs = new String[]{ TAG_ID, String.valueOf(folderId) };
+
+        // Cursor c1 = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE, null, null, null, null, null, null);
+        // String query = "select * from " + DatabaseHelper.PASSWORD_NOTE_TABLE + " where " + PN_COLUMN_TAG_ID + " = " + TAG_ID;
+        // Cursor c1 = db.rawQuery(query, null);
+        Cursor c1 = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE,null, whereclause, whereargs,null,null,null);
+
+        if (c1 != null && c1.getCount() != 0) {
+            modelArrayList.clear();
+            while (c1.moveToNext()) {
+                RCModel rcItem = new RCModel();
+                // AppLogs.log(applicationContext, log_tag, c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)) );
+
+                rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
+                rcItem.setTitle(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
+                rcItem.setLogin(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
+                rcItem.setLastUpdateDate(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_UPDATED)));
+                rcItem.setFavourite(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
+                modelArrayList.add(rcItem);
+            }
+        }
+        c1.close();
+        layoutManager = new LinearLayoutManager(applicationContext);
+        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(rcAdapter);
+    }
+     private void setSortedByFavouriteData(Integer favouriteId) {
+         modelArrayList.clear();
+         String whereclause = PN_COLUMN_TAG_ID + "=? AND " + PN_COLUMN_FAVOURITE + "=?";
+         String[] whereargs = new String[]{ TAG_ID, String.valueOf(favouriteId) };
+
+         Cursor c1 = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE,null, whereclause, whereargs,null,null,null);
+
+         if (c1 != null && c1.getCount() != 0) {
+             modelArrayList.clear();
+             while (c1.moveToNext()) {
+                 RCModel rcItem = new RCModel();
+                 // AppLogs.log(applicationContext, log_tag, c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)) );
+
+                 rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
+                 rcItem.setTitle(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
+                 rcItem.setLogin(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
+                 rcItem.setLastUpdateDate(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_UPDATED)));
+                 rcItem.setFavourite(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
+                 modelArrayList.add(rcItem);
+             }
+         }
+         c1.close();
+         layoutManager = new LinearLayoutManager(applicationContext);
+         rcAdapter = new RCAdapter(applicationContext, modelArrayList);
+         recyclerView.setLayoutManager(layoutManager);
+         recyclerView.setAdapter(rcAdapter);
+     }
 
     private void setFolderInitialData() throws ParseException {
         folderArrayList.clear();
@@ -249,18 +329,6 @@ public class PasswordNotesFragment extends Fragment {
     public void addFolder(String folderName) {
         int rowcount = 0;
 
-//        String whereclause = FOLDER_COLUMN_TAG_ID + "=?";
-//        String[] whereargs = new String[]{ TAG_ID };
-//        Cursor csr = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
-//        rowcount = csr.getCount();
-//        csr.close();
-//
-//        AppLogs.log(applicationContext, log_tag, String.valueOf(rowcount));
-//
-//        if (rowcount > 2) {
-//            return;
-//        }
-
         // select * from folder where tag_id = 1 and (folder_name = "No folder" or folder_name = "Favourite")
         String whereclause = FOLDER_COLUMN_TAG_ID + "=? AND (" + FOLDER_COLUMN_FOLDER_NAME + "=? OR " + FOLDER_COLUMN_FOLDER_NAME + "=?)";
         String[] whereargs = new String[]{ TAG_ID, "No folder", "Favourite" };
@@ -269,7 +337,7 @@ public class PasswordNotesFragment extends Fragment {
         csr.close();
 
         if (rowcount >= 2) {
-            AppLogs.log(applicationContext, log_tag, String.valueOf(rowcount));
+            // AppLogs.log(applicationContext, log_tag, String.valueOf(rowcount));
             return;
         }
 

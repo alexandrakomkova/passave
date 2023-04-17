@@ -215,8 +215,6 @@ public class DetailsFragment extends Fragment {
         String [] columns = new String[] { FOLDER_COLUMN_FOLDER_NAME };
         // Cursor csr = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
 
-
-
         Cursor cursor= null;
         if(db !=null)
         {

@@ -8,7 +8,7 @@
     app:cardElevation="8dp"
     android:padding="8dp"
     android:layout_marginLeft="8dp"
-    android:background="@drawable/round_back_white_folder_10_50">
+    android:background="@drawable/round_back_white_folder_10_40">
 
     <TextView
         android:id="@+id/folderTitleTextview"
