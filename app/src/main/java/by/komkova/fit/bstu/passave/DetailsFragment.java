@@ -271,7 +271,7 @@ public class DetailsFragment extends Fragment {
                 passwordDetailsTextView.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
                 enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
                 enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
-                enter_password_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD)));
+                enter_password_tiet.setText(passwordDecrypt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD))));
                 setSetectedFolderSpinner(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FOLDER_ID)));
 
                 cursor.moveToNext();
@@ -281,13 +281,51 @@ public class DetailsFragment extends Fragment {
         }
     }
 
+    private String passwordDecrypt(String str) {
+        AES aes = new AES(getMasterKeyFromDatabase());
+        return aes.decrypt(str);
+    }
+
+    private String getMasterKeyFromDatabase() {
+        String mk = "";
+        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY+ " from " + DatabaseHelper.SETTINGS_TABLE;
+
+        Cursor cursor = null;
+        if (db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                mk = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY));
+
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+
+        return mk;
+    }
+
+    private String passwordEncrypt(String str) {
+        AES aes = new AES(getMasterKeyFromDatabase());
+        return aes.encrypt(str);
+    }
+
     public void updatePasswordNote(Integer Id) {
         try {
             ContentValues cv = new ContentValues();
 
             cv.put(PN_COLUMN_SERVICE_NAME, enter_service_title_tiet.getText().toString().trim());
             cv.put(PN_COLUMN_LOGIN, enter_login_tiet.getText().toString().trim());
-            cv.put(PN_COLUMN_PASSWORD, enter_password_tiet.getText().toString().trim());
+            cv.put(PN_COLUMN_PASSWORD, passwordEncrypt(enter_password_tiet.getText().toString().trim()));
             cv.put(PN_COLUMN_DESCRIPTION, enter_details_tiet.getText().toString().trim());
 
             Date currentDate = Calendar.getInstance().getTime();

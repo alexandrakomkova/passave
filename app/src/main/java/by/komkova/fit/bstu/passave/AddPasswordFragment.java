@@ -61,6 +61,10 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+//import org.springframework.security.crypto.encrypt.Encryptors;
+//import org.springframework.security.crypto.encrypt.TextEncryptor;
+//import org.springframework.security.crypto.keygen.KeyGenerators;
+
 public class AddPasswordFragment extends Fragment {
 
     final String log_tag = getClass().getName();
@@ -249,7 +253,7 @@ public class AddPasswordFragment extends Fragment {
 
         cv.put(PN_COLUMN_SERVICE_NAME, Objects.requireNonNull(enter_service_title_tiet.getText()).toString().trim());
         cv.put(PN_COLUMN_LOGIN, Objects.requireNonNull(enter_login_tiet.getText()).toString().trim());
-        cv.put(PN_COLUMN_PASSWORD, Objects.requireNonNull(enter_password_tiet.getText()).toString().trim());
+        cv.put(PN_COLUMN_PASSWORD, Objects.requireNonNull(passwordEncrypt(enter_password_tiet.getText().toString().trim())));
         cv.put(PN_COLUMN_DESCRIPTION, Objects.requireNonNull(enter_details_tiet.getText()).toString().trim());
 
         Date currentDate = Calendar.getInstance().getTime();
@@ -280,7 +284,7 @@ public class AddPasswordFragment extends Fragment {
         public void onClick(View v) {
             RadioButton rb = (RadioButton)v;
             switch (rb.getId()) {
-                case R.id.aes_radio: crypto_pwd = aesCustom(enter_password_tiet.getText().toString().trim());
+                case R.id.aes_radio: crypto_pwd = passwordEncrypt(enter_password_tiet.getText().toString().trim());
                     break;
 
                 default:
@@ -289,38 +293,41 @@ public class AddPasswordFragment extends Fragment {
         }
     };
 
-    public static String aesCustom(String st) {
-        SecretKeySpec sks = null;
-        try {
-//            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-//            sr.setSeed("any data used as random seed".getBytes());
-//            KeyGenerator kg = KeyGenerator.getInstance("AES");
-//            kg.init(128, sr);
-//            sks = new SecretKeySpec((kg.generateKey()).getEncoded(), "AES");
-//
-//            Log.d("Crypto1", (kg.generateKey()).getEncoded().toString());
+    private String passwordEncrypt(String str) {
+        AES aes = new AES(getMasterKeyFromDatabase());
+        Log.d(log_tag, getMasterKeyFromDatabase());
+        Log.d(log_tag, aes.encrypt(str));
+        return aes.encrypt(str);
+//        Log.d(log_tag, a);
+//        Log.d(log_tag, aes.decrypt(a));
+    }
 
-            String rawKey = "hello";
-            sks = new SecretKeySpec(rawKey.getBytes(StandardCharsets.UTF_8), "AES");
-            // Log.d("Crypto1", rawKey.getBytes(StandardCharsets.UTF_8).toString());
-        } catch (Exception e) {
-            Log.e("Crypto1", e.getMessage());
-            // AppLogs.log(applicationContext, log_tag, aesCustom(crypto_pwd));
+    private String getMasterKeyFromDatabase() {
+        String mk = "";
+        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY+ " from " + DatabaseHelper.SETTINGS_TABLE;
+
+        Cursor cursor = null;
+        if (db !=null)
+        {
+            cursor = db.rawQuery(query, null);
         }
 
-        // Encode the original data with AES
-        byte[] encodedBytes = null;
-        // Log.d("Crypto2", Arrays.toString(st.getBytes(StandardCharsets.UTF_8)));
-        try {
-            Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.ENCRYPT_MODE, sks);
-            encodedBytes = c.doFinal(st.getBytes(StandardCharsets.UTF_8));
-            Log.d("Crypto2", "" + encodedBytes);
-        } catch (Exception e) {
-            Log.e("Crypto2", "AES encryption error");
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                mk = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY));
+
+                cursor.moveToNext();
+            }
+
+            cursor.close();
         }
 
-        return ""; //+ Base64.encodeToString(encodedBytes, Base64.DEFAULT) + "";
+        return mk;
     }
 
     @Override
@@ -335,8 +342,6 @@ public class AddPasswordFragment extends Fragment {
         outState.putString("login", login);
         outState.putString("description", description);
         outState.putString("entered_password", entered_password);
-
-        // Log.d(log_tag, service_name);
     }
 
 }
