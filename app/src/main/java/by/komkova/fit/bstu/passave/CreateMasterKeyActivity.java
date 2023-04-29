@@ -5,6 +5,7 @@ import static android.content.res.Resources.getSystem;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
 
 import android.app.Activity;
@@ -145,15 +146,16 @@ public class CreateMasterKeyActivity extends Activity {
         }
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SETTINGS_COLUMN_MASTER_KEY, md5Custom(repeatMasterKey_tiet.getText().toString().trim()));
+        contentValues.put(SETTINGS_COLUMN_MASTER_KEY, MD5.md5Custom(repeatMasterKey_tiet.getText().toString().trim()));
 
         Date currentDate = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         contentValues.put(SETTINGS_COLUMN_CREATED, df.format(currentDate));
+        contentValues.put(SETTINGS_COLUMN_UPDATED, df.format(currentDate));
 
         long result = db.insert(SETTINGS_TABLE, null, contentValues);
         if (result == -1)
-            AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something goes wrong");
+            AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something went wrong");
         else
             AppLogs.log(CreateMasterKeyActivity.this, log_tag, "Master key created.");
             goLogin();
@@ -162,32 +164,5 @@ public class CreateMasterKeyActivity extends Activity {
     private void goLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-    }
-
-    public static String md5Custom(String st) {
-        if (st.isEmpty()){
-            return "";
-        }
-
-        MessageDigest messageDigest = null;
-        byte[] digest = new byte[0];
-
-        try {
-            messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.reset();
-            messageDigest.update(st.getBytes());
-            digest = messageDigest.digest();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        BigInteger bigInt = new BigInteger(1, digest);
-        String md5Hex = bigInt.toString(16);
-
-        while( md5Hex.length() < 32 ){
-            md5Hex = "0" + md5Hex;
-        }
-
-        return md5Hex;
     }
 }

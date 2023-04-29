@@ -5,16 +5,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
-public class LanguagesFragment extends Fragment implements View.OnClickListener {
+public class SettingsLanguagesFragment extends Fragment{
 
     final String log_tag = getClass().getName();
     ImageButton backSettings_ibtn;
+    private Button save_settings_btn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,11 +36,20 @@ public class LanguagesFragment extends Fragment implements View.OnClickListener 
             }
         });
 
+        save_settings_btn = view.findViewById(R.id.save_languages_btn);
+        save_settings_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeLanguages();
+            }
+        });
+
+
+
         return view;
     }
 
-    @Override
-    public void onClick(View view) {
-
+    private void changeLanguages() {
     }
+
 }

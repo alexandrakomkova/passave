@@ -43,8 +43,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class DetailsFragment extends Fragment {
-    private String log_tag = DetailsFragment.class.getName();
+public class DetailsPasswordFragment extends Fragment {
+    private String log_tag = DetailsPasswordFragment.class.getName();
     private Context applicationContext;
 
     private Integer Id;

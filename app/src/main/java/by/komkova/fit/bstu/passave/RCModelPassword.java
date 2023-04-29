@@ -1,6 +1,6 @@
 package by.komkova.fit.bstu.passave;
 
-public class RCModel {
+public class RCModelPassword {
 
     Integer id;
     String title;

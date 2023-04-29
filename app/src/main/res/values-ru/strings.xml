@@ -27,6 +27,7 @@
     <string name="fingerprint_label">Отпечаток пальца</string>
     <string name="pin_label">PIN</string>
     <string name="nothing_label">Ничего</string>
+    <string name="save_settings_btn">Сохранить настройки</string>
 
     <!-- password details screen -->
     <string name="password_details_screen_label">Подробнее о пароле</string>

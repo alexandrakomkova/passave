@@ -11,22 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Passave">
         <activity
-            android:name=".DetailsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".AddPasswordActivity"
-            android:exported="true" />
-        <activity
-            android:name=".GeneratePasswordActivity"
-            android:exported="true" />
-        <activity
             android:name=".TagActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SettingsSecurityActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SettingsLanguagesActivity"
             android:exported="true" />
         <activity
             android:name=".CreateMasterKeyActivity"
@@ -45,9 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="true"/>
+
         <provider
             android:name=".FolderProvider"
             android:authorities="by.komkova.fit.bstu.passave.providers.FolderList"

@@ -26,6 +26,7 @@
     <string name="fingerprint_label">Finger print</string>
     <string name="pin_label">PIN</string>
     <string name="nothing_label">Nothing</string>
+    <string name="save_settings_btn">Save settings</string>
 
     <!-- password details screen -->
     <string name="password_details_screen_label">Password details</string>

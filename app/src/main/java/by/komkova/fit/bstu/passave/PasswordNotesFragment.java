@@ -1,7 +1,6 @@
 package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FAVOURITE;
@@ -10,16 +9,13 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
-import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
@@ -45,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.zip.Inflater;
 
 public class PasswordNotesFragment extends Fragment {
 
@@ -53,9 +48,9 @@ public class PasswordNotesFragment extends Fragment {
 
     RecyclerView recyclerView, recyclerViewFolder;
     private RecyclerView.LayoutManager layoutManager, layoutManagerFolder;
-    ArrayList<RCModel> modelArrayList;
+    ArrayList<RCModelPassword> modelArrayList;
     ArrayList<RCModelFolder> folderArrayList;
-    RCAdapter rcAdapter;
+    RCAdapterPassword rcAdapter;
     RCAdapterFolder rcAdapterFolder;
 
     private Context applicationContext;
@@ -86,7 +81,7 @@ public class PasswordNotesFragment extends Fragment {
         applicationContext = MainActivity.getContextOfApplication();
         dbHelper = new DatabaseHelper(applicationContext);
         db = dbHelper.getReadableDatabase();
-        modelArrayList = new ArrayList<RCModel>();
+        modelArrayList = new ArrayList<RCModelPassword>();
         folderArrayList = new ArrayList<RCModelFolder>();
         // df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
 
@@ -108,7 +103,7 @@ public class PasswordNotesFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
+        rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
         recyclerView.setAdapter(rcAdapter);
 
         rcAdapterFolder = new RCAdapterFolder(applicationContext, folderArrayList);
@@ -226,7 +221,7 @@ public class PasswordNotesFragment extends Fragment {
         if (c1 != null && c1.getCount() != 0) {
             modelArrayList.clear();
             while (c1.moveToNext()) {
-                RCModel rcItem = new RCModel();
+                RCModelPassword rcItem = new RCModelPassword();
                 // AppLogs.log(applicationContext, log_tag, c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)) );
 
                 rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
@@ -239,7 +234,7 @@ public class PasswordNotesFragment extends Fragment {
         }
         c1.close();
         layoutManager = new LinearLayoutManager(applicationContext);
-        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
+        rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(rcAdapter);
     }
@@ -257,7 +252,7 @@ public class PasswordNotesFragment extends Fragment {
         if (c1 != null && c1.getCount() != 0) {
             modelArrayList.clear();
             while (c1.moveToNext()) {
-                RCModel rcItem = new RCModel();
+                RCModelPassword rcItem = new RCModelPassword();
                 // AppLogs.log(applicationContext, log_tag, c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)) );
 
                 rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
@@ -270,7 +265,7 @@ public class PasswordNotesFragment extends Fragment {
         }
         c1.close();
         layoutManager = new LinearLayoutManager(applicationContext);
-        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
+        rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(rcAdapter);
     }
@@ -284,7 +279,7 @@ public class PasswordNotesFragment extends Fragment {
          if (c1 != null && c1.getCount() != 0) {
              modelArrayList.clear();
              while (c1.moveToNext()) {
-                 RCModel rcItem = new RCModel();
+                 RCModelPassword rcItem = new RCModelPassword();
                  // AppLogs.log(applicationContext, log_tag, c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)) );
 
                  rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
@@ -297,7 +292,7 @@ public class PasswordNotesFragment extends Fragment {
          }
          c1.close();
          layoutManager = new LinearLayoutManager(applicationContext);
-         rcAdapter = new RCAdapter(applicationContext, modelArrayList);
+         rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
          recyclerView.setLayoutManager(layoutManager);
          recyclerView.setAdapter(rcAdapter);
      }

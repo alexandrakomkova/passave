@@ -1,14 +1,10 @@
 package by.komkova.fit.bstu.passave;
 
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
-import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -23,33 +19,28 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> implements Filterable {
+public class RCAdapterPassword extends RecyclerView.Adapter<RCAdapterPassword.RCViewHolder> implements Filterable {
 
     private String log_tag = getClass().getName();
     private Context applicationContext;
 
     Context context;
-    ArrayList<RCModel> modelArrayList;
-    ArrayList<RCModel> filteredModelArrayList;
+    ArrayList<RCModelPassword> modelArrayList;
+    ArrayList<RCModelPassword> filteredModelArrayList;
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
-    public RCAdapter(Context context, ArrayList<RCModel> modelArrayList) {
+    public RCAdapterPassword(Context context, ArrayList<RCModelPassword> modelArrayList) {
         this.context = context;
         this.modelArrayList = modelArrayList;
         this.filteredModelArrayList = modelArrayList;
@@ -67,7 +58,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
 
     @Override
     public void onBindViewHolder(@NonNull RCViewHolder holder, int position) {
-        RCModel rcModel = filteredModelArrayList.get(position);
+        RCModelPassword rcModel = filteredModelArrayList.get(position);
         holder.rc_title.setText(rcModel.getTitle());
         holder.rc_lastDate.setText(rcModel.getLastUpdateDate());
         holder.rc_login.setText(rcModel.getLogin());
@@ -84,7 +75,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
 
         holder.rc_favourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
-            final RCModel rcItem = filteredModelArrayList.get(pos);
+            final RCModelPassword rcItem = filteredModelArrayList.get(pos);
             final int Id = rcItem.getId();
             final int favourite = rcItem.getFavourite();
 
@@ -101,10 +92,10 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
         });
 
         holder.itemView.setOnClickListener(view -> {
-            final RCModel rcItem = filteredModelArrayList.get(pos);
+            final RCModelPassword rcItem = filteredModelArrayList.get(pos);
 
             MainActivity activity = (MainActivity) view.getContext();
-            Fragment detailsFragment = new DetailsFragment();
+            Fragment detailsFragment = new DetailsPasswordFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("password_note_id", rcItem.getId());
 
@@ -172,9 +163,9 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
 
                 } else {
 
-                    ArrayList<RCModel> tempFilteredList = new ArrayList<RCModel>();
+                    ArrayList<RCModelPassword> tempFilteredList = new ArrayList<RCModelPassword>();
 
-                    for (RCModel rcItem : modelArrayList) {
+                    for (RCModelPassword rcItem : modelArrayList) {
 
                         // search for user title
                         if (rcItem.getTitle().toLowerCase().contains(searchString)) {
@@ -193,7 +184,7 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> impl
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredModelArrayList = (ArrayList<RCModel>) filterResults.values;
+                filteredModelArrayList = (ArrayList<RCModelPassword>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

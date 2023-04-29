@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             public void onClick(View view) {
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new SecurityFragment());
+                fragmentTransaction.replace(R.id.fragment_layout, new SettingsSecurityFragment());
                 fragmentTransaction.commit();
             }
         });
@@ -39,7 +38,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             public void onClick(View view) {
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new LanguagesFragment());
+                fragmentTransaction.replace(R.id.fragment_layout, new SettingsLanguagesFragment());
                 fragmentTransaction.commit();
             }
         });

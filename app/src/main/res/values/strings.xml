@@ -27,6 +27,8 @@
     <string name="fingerprint_label">Finger print</string>
     <string name="pin_label">PIN</string>
     <string name="nothing_label">Nothing</string>
+    <string name="save_settings_btn">Save settings</string>
+
 
     <!-- password details screen -->
     <string name="password_details_screen_label">Password details</string>
@@ -82,8 +84,6 @@
     <string name="nav_add_folder">New folder</string>
     <string name="nav_notes">Notes</string>
     <string name="nav_edit_notes">New note</string>
-
-
     <string name="open_nav">Open Menu</string>
     <string name="close_nav">Close Menu</string>
 
@@ -99,7 +99,6 @@
     <string name="details_folder_screen_label">Folder details</string>
     <string name="update_folder_btn">Update folder</string>
     <string name="delete_folder_btn">Delete folder</string>
-
 
     <!-- add note screen -->
     <string name="add_note_screen_label">New note</string>

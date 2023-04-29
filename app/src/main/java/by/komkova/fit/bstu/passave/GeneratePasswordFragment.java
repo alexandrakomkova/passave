@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.GridLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -72,7 +70,7 @@ public class GeneratePasswordFragment extends Fragment {
         ok_btn = view.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(view1 -> {
             if (bundleArgument.getInt("isEdit") > 0 ) {
-                DetailsFragment detailsFragment = new DetailsFragment();
+                DetailsPasswordFragment detailsFragment = new DetailsPasswordFragment();
                 bundleArgument.putString("generated_password", String.valueOf(generated_password_tiet.getText()));
                 bundleArgument.putInt("isEdit", 1);
 

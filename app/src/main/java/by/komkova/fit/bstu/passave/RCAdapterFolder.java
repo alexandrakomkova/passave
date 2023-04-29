@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
     SQLiteDatabase db;
 
     // RCAdapter rcAdapter;
-    ArrayList<RCModel> modelArrayList;
+    ArrayList<RCModelPassword> modelArrayList;
     // private RecyclerView.LayoutManager layoutManager;
 
 
@@ -79,7 +77,7 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
         holder.itemView.setOnClickListener(view -> {
             RCModelFolder rcItemFolder = folderArrayList.get(position);
 
-            modelArrayList = new ArrayList<RCModel>();
+            modelArrayList = new ArrayList<RCModelPassword>();
             databaseHelper = new DatabaseHelper(applicationContext);
             db = databaseHelper.getReadableDatabase();
 

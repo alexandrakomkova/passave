@@ -25,14 +25,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // settings table
     public static final String SETTINGS_COLUMN_THEME = "theme";
+    public static final String SETTINGS_COLUMN_ID = "_id";
     public static final String SETTINGS_COLUMN_LANGUAGE = "language";
     public static final String SETTINGS_COLUMN_MASTER_KEY = "mk";
     public static final String SETTINGS_COLUMN_CREATED = "created";
+    public static final String SETTINGS_COLUMN_FINGERPRINT = "fingerprint";
     public static final String SETTINGS_COLUMN_UPDATED = "updated";
 
     // security table
     public static final String SECURITY_COLUMN_ID = "_id";
-    public static final String SECURITY_COLUMN_ALGORITHM_NAME = "folder_name";
+    public static final String SECURITY_COLUMN_ALGORITHM_NAME = "algorithm_name";
+    public static final String SECURITY_COLUMN_KEY = "key";
 
     // folder table
     public static final String FOLDER_COLUMN_ID = "_id";
@@ -112,7 +115,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + FOLDER_TABLE + "(" + FOLDER_COLUMN_ID +") on delete set null on update cascade);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + SETTINGS_TABLE
-                + " (" + SETTINGS_COLUMN_MASTER_KEY + " TEXT NOT NULL, "
+                + " (" + SETTINGS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + SETTINGS_COLUMN_MASTER_KEY + " TEXT NOT NULL, "
+                + SETTINGS_COLUMN_FINGERPRINT + " INTEGER CHECK(" + SETTINGS_COLUMN_FINGERPRINT + " = 0 OR " + SETTINGS_COLUMN_FINGERPRINT +" = 1) DEFAULT 0, "
+                + SETTINGS_COLUMN_LANGUAGE + " TEXT DEFAULT 'en', "
+                + SETTINGS_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + SETTINGS_COLUMN_CREATED + " TEXT NOT NULL);");
 
         // insertFoldersToDatabase(sqLiteDatabase);
@@ -128,18 +135,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void insertFoldersToDatabase(SQLiteDatabase db) {
-
-        Date currentDate = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-
-        db.execSQL("INSERT INTO " + FOLDER_TABLE +
-                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
-                " VALUES ('No folder', \'"+ df.format(currentDate) + "\');");
-
-        db.execSQL("INSERT INTO " + FOLDER_TABLE +
-                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
-                " VALUES ('Favourite', \'"+ df.format(currentDate) + "\');");
-    }
+//    public void insertFoldersToDatabase(SQLiteDatabase db) {
+//
+//        Date currentDate = Calendar.getInstance().getTime();
+//        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+//
+//        db.execSQL("INSERT INTO " + FOLDER_TABLE +
+//                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
+//                " VALUES ('No folder', \'"+ df.format(currentDate) + "\');");
+//
+//        db.execSQL("INSERT INTO " + FOLDER_TABLE +
+//                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
+//                " VALUES ('Favourite', \'"+ df.format(currentDate) + "\');");
+//    }
 
 }
