@@ -1,11 +1,15 @@
 package by.komkova.fit.bstu.passave;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,12 +22,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 
 public class LoginActivity extends AppCompatActivity {
     final String log_tag = getClass().getName();
 
     private Button create_account_btn, login_btn;
+    private TextView login_label;
     private TextInputEditText enter_masterkey_field;
 
     BiometricPrompt biometricPrompt;
@@ -41,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         databaseHelper = new DatabaseHelper(this);
         db = databaseHelper.getWritableDatabase();
+
+        // changeLocale();
 
         BiometricManager biometricManager = BiometricManager.from(this);
         switch(biometricManager.canAuthenticate()) {
@@ -110,8 +118,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validatePassword() {
-        // AppLogs.log(LoginActivity.this, log_tag, "mk:" + mk);
-        // AppLogs.log(LoginActivity.this, log_tag, md5Custom(enter_masterkey_field.getText().toString().trim()));
         if (mk.equals(MD5.md5Custom(enter_masterkey_field.getText().toString().trim()))) {
             goTagActivity();
             AppLogs.log(LoginActivity.this, log_tag, "Login successful");
@@ -173,6 +179,51 @@ public class LoginActivity extends AppCompatActivity {
             cursor.close();
         }
         return 0;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        changeLocale();
+    }
+
+    private void changeLocale() {
+        Locale locale = new Locale(getLanguageFromDatabase());
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getBaseContext().getResources().updateConfiguration(configuration, null);
+        // getApplicationContext().getResources().updateConfiguration(configuration, null);
+    }
+
+    private String getLanguageFromDatabase() {
+        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_LANGUAGE + " from " + DatabaseHelper.SETTINGS_TABLE + " where " + DatabaseHelper.SETTINGS_COLUMN_ID + " = 1";
+
+        Cursor cursor = null;
+        if (db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+
+        if (cursor == null){
+            return "en";
+        }
+
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                AppLogs.log(getApplicationContext(), log_tag, cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_LANGUAGE)));
+                return cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_LANGUAGE));
+
+                // cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+        return "en";
     }
 
     private void goCreateMk() {

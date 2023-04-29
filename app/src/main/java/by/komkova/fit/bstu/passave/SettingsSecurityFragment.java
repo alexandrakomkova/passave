@@ -1,19 +1,15 @@
 package by.komkova.fit.bstu.passave;
 
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_FINGERPRINT;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
-import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
-import android.content.ContentUris;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,15 +30,12 @@ import java.util.Locale;
 
 public class SettingsSecurityFragment extends Fragment {
 
-    private String log_tag = SettingsSecurityFragment.class.getName();
+    private final String log_tag = SettingsSecurityFragment.class.getName();
     private Context applicationContext;
 
     private SQLiteDatabase db;
-    private DatabaseHelper databaseHelper;
 
-    private ImageButton backSettings_ibtn;
-    private Button save_settings_btn;
-    private RadioButton fingerprint_radio, nothing_radio;
+    private RadioButton fingerprint_radio;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,29 +43,20 @@ public class SettingsSecurityFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_security, container, false);
         applicationContext = MainActivity.getContextOfApplication();
-        databaseHelper = new DatabaseHelper(applicationContext);
+        DatabaseHelper databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
 
-        backSettings_ibtn = view.findViewById(R.id.backSettings_btn);
-        backSettings_ibtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new SettingsFragment());
-                fragmentTransaction.commit();
-            }
+        ImageButton backSettings_ibtn = view.findViewById(R.id.backSettings_btn);
+        backSettings_ibtn.setOnClickListener(view1 -> {
+            FragmentTransaction fragmentTransaction = requireActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_layout, new SettingsFragment());
+            fragmentTransaction.commit();
         });
 
         fingerprint_radio = view.findViewById(R.id.fingerprint_radio);
-        nothing_radio = view.findViewById(R.id.nothing_radio);
-        save_settings_btn = view.findViewById(R.id.save_security_btn);
-        save_settings_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeFingerprint(fingerprint_radio.isChecked());
-            }
-        });
+        Button save_settings_btn = view.findViewById(R.id.save_security_btn);
+        save_settings_btn.setOnClickListener(view12 -> changeFingerprint(fingerprint_radio.isChecked()));
 
         setFingerprintValue();
 
@@ -93,7 +77,7 @@ public class SettingsSecurityFragment extends Fragment {
             SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
             cv.put(SETTINGS_COLUMN_UPDATED, df.format(currentDate));
 
-            int updCount = db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
+            db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
                     new String[] { "1" });
 
             AppLogs.log(applicationContext, log_tag, "Your settings changed");
