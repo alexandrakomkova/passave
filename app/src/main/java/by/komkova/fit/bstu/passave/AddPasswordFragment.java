@@ -5,11 +5,19 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FAVOURITE;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FOLDER_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_KEY;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_SECURITY_ALGORITHM_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SECURITY_COLUMN_ALGORITHM_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SECURITY_COLUMN_KEY;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SECURITY_TABLE;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_FINGERPRINT;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
@@ -34,6 +42,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -72,6 +81,8 @@ public class AddPasswordFragment extends Fragment {
     private TextInputEditText enter_password_tiet, enter_login_tiet, enter_details_tiet, enter_service_title_tiet;
     private Spinner spinnerFolders;
     private Context applicationContext;
+    private RadioGroup radioGroup;
+    private RadioButton rsa_radio, aes_radio;
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
@@ -84,6 +95,7 @@ public class AddPasswordFragment extends Fragment {
     private String description = "";
     private String entered_password = "";
     private String crypto_pwd = "";
+    private String pk = "";
 
 
     @Override
@@ -94,9 +106,9 @@ public class AddPasswordFragment extends Fragment {
 
         applicationContext = MainActivity.getContextOfApplication();
 
-        RadioButton aes_radio = view.findViewById(R.id.aes_radio);
-        aes_radio.setOnClickListener(radioButtonClickListener);
-
+        radioGroup = view.findViewById(R.id.radios_algorithm_choice);
+        rsa_radio = view.findViewById(R.id.rsa_radio);
+        aes_radio = view.findViewById(R.id.aes_radio);
 
         enter_service_title_tiet = view.findViewById(R.id.enter_service_title_field);
         enter_password_tiet = view.findViewById(R.id.enter_password_field);
@@ -257,9 +269,6 @@ public class AddPasswordFragment extends Fragment {
     }
 
     public void addPasswordNote(View v) {
-
-        // String str = enter_password_tiet.getText().toString().trim();
-        // AppLogs.log(applicationContext, log_tag, aesCustom(crypto_pwd));
         ContentValues cv = new ContentValues();
 
         cv.put(PN_COLUMN_SERVICE_NAME, Objects.requireNonNull(enter_service_title_tiet.getText()).toString().trim());
@@ -276,6 +285,34 @@ public class AddPasswordFragment extends Fragment {
         cv.put(PN_COLUMN_FOLDER_ID, selectedFolderId);
         cv.put(PN_COLUMN_TAG_ID, TAG_ID);
 
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//                    case R.id.aes_radio:
+//                        cv.put(PN_SECURITY_ALGORITHM_ID, 1);
+//                        break;
+//                    case R.id.rsa_radio:
+//                        cv.put(PN_SECURITY_ALGORITHM_ID, 2);
+//                        cv.put(PN_COLUMN_KEY, pk);
+//
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        });
+
+        if (rsa_radio.isChecked()) {
+            cv.put(PN_SECURITY_ALGORITHM_ID, 2);
+            cv.put(PN_COLUMN_KEY, pk);
+        }
+
+        if (aes_radio.isChecked()) {
+            cv.put(PN_SECURITY_ALGORITHM_ID, 1);
+        }
+
         // temporary(or not) without favourite
 
         Uri res =  applicationContext.getContentResolver().insert(PASSWORD_NOTE_URI, cv);
@@ -290,28 +327,81 @@ public class AddPasswordFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    View.OnClickListener radioButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            RadioButton rb = (RadioButton)v;
-            switch (rb.getId()) {
-                case R.id.aes_radio: crypto_pwd = passwordEncrypt(enter_password_tiet.getText().toString().trim());
-                    break;
+    private String passwordEncrypt(String str) {
+        String mk = getMasterKeyFromDatabase();
 
-                default:
-                    break;
+        if (rsa_radio.isChecked()) {
+            try {
+                RSA rsa = new RSA();
+                crypto_pwd = rsa.encrypt(str, rsa.stringToPublicKey(mk));
+                pk = rsa.privateKey.toString();
+                return crypto_pwd;
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
             }
         }
-    };
 
-    private String passwordEncrypt(String str) {
-        AES aes = new AES(getMasterKeyFromDatabase());
-        Log.d(log_tag, getMasterKeyFromDatabase());
-        Log.d(log_tag, aes.encrypt(str));
-        return aes.encrypt(str);
+        if (aes_radio.isChecked()) {
+            AES aes = new AES(mk);
+            crypto_pwd = aes.encrypt(str);
+            return crypto_pwd;
+        }
+
+        return crypto_pwd;
+    }
+
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//                    case R.id.aes_radio:
+//                        AES aes = new AES(mk);
+//                        crypto_pwd = aes.encrypt(str);
+//                        Log.d(log_tag, "aes");
+//                        break;
+//                    case R.id.rsa_radio:
+//                        try {
+//                            RSA rsa = new RSA();
+//                            crypto_pwd = rsa.encrypt(str, mk);
+//                            pk = rsa.privateKey.toString();
+//                            Log.d(log_tag, "rsa");
+//                        } catch (NoSuchAlgorithmException e) {
+//                            e.printStackTrace();
+//                        } catch (NoSuchPaddingException e) {
+//                            e.printStackTrace();
+//                        } catch (InvalidKeyException e) {
+//                            e.printStackTrace();
+//                        } catch (IllegalBlockSizeException e) {
+//                            e.printStackTrace();
+//                        } catch (BadPaddingException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        });
+
+        // return crypto_pwd;
+
+//        AES aes = new AES(getMasterKeyFromDatabase());
+//        Log.d(log_tag, getMasterKeyFromDatabase());
+//        Log.d(log_tag, aes.encrypt(str));
+//        return aes.encrypt(str);
 //        Log.d(log_tag, a);
 //        Log.d(log_tag, aes.decrypt(a));
-    }
+
 
     private String getMasterKeyFromDatabase() {
         String mk = "";

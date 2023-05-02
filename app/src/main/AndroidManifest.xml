@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Passave">
         <activity
-            android:name=".TagActivity"
+            android:name=".LoginActivity"
             android:exported="true" />
         <activity
             android:name=".CreateMasterKeyActivity"
@@ -23,7 +23,7 @@
 
         <activity
             android:configChanges="locale"
-            android:name=".LoginActivity"
+            android:name=".TagActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

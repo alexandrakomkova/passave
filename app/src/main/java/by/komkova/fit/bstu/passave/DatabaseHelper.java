@@ -7,10 +7,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -35,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // security table
     public static final String SECURITY_COLUMN_ID = "_id";
     public static final String SECURITY_COLUMN_ALGORITHM_NAME = "algorithm_name";
-    public static final String SECURITY_COLUMN_KEY = "key";
+    public static final String SECURITY_COLUMN_KEY = "private_key";
 
     // folder table
     public static final String FOLDER_COLUMN_ID = "_id";
@@ -66,6 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PN_COLUMN_UPDATED = "updated";
     public static final String PN_COLUMN_TAG_ID = "tag_id";
     public static final String PN_SECURITY_ALGORITHM_ID = "security_algorithm_id";
+    public static final String PN_COLUMN_KEY = "private_key";
 
     public DatabaseHelper(Context context) {
         super(context, MAIN_DB_NAME, null, SCHEMA);
@@ -106,9 +113,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PN_COLUMN_DESCRIPTION + " TEXT, "
                 + PN_COLUMN_FOLDER_ID + " INTEGER, "
                 + PN_COLUMN_TAG_ID + " INTEGER, "
+                + PN_SECURITY_ALGORITHM_ID + " INTEGER, "
                 + PN_COLUMN_FAVOURITE + " INTEGER CHECK(" + PN_COLUMN_FAVOURITE + " = 0 OR " + PN_COLUMN_FAVOURITE +" = 1) DEFAULT 0, "
                 + PN_COLUMN_CREATED + " TEXT NOT NULL, "
                 + PN_COLUMN_UPDATED + " TEXT NOT NULL, "
+                + PN_COLUMN_KEY + " TEXT DEFAULT NULL, "
+                + "constraint security_id_fk foreign key(" + PN_SECURITY_ALGORITHM_ID + ") references "
+                + SECURITY_TABLE + "(" + SECURITY_COLUMN_ID + ") on delete cascade on update cascade, "
                 + "constraint tag_id_fk foreign key(" + PN_COLUMN_TAG_ID + ") references "
                 + TAG_TABLE + "(" + TAG_COLUMN_ID + ") on delete set null on update cascade, "
                 + "constraint folder_id_fk foreign key(" + PN_COLUMN_FOLDER_ID + ") references "
@@ -122,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + SETTINGS_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + SETTINGS_COLUMN_CREATED + " TEXT NOT NULL);");
 
-        // insertFoldersToDatabase(sqLiteDatabase);
+        insertFoldersToDatabase(sqLiteDatabase);
     }
 
     @Override
@@ -135,18 +146,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-//    public void insertFoldersToDatabase(SQLiteDatabase db) {
-//
-//        Date currentDate = Calendar.getInstance().getTime();
-//        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-//
-//        db.execSQL("INSERT INTO " + FOLDER_TABLE +
-//                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
-//                " VALUES ('No folder', \'"+ df.format(currentDate) + "\');");
-//
-//        db.execSQL("INSERT INTO " + FOLDER_TABLE +
-//                " (" + FOLDER_COLUMN_FOLDER_NAME + ", " + FOLDER_COLUMN_UPDATED+ ") " +
-//                " VALUES ('Favourite', \'"+ df.format(currentDate) + "\');");
-//    }
+    public void insertFoldersToDatabase(SQLiteDatabase db) {
+        db.execSQL("INSERT INTO " + SECURITY_TABLE +
+                " (" + SECURITY_COLUMN_ALGORITHM_NAME+ ") " +
+                " VALUES ('AES')," +
+                "('RSA');");
+    }
 
 }

@@ -1,6 +1,7 @@
 package by.komkova.fit.bstu.passave;
 
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -55,6 +57,7 @@ public class RSA {
         kp = kpg.genKeyPair();
         publicKey = kp.getPublic();
         privateKey = kp.getPrivate();
+
     }
 
     public String getPublicKey(String option)
@@ -113,7 +116,7 @@ public class RSA {
         return Base64.encodeToString(encryptedBytes, Base64.DEFAULT);
     }
 
-    public String decrypt(String result)
+    public String decrypt(String result, PrivateKey privateKey)
             throws NoSuchAlgorithmException,
             NoSuchPaddingException,
             InvalidKeyException,
@@ -172,5 +175,29 @@ public class RSA {
         return null;
 
 
+    }
+
+    public static PublicKey stringToPublicKey(String publicKeyString)
+            throws NoSuchAlgorithmException,
+            NoSuchPaddingException,
+            InvalidKeyException,
+            IllegalBlockSizeException,
+            BadPaddingException {
+
+        try {
+            if (publicKeyString.contains("-----BEGIN PUBLIC KEY-----") || publicKeyString.contains("-----END PUBLIC KEY-----"))
+                publicKeyString = publicKeyString.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
+            byte[] keyBytes = Base64.decode(publicKeyString, Base64.DEFAULT);
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            Log.d("RSA", publicKeyString);
+
+            return keyFactory.generatePublic(spec);
+
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+
+            return null;
+        }
     }
 }
