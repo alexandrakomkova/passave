@@ -328,9 +328,7 @@ public class DetailsPasswordFragment extends Fragment {
             cv.put(PN_COLUMN_PASSWORD, passwordEncrypt(enter_password_tiet.getText().toString().trim()));
             cv.put(PN_COLUMN_DESCRIPTION, enter_details_tiet.getText().toString().trim());
 
-            Date currentDate = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-            cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(PN_COLUMN_UPDATED, DateFormatter.currentDate());
             cv.put(PN_COLUMN_TAG_ID, TAG_ID);
 
             Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);

@@ -108,10 +108,7 @@ public class DetailsTagFragment extends Fragment {
             ContentValues cv = new ContentValues();
 
             cv.put(TAG_COLUMN_TAG_NAME, enter_tag_name_field.getText().toString().trim());
-
-            Date currentDate = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-            cv.put(TAG_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(TAG_COLUMN_UPDATED, DateFormatter.currentDate());
 
             Uri uri = ContentUris.withAppendedId(TAG_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);

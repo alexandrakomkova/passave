@@ -1,11 +1,8 @@
 package by.komkova.fit.bstu.passave;
 
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TEXT;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_UPDATED;
-import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.NoteProvider.NOTE_URI;
 
@@ -16,34 +13,28 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 public class DetailsNoteFragment extends Fragment {
 
     final String log_tag = getClass().getName();
-    private Button update_note_btn, delete_note_btn;
     private TextInputEditText enter_note_text_field;
     private Context applicationContext;
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
-
-    private String note_text = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +50,7 @@ public class DetailsNoteFragment extends Fragment {
         enter_note_text_field = view.findViewById(R.id.enter_note_text_field);
 
         if (savedInstanceState != null) {
-            note_text = savedInstanceState.getString("note_text");
+            String note_text = savedInstanceState.getString("note_text");
             enter_note_text_field.setText(note_text);
         }
 
@@ -68,10 +59,10 @@ public class DetailsNoteFragment extends Fragment {
             setNoteData(bundleArgument.getInt("note_id"));
         }
 
-        update_note_btn = view.findViewById(R.id.update_note_btn);
+        Button update_note_btn = view.findViewById(R.id.update_note_btn);
         update_note_btn.setOnClickListener(view12 -> validateNote(bundleArgument.getInt("note_id")));
 
-        delete_note_btn = view.findViewById(R.id.delete_note_btn);
+        Button delete_note_btn = view.findViewById(R.id.delete_note_btn);
         delete_note_btn.setOnClickListener(view1 -> deleteNote(bundleArgument.getInt("note_id")));
 
 
@@ -101,7 +92,7 @@ public class DetailsNoteFragment extends Fragment {
 
     public void validateNote(Integer Id)
     {
-        if (enter_note_text_field.getText().toString().trim().isEmpty()) {
+        if (Objects.requireNonNull(enter_note_text_field.getText()).toString().trim().isEmpty()) {
             AppLogs.log(applicationContext, log_tag ,"Please enter note text");
         } else {  updateNote(Id); }
     }
@@ -110,11 +101,9 @@ public class DetailsNoteFragment extends Fragment {
         try {
             ContentValues cv = new ContentValues();
 
-            cv.put(NOTE_COLUMN_TEXT, enter_note_text_field.getText().toString().trim());
+            cv.put(NOTE_COLUMN_TEXT, Objects.requireNonNull(enter_note_text_field.getText()).toString().trim());
 
-            Date currentDate = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-            cv.put(NOTE_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(NOTE_COLUMN_UPDATED, DateFormatter.currentDate());
             cv.put(NOTE_COLUMN_TAG_ID, TAG_ID);
 
             Uri uri = ContentUris.withAppendedId(NOTE_URI, Id);
@@ -143,9 +132,9 @@ public class DetailsNoteFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("note_text", enter_note_text_field.getText().toString().trim());
+        outState.putString("note_text", Objects.requireNonNull(enter_note_text_field.getText()).toString().trim());
     }
 }

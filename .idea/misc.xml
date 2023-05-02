@@ -33,6 +33,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_security.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_tag.xml" value="0.16979166666666667" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_about.xml" value="0.2578125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_folder.xml" value="0.264" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_note.xml" value="0.3463541666666667" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_password.xml" value="0.2" />
@@ -63,6 +64,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/menu/action_bar.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/menu/card_menu.xml" value="0.1265625" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/menu/main_menu.xml" value="0.4" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/menu/tag_activity_menu.xml" value="0.22037037037037038" />
       </map>
     </option>
   </component>

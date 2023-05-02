@@ -12,12 +12,6 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_SECURITY_ALGORITHM_ID;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SECURITY_COLUMN_ALGORITHM_NAME;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SECURITY_COLUMN_KEY;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SECURITY_TABLE;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_FINGERPRINT;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_ID;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
@@ -33,8 +27,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,28 +39,15 @@ import android.widget.Spinner;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 
 //import org.springframework.security.crypto.encrypt.Encryptors;
 //import org.springframework.security.crypto.encrypt.TextEncryptor;
@@ -276,10 +255,10 @@ public class AddPasswordFragment extends Fragment {
         cv.put(PN_COLUMN_PASSWORD, Objects.requireNonNull(passwordEncrypt(enter_password_tiet.getText().toString().trim())));
         cv.put(PN_COLUMN_DESCRIPTION, Objects.requireNonNull(enter_details_tiet.getText()).toString().trim());
 
-        Date currentDate = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-        cv.put(PN_COLUMN_CREATED, df.format(currentDate));
-        cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
+//        Date currentDate = Calendar.getInstance().getTime();
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        cv.put(PN_COLUMN_CREATED, DateFormatter.currentDate());
+        cv.put(PN_COLUMN_UPDATED, DateFormatter.currentDate());
 
         cv.put(PN_COLUMN_FAVOURITE, 0);
         cv.put(PN_COLUMN_FOLDER_ID, selectedFolderId);

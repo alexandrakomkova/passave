@@ -8,29 +8,24 @@ import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 public class AddFolderFragment extends Fragment {
 
     final String log_tag = getClass().getName();
-    private Button save_folder_btn;
     private TextInputEditText enter_folder_title_tiet;
     private Context applicationContext;
 
@@ -50,31 +45,24 @@ public class AddFolderFragment extends Fragment {
             enter_folder_title_tiet.setText(folder_title);
         }
 
-        save_folder_btn = view.findViewById(R.id.save_folder_btn);
-        save_folder_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                validateFolder(view);
-            }
-        });
+        Button save_folder_btn = view.findViewById(R.id.save_folder_btn);
+        save_folder_btn.setOnClickListener(this::validateFolder);
 
         return view;
     }
     public void validateFolder(View v)
     {
-        if (enter_folder_title_tiet.getText().toString().trim().isEmpty()) {
+        if (Objects.requireNonNull(enter_folder_title_tiet.getText()).toString().trim().isEmpty()) {
             AppLogs.log(applicationContext, log_tag ,"Please enter folder name");
-        } else {  addFolder(v); }
+        } else {  addFolder(); }
     }
 
-    public void addFolder(View v) {
+    public void addFolder() {
         ContentValues cv = new ContentValues();
 
-        cv.put(FOLDER_COLUMN_FOLDER_NAME, enter_folder_title_tiet.getText().toString().trim());
+        cv.put(FOLDER_COLUMN_FOLDER_NAME, Objects.requireNonNull(enter_folder_title_tiet.getText()).toString().trim());
 
-        Date currentDate = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-        cv.put(FOLDER_COLUMN_UPDATED, df.format(currentDate));
+        cv.put(FOLDER_COLUMN_UPDATED, DateFormatter.currentDate());
         cv.put(FOLDER_COLUMN_TAG_ID, TAG_ID);
 
         Uri res =  applicationContext.getContentResolver().insert(FOLDER_URI, cv);
@@ -90,9 +78,9 @@ public class AddFolderFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        folder_title = enter_folder_title_tiet.getText().toString().trim();
+        folder_title = Objects.requireNonNull(enter_folder_title_tiet.getText()).toString().trim();
 
         outState.putString("folder_title", folder_title);
     }

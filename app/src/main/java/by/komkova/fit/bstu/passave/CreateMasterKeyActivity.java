@@ -1,8 +1,5 @@
 package by.komkova.fit.bstu.passave;
 
-import static android.content.res.Resources.getSystem;
-
-import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
@@ -11,26 +8,18 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 public class CreateMasterKeyActivity extends Activity {
 
@@ -38,8 +27,6 @@ public class CreateMasterKeyActivity extends Activity {
 
     private TextInputEditText enterMasterKey_tiet, repeatMasterKey_tiet;
     private TextView passwordStrengthTextView;
-    private ImageButton back_btn;
-    private Button createMk_btn;
     private PasswordStrength passwordStrength;
 
     DatabaseHelper databaseHelper;
@@ -57,8 +44,8 @@ public class CreateMasterKeyActivity extends Activity {
         repeatMasterKey_tiet = findViewById(R.id.repeat_masterkey_field);
 
         passwordStrengthTextView = findViewById(R.id.password_strength_label);
-        back_btn = findViewById(R.id.back_btn);
-        createMk_btn = findViewById(R.id.create_mk_btn);
+        ImageButton back_btn = findViewById(R.id.back_btn);
+        Button createMk_btn = findViewById(R.id.create_mk_btn);
 
         enterMasterKey_tiet.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,21 +63,9 @@ public class CreateMasterKeyActivity extends Activity {
             }
         });
 
-        back_btn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                goToLoginActivity(v);
-            }
-        });
+        back_btn.setOnClickListener(v -> goToLoginActivity());
 
-        createMk_btn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                validatePassword();
-            }
-        });
+        createMk_btn.setOnClickListener(v -> validatePassword());
     }
 
     private void calculatePasswordStrength(String str) {
@@ -100,7 +75,7 @@ public class CreateMasterKeyActivity extends Activity {
 
     }
 
-    private void goToLoginActivity(View v) {
+    private void goToLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
@@ -144,14 +119,14 @@ public class CreateMasterKeyActivity extends Activity {
                 return;
             }
         }
+        assert cursor != null;
+        cursor.close();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SETTINGS_COLUMN_MASTER_KEY, MD5.md5Custom(repeatMasterKey_tiet.getText().toString().trim()));
+        contentValues.put(SETTINGS_COLUMN_MASTER_KEY, MD5.md5Custom(Objects.requireNonNull(repeatMasterKey_tiet.getText()).toString().trim()));
 
-        Date currentDate = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-        contentValues.put(SETTINGS_COLUMN_CREATED, df.format(currentDate));
-        contentValues.put(SETTINGS_COLUMN_UPDATED, df.format(currentDate));
+        contentValues.put(SETTINGS_COLUMN_CREATED, DateFormatter.currentDate());
+        contentValues.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
 
         long result = db.insert(SETTINGS_TABLE, null, contentValues);
         if (result == -1)

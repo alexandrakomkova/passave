@@ -4,7 +4,6 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NA
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.NOTE_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
@@ -15,33 +14,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 public class DetailsFolderFragment extends Fragment {
     final String log_tag = getClass().getName();
-    private Button update_folder_btn, delete_folder_btn;
     private TextInputEditText enter_folder_title_tiet;
     private Context applicationContext;
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
-
-    private String folder_title = "";
 
 
     @Override
@@ -57,7 +50,7 @@ public class DetailsFolderFragment extends Fragment {
         enter_folder_title_tiet = view.findViewById(R.id.enter_folder_title_field);
 
         if (savedInstanceState != null) {
-            folder_title = savedInstanceState.getString("folder_title");
+            String folder_title = savedInstanceState.getString("folder_title");
             enter_folder_title_tiet.setText(folder_title);
         }
 
@@ -66,10 +59,10 @@ public class DetailsFolderFragment extends Fragment {
             setFolderData(bundleArgument.getInt("folder_id"));
         }
 
-        update_folder_btn = view.findViewById(R.id.update_folder_btn);
+        Button update_folder_btn = view.findViewById(R.id.update_folder_btn);
         update_folder_btn.setOnClickListener(view12 -> validateFolder(bundleArgument.getInt("folder_id")));
 
-        delete_folder_btn = view.findViewById(R.id.delete_folder_btn);
+        Button delete_folder_btn = view.findViewById(R.id.delete_folder_btn);
         delete_folder_btn.setOnClickListener(view1 -> deleteFolder(bundleArgument.getInt("folder_id")));
 
         return view;
@@ -88,9 +81,10 @@ public class DetailsFolderFragment extends Fragment {
             // cursor = db.rawQuery(query, null);
             cursor = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
         }
+        assert cursor != null;
         cursor.moveToFirst();
 
-        if(cursor!=null && cursor.getCount()!=0) {
+        if(cursor.getCount() != 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
 
@@ -105,7 +99,7 @@ public class DetailsFolderFragment extends Fragment {
 
     public void validateFolder(Integer Id)
     {
-        if (enter_folder_title_tiet.getText().toString().trim().isEmpty()) {
+        if (Objects.requireNonNull(enter_folder_title_tiet.getText()).toString().trim().isEmpty()) {
             AppLogs.log(applicationContext, log_tag ,"Please enter folder name");
         } else {  updateFolder(Id); }
     }
@@ -116,9 +110,7 @@ public class DetailsFolderFragment extends Fragment {
 
             cv.put(FOLDER_COLUMN_FOLDER_NAME, enter_folder_title_tiet.getText().toString().trim());
 
-            Date currentDate = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-            cv.put(FOLDER_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(FOLDER_COLUMN_UPDATED, DateFormatter.currentDate());
             cv.put(FOLDER_COLUMN_TAG_ID, TAG_ID);
 
             Uri uri = ContentUris.withAppendedId(FOLDER_URI, Id);
@@ -148,9 +140,9 @@ public class DetailsFolderFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("folder_title", enter_folder_title_tiet.getText().toString().trim());
+        outState.putString("folder_title", Objects.requireNonNull(enter_folder_title_tiet.getText()).toString().trim());
     }
 }
