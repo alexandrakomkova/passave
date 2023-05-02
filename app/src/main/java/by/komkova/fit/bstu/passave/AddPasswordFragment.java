@@ -242,7 +242,18 @@ public class AddPasswordFragment extends Fragment {
 
 
     public void validatePasswordNote(View v) {
-        addPasswordNote(v);
+        boolean isValidated = true;
+        if (enter_service_title_tiet.getText().toString().isEmpty()) {
+            isValidated = false;
+            AppLogs.log(applicationContext, log_tag, "Please enter service name");
+        }
+
+        if (enter_password_tiet.getText().toString().isEmpty()) {
+            isValidated = false;
+            AppLogs.log(applicationContext, log_tag, "Please enter password");
+        }
+
+        if (isValidated) { addPasswordNote(v); }
     }
 
     public void addPasswordNote(View v) {
@@ -262,7 +273,7 @@ public class AddPasswordFragment extends Fragment {
         cv.put(PN_COLUMN_UPDATED, df.format(currentDate));
 
         cv.put(PN_COLUMN_FAVOURITE, 0);
-        cv.put(PN_COLUMN_FOLDER_ID, selectedFolderId); // favourite 1, without folder 0
+        cv.put(PN_COLUMN_FOLDER_ID, selectedFolderId);
         cv.put(PN_COLUMN_TAG_ID, TAG_ID);
 
         // temporary(or not) without favourite
