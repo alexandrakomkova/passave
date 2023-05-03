@@ -41,7 +41,7 @@ public class AddNoteFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_note, container, false);
 
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext =  getActivity();
 
         enter_note_text_field = view.findViewById(R.id.enter_note_text_field);
 

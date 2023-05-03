@@ -4,6 +4,8 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NA
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_NOTIFICATIONS;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
 import android.app.Notification;
@@ -95,12 +97,43 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
             notificationManagerCompat = NotificationManagerCompat.from(this);
         }
 
-        selectOldPasswords();
+        if (checkNotificationsOption()) {
+            selectOldPasswords();
 
-        if (!oldPasswords.isEmpty()) {
-            Log.d("OLD_PASSWORDS", oldPasswords);
-            showNotification();
+            if (!oldPasswords.isEmpty()) {
+                Log.d("OLD_PASSWORDS", oldPasswords);
+                showNotification();
+            }
         }
+    }
+
+    private boolean checkNotificationsOption() {
+        String whereclause = SETTINGS_COLUMN_ID + "=?";
+        String[] whereargs = new String[]{ "1" };
+        String [] columns = new String[] { SETTINGS_COLUMN_NOTIFICATIONS };
+        Cursor cursor= null;
+        if(db !=null)
+        {
+            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
+        }
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                if (cursor.getInt(0) == 1) {
+                    // AppLogs.log(getContextOfApplication(), "TagActivity", "true");
+                    return true;
+                }
+
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+
+        return false;
     }
 
     private void selectOldPasswords() {

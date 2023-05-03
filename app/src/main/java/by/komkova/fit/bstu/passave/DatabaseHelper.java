@@ -36,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SETTINGS_COLUMN_MASTER_KEY = "mk";
     public static final String SETTINGS_COLUMN_CREATED = "created";
     public static final String SETTINGS_COLUMN_FINGERPRINT = "fingerprint";
+    public static final String SETTINGS_COLUMN_NOTIFICATIONS = "notifications";
     public static final String SETTINGS_COLUMN_UPDATED = "updated";
 
     // security table
@@ -129,6 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " (" + SETTINGS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                 + SETTINGS_COLUMN_MASTER_KEY + " TEXT NOT NULL, "
                 + SETTINGS_COLUMN_FINGERPRINT + " INTEGER CHECK(" + SETTINGS_COLUMN_FINGERPRINT + " = 0 OR " + SETTINGS_COLUMN_FINGERPRINT +" = 1) DEFAULT 0, "
+                + SETTINGS_COLUMN_NOTIFICATIONS + " INTEGER CHECK(" + SETTINGS_COLUMN_NOTIFICATIONS + " = 0 OR " + SETTINGS_COLUMN_NOTIFICATIONS +" = 1) DEFAULT 0, "
                 + SETTINGS_COLUMN_LANGUAGE + " TEXT DEFAULT 'en', "
                 + SETTINGS_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + SETTINGS_COLUMN_CREATED + " TEXT NOT NULL);");

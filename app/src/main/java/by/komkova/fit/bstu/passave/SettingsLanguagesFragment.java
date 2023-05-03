@@ -46,7 +46,7 @@ public class SettingsLanguagesFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_languages, container, false);
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext = getActivity();
         DatabaseHelper databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
 
@@ -105,9 +105,7 @@ public class SettingsLanguagesFragment extends Fragment{
             ContentValues cv = new ContentValues();
             cv.put(SETTINGS_COLUMN_LANGUAGE, languageCode);
 
-            Date currentDate = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-            cv.put(SETTINGS_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
 
             db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
                     new String[] { "1" });

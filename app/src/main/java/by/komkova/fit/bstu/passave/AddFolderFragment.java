@@ -36,7 +36,7 @@ public class AddFolderFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_folder, container, false);
 
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext = getActivity();
 
         enter_folder_title_tiet = view.findViewById(R.id.enter_folder_title_field);
 

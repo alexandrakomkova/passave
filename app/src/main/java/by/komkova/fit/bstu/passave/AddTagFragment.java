@@ -35,7 +35,7 @@ public class AddTagFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_tag, container, false);
 
-        applicationContext = TagActivity.getContextOfApplication();
+        applicationContext =  getActivity();
 
         enter_tag_name_field = view.findViewById(R.id.enter_tag_name_field);
 

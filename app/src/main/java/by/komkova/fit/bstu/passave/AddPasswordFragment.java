@@ -83,7 +83,7 @@ public class AddPasswordFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_password, container, false);
 
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext = getActivity();
 
         radioGroup = view.findViewById(R.id.radios_algorithm_choice);
         rsa_radio = view.findViewById(R.id.rsa_radio);

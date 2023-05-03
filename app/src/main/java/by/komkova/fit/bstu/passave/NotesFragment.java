@@ -49,7 +49,7 @@ public class NotesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext = getActivity();
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
         noteArrayList = new ArrayList<RCModelNote>();

@@ -42,7 +42,7 @@ public class DetailsFolderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details_folder, container, false);
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext =  getActivity();
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
 

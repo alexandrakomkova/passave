@@ -42,7 +42,7 @@ public class SettingsSecurityFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_security, container, false);
-        applicationContext = MainActivity.getContextOfApplication();
+        applicationContext = getActivity();
         DatabaseHelper databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
 
@@ -73,9 +73,7 @@ public class SettingsSecurityFragment extends Fragment {
                 cv.put(SETTINGS_COLUMN_FINGERPRINT, 0);
             }
 
-            Date currentDate = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-            cv.put(SETTINGS_COLUMN_UPDATED, df.format(currentDate));
+            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
 
             db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
                     new String[] { "1" });
