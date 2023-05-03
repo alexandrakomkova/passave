@@ -120,4 +120,15 @@
     <string name="details_tag_screen_label">Edit tag</string>
     <string name="update_tag_btn">Update tag</string>
     <string name="delete_tag_btn">Delete tag</string>
+
+
+    <!-- about screen -->
+    <string name="about_screen_label">About</string>
+    <string name="about_info_text">Passave is a password manager.
+
+        This app helps store and organise your personal data.
+        If you have questions text sashakomkova2001@gmail.com :)
+
+        Diploma project 2023
+    </string>
 </resources>

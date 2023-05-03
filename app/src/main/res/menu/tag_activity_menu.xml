@@ -4,17 +4,25 @@
     tools:showIn = "navigation_view">
 
     <group android:checkableBehavior="single">
-
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/settings_icon"
-            android:title="@string/nav_settings"/>
-
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/about_icon"
-            android:title="@string/nav_about"/>
-
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_icon"
+            android:title="@string/nav_home"/>
     </group>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/settings_icon"
+                android:title="@string/nav_settings"/>
+
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/about_icon"
+                android:title="@string/nav_about"/>
+        </menu>
+    </item>
 
 </menu>

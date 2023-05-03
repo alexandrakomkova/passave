@@ -71,19 +71,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_password_generator:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new GeneratePasswordFragment()).commit();
                 break;
-//            case R.id.nav_add_password:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddPasswordFragment()).commit();
-//                break;
-//            case R.id.nav_add_folder:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddFolderFragment()).commit();
-//                break;
+            case R.id.nav_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AboutFragment()).commit();
+                break;
             case R.id.nav_notes:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new NotesFragment()).commit();
                 break;
-//            case R.id.nav_edit_notes:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AddNoteFragment()).commit();
-//                break;
-            default:
+            default: break;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
