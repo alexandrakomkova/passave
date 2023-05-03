@@ -1,0 +1,136 @@
+<resources>
+    <string name="app_name">passave</string>
+
+    <!-- buttons -->
+    <string name="update_btn">Update password</string>
+    <string name="save_btn">Save password</string>
+    <string name="delete_btn">Delete password</string>
+    <string name="generate_btn">Generate password</string>
+    <string name="ok_btn">Ok</string>
+    <string name="cancel_btn">Cancel</string>
+
+
+    <!-- settings screen -->
+    <string name="settings_screen_label">Settings</string>
+    <string name="night_mode_label">Night mode</string>
+    <string name="notifications_label">Notifications</string>
+    <string name="language_label">Language</string>
+    <string name="security_label">Security</string>
+
+    <!-- settings language screen -->
+    <string name="language_screen_label">Language</string>
+    <string name="ru_label">Russian</string>
+    <string name="en_label">English</string>
+
+    <!-- settings security screen -->
+    <string name="security_screen_label">Security</string>
+    <string name="fingerprint_label">Finger print</string>
+    <string name="pin_label">PIN</string>
+    <string name="nothing_label">Nothing</string>
+    <string name="save_settings_btn">Save settings</string>
+
+
+    <!-- password details screen -->
+    <string name="password_details_screen_label">Password details</string>
+    <string name="service_title_label">Service title</string>
+    <string name="login_label">Login</string>
+    <string name="last_modify_label">Last modify date</string>
+    <string name="password_label">Password</string>
+    <string name="security_lvl_label">Security level</string>
+
+    <!-- new password screen -->
+    <string name="new_password_screen_label">New password</string>
+    <string name="enter_service_title_hint">Enter Service Title</string>
+    <string name="enter_login_hint">Enter Login</string>
+    <string name="enter_password_hint">Enter Password</string>
+    <string name="enter_password_details_hint">Enter Details</string>
+    <string name="aes_label">AES</string>
+    <string name="md5_label">MD5</string>
+    <string name="rsa_label">RSA</string>
+
+
+    <!-- generate password screen -->
+    <string name="generate_password_screen_label">Generate password</string>
+    <string name="caps_letters_label">Uppercase letters</string>
+    <string name="down_letters_label">Lowercase letters</string>
+    <string name="all_letters_label">Caps and Downcase letters</string>
+    <string name="numbers_label">Numbers (0–9)</string>
+    <string name="special_symbols_label">Special symbols (!#@_.,)</string>
+    <string name="password_contains_label">Password contains</string>
+    <string name="password_length_label">Password length</string>
+    <string name="generated_password">Generated password</string>
+
+    <!-- login screen -->
+    <string name="enter_masterkey_hint">Enter Master key</string>
+    <string name="repeat_masterkey_hint">Repeat Master key</string>
+    <string name="login_btn">Login</string>
+    <string name="create_masterkey_btn">Create Master key</string>
+    <string name="forget_password_label">Forget Master key?</string>
+    <string name="mk_info_text">Master key - is blah blahdgfgdfgdfgwefggfd efgfddffdsdddddddddddddddddddddddddddddddddddddddd </string>
+
+    <!-- password strength -->
+    <string name="weak">Weak</string>
+    <string name="medium">Medium</string>
+    <string name="strong">Strong</string>
+    <string name="very_strong">Very strong</string>
+
+    <!-- menu -->
+    <string name="nav_home">Home</string>
+    <string name="nav_password_notes">Passwords</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+    <string name="nav_password_generator">Password generator</string>
+    <string name="nav_add_password">New password note</string>
+    <string name="nav_add_folder">New folder</string>
+    <string name="nav_notes">Notes</string>
+    <string name="nav_edit_notes">New note</string>
+    <string name="open_nav">Open Menu</string>
+    <string name="close_nav">Close Menu</string>
+
+
+    <!-- add folder screen -->
+    <string name="new_folder_screen_label">New folder</string>
+    <string name="save_folder_btn">Save folder</string>
+    <string name="enter_folder_title_hint">Enter Folder title</string>
+    <string name="folder_label">Folders:</string>
+    <string name="passwords_label">Passwords:</string>
+
+    <!-- folder details screen -->
+    <string name="details_folder_screen_label">Folder details</string>
+    <string name="update_folder_btn">Update folder</string>
+    <string name="delete_folder_btn">Delete folder</string>
+
+    <!-- add note screen -->
+    <string name="add_note_screen_label">New note</string>
+    <string name="enter_note_text_hint">Enter note</string>
+    <string name="save_note_btn">Save note</string>
+
+    <!-- note details screen -->
+    <string name="edit_note_screen_label">Edit note</string>
+    <string name="update_note_btn">Update note</string>
+    <string name="delete_note_btn">Delete note</string>
+
+    <!-- all note screen -->
+    <string name="note_screen_label">Notes</string>
+
+    <!-- add tag screen -->
+    <string name="add_tag_screen_label">New tag</string>
+    <string name="enter_tag_name_hint">Enter tag name</string>
+    <string name="save_tag_btn">Save tag</string>
+
+    <!-- tag details screen -->
+    <string name="details_tag_screen_label">Edit tag</string>
+    <string name="update_tag_btn">Update tag</string>
+    <string name="delete_tag_btn">Delete tag</string>
+
+    <!-- about screen -->
+    <string name="about_screen_label">About</string>
+    <string name="about_info_text">Passave is a password manager.
+
+        This app helps store and organise your personal data.
+        If you have questions text sashakomkova2001@gmail.com :)
+
+        Diploma project 2023
+    </string>
+
+</resources>

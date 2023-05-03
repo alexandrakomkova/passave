@@ -8,14 +8,17 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +34,8 @@ import java.util.Locale;
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener{
 
     ImageButton security_ibtn, language_ibtn;
-    private SwitchCompat switchCompatNotifications;
+    private SwitchCompat switchCompatNotifications, switchCompatNightMode;
+    private SharedPreferences sharedPreferences = null;
 
     private final String log_tag = SettingsSecurityFragment.class.getName();
     private Context applicationContext;
@@ -70,11 +74,40 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             }
         });
 
-       switchCompatNotifications = view.findViewById(R.id.switch_compat_notifications);
+        switchCompatNightMode = view.findViewById(R.id.switch_compat_night_mode);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Boolean nightModeValue = sharedPreferences.getBoolean("night_mode", true);
+        if (nightModeValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            switchCompatNightMode.setChecked(true);
+        }
+
+        switchCompatNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    switchCompatNightMode.setChecked(true);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode", true);
+                    editor.commit();
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    switchCompatNightMode.setChecked(false);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode", false);
+                    editor.commit();
+                }
+            }
+        });
+
+
+        switchCompatNotifications = view.findViewById(R.id.switch_compat_notifications);
         if (switchCompatNotifications != null) {
             setNotificationsValue();
             switchCompatNotifications.setOnCheckedChangeListener(this);
         }
+
 
 
         return view;
