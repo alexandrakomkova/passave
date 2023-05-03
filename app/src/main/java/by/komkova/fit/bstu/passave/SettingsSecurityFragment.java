@@ -8,6 +8,7 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class SettingsSecurityFragment extends Fragment {
     private Context applicationContext;
 
     private SQLiteDatabase db;
+    private SharedPreferences sharedPreferences = null;
 
     private RadioButton fingerprint_radio;
 

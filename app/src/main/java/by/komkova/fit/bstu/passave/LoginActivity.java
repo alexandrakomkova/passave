@@ -1,11 +1,13 @@
 package by.komkova.fit.bstu.passave;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     BiometricPrompt biometricPrompt;
     BiometricPrompt.PromptInfo promptInfo;
 
+    private SharedPreferences sharedPreferences = null;
 
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
@@ -49,6 +53,12 @@ public class LoginActivity extends AppCompatActivity {
         db = databaseHelper.getWritableDatabase();
 
         // changeLocale();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean nightModeValue = sharedPreferences.getBoolean("night_mode", true);
+        if (nightModeValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
 
         BiometricManager biometricManager = BiometricManager.from(this);
         switch(biometricManager.canAuthenticate()) {

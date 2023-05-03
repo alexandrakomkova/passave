@@ -13,10 +13,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -51,6 +54,7 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
 
     private NotificationManagerCompat notificationManagerCompat;
     private Notification notification;
+    private SharedPreferences sharedPreferences = null;
 
     private DrawerLayout drawerLayout;
 
@@ -97,7 +101,10 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
             notificationManagerCompat = NotificationManagerCompat.from(this);
         }
 
-        if (checkNotificationsOption()) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean notificationsValue = sharedPreferences.getBoolean("notifications", true);
+        if (notificationsValue) {
+            Log.d("NOTIFICATION ON", "TRUE");
             selectOldPasswords();
 
             if (!oldPasswords.isEmpty()) {
@@ -105,36 +112,45 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
                 showNotification();
             }
         }
+
+//        if (checkNotificationsOption()) {
+//            selectOldPasswords();
+//
+//            if (!oldPasswords.isEmpty()) {
+//                Log.d("OLD_PASSWORDS", oldPasswords);
+//                showNotification();
+//            }
+//        }
     }
 
-    private boolean checkNotificationsOption() {
-        String whereclause = SETTINGS_COLUMN_ID + "=?";
-        String[] whereargs = new String[]{ "1" };
-        String [] columns = new String[] { SETTINGS_COLUMN_NOTIFICATIONS };
-        Cursor cursor= null;
-        if(db !=null)
-        {
-            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
-        }
-        assert cursor != null;
-        cursor.moveToFirst();
-
-        if(cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                if (cursor.getInt(0) == 1) {
-                    // AppLogs.log(getContextOfApplication(), "TagActivity", "true");
-                    return true;
-                }
-
-                cursor.moveToNext();
-            }
-
-            cursor.close();
-        }
-
-        return false;
-    }
+//    private boolean checkNotificationsOption() {
+//        String whereclause = SETTINGS_COLUMN_ID + "=?";
+//        String[] whereargs = new String[]{ "1" };
+//        String [] columns = new String[] { SETTINGS_COLUMN_NOTIFICATIONS };
+//        Cursor cursor= null;
+//        if(db !=null)
+//        {
+//            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
+//        }
+//        assert cursor != null;
+//        cursor.moveToFirst();
+//
+//        if(cursor.getCount() != 0) {
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//                if (cursor.getInt(0) == 1) {
+//                    // AppLogs.log(getContextOfApplication(), "TagActivity", "true");
+//                    return true;
+//                }
+//
+//                cursor.moveToNext();
+//            }
+//
+//            cursor.close();
+//        }
+//
+//        return false;
+//    }
 
     private void selectOldPasswords() {
         String whereclause = "date(" + PN_COLUMN_UPDATED + ", '365 days') >= ?";

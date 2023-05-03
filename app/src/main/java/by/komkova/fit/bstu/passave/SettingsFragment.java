@@ -76,7 +76,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         switchCompatNightMode = view.findViewById(R.id.switch_compat_night_mode);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Boolean nightModeValue = sharedPreferences.getBoolean("night_mode", true);
+        boolean nightModeValue = sharedPreferences.getBoolean("night_mode", true);
         if (nightModeValue) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             switchCompatNightMode.setChecked(true);
@@ -90,23 +90,35 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                     switchCompatNightMode.setChecked(true);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("night_mode", true);
-                    editor.commit();
+                    editor.apply();
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     switchCompatNightMode.setChecked(false);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("night_mode", false);
-                    editor.commit();
+                    editor.apply();
                 }
             }
         });
 
 
         switchCompatNotifications = view.findViewById(R.id.switch_compat_notifications);
-        if (switchCompatNotifications != null) {
-            setNotificationsValue();
-            switchCompatNotifications.setOnCheckedChangeListener(this);
-        }
+        switchCompatNotifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    switchCompatNightMode.setChecked(true);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("notifications", true);
+                    editor.commit();
+                } else {
+                    switchCompatNightMode.setChecked(false);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("notifications", false);
+                    editor.commit();
+                }
+            }
+        });
 
 
 
