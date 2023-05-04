@@ -8,14 +8,17 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +39,7 @@ public class SettingsLanguagesFragment extends Fragment{
     private final String log_tag = getClass().getName();
     private Context applicationContext;
     private SQLiteDatabase db;
+    private SharedPreferences sharedPreferences = null;
 
     private ImageButton backSettings_ibtn;
     private Button save_settings_btn;
@@ -79,11 +83,22 @@ public class SettingsLanguagesFragment extends Fragment{
                     languageCode = "en";
                 }
 
-                changeLanguageInDatabase(languageCode);
-                changeLocale(languageCode);
+//                changeLanguageInDatabase(languageCode);
+//                changeLocale(languageCode);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("language", languageCode);
+                editor.apply();
                 AppLogs.log(applicationContext, log_tag, "Your settings changed");
             }
         });
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String languageValue = sharedPreferences.getString("language", "en");
+        changeLocale(languageValue);
+
+        if (languageValue.equals("ru")) {
+            ru_radio.setChecked(true);
+        } else { en_radio.setChecked(true); }
 
         return view;
     }
@@ -96,8 +111,8 @@ public class SettingsLanguagesFragment extends Fragment{
         configuration.locale = locale;
         getActivity().getResources().updateConfiguration(configuration, null);
 
-        getActivity().finish();
-        startActivity(getActivity().getIntent());
+//        getActivity().finish();
+//        startActivity(getActivity().getIntent());
     }
 
     private void changeLanguageInDatabase(String languageCode) {

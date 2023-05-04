@@ -60,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
+        String languageValue = sharedPreferences.getString("language", "en");
+        changeLocale(languageValue);
+
         BiometricManager biometricManager = BiometricManager.from(this);
         switch(biometricManager.canAuthenticate()) {
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
@@ -125,6 +128,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void changeLocale(String languageCode)
+    {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getApplicationContext().getResources().updateConfiguration(configuration, null);
     }
 
     private void validatePassword() {
@@ -194,17 +206,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        changeLocale();
+        // changeLocale();
     }
 
-    private void changeLocale() {
-        Locale locale = new Locale(getLanguageFromDatabase());
-        Locale.setDefault(locale);
-        Configuration configuration = new Configuration();
-        configuration.locale = locale;
-        getBaseContext().getResources().updateConfiguration(configuration, null);
-        // getApplicationContext().getResources().updateConfiguration(configuration, null);
-    }
+//    private void changeLocale() {
+//        Locale locale = new Locale(getLanguageFromDatabase());
+//        Locale.setDefault(locale);
+//        Configuration configuration = new Configuration();
+//        configuration.locale = locale;
+//        getBaseContext().getResources().updateConfiguration(configuration, null);
+//        // getApplicationContext().getResources().updateConfiguration(configuration, null);
+//    }
 
     private String getLanguageFromDatabase() {
         String query = "select " + DatabaseHelper.SETTINGS_COLUMN_LANGUAGE + " from " + DatabaseHelper.SETTINGS_TABLE + " where " + DatabaseHelper.SETTINGS_COLUMN_ID + " = 1";

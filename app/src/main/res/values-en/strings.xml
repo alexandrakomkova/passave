@@ -81,6 +81,7 @@
     <string name="nav_add_password">New password note</string>
     <string name="nav_add_folder">New folder</string>
     <string name="nav_notes">Notes</string>
+    <string name="nav_import_export">Import/Export</string>
     <string name="nav_edit_notes">New note</string>
 
     <string name="open_nav">Open Menu</string>
@@ -131,4 +132,9 @@
 
         Diploma project 2023
     </string>
+
+    <!-- import export screen -->
+    <string name="import_export_screen_label">Import/Export</string>
+    <string name="import_file_btn">Import file</string>
+    <string name="export_file_btn">Export file</string>
 </resources>

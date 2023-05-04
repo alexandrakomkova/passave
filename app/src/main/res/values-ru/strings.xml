@@ -82,6 +82,7 @@
     <string name="nav_add_password">Новый пароль</string>
     <string name="nav_add_folder">Новая папка</string>
     <string name="nav_notes">Заметки</string>
+    <string name="nav_import_export">Импорт/Экспорт</string>
     <string name="nav_edit_notes">Новая заметка</string>
 
     <string name="open_nav">Открыть меню</string>
@@ -135,6 +136,11 @@
 
         Diploma project 2023
     </string>
+
+    <!-- import export screen -->
+    <string name="import_export_screen_label">Импорт/Экспорт</string>
+    <string name="import_file_btn">Импортировать файл</string>
+    <string name="export_file_btn">Экспортировать файл</string>
 
 
 </resources>

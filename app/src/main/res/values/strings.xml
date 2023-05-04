@@ -84,6 +84,7 @@
     <string name="nav_add_folder">New folder</string>
     <string name="nav_notes">Notes</string>
     <string name="nav_edit_notes">New note</string>
+    <string name="nav_import_export">Import/Export</string>
     <string name="open_nav">Open Menu</string>
     <string name="close_nav">Close Menu</string>
 
@@ -123,6 +124,11 @@
     <string name="update_tag_btn">Update tag</string>
     <string name="delete_tag_btn">Delete tag</string>
 
+    <!-- import export screen -->
+    <string name="import_export_screen_label">Import/Export</string>
+    <string name="import_file_btn">Import file</string>
+    <string name="export_file_btn">Export file</string>
+
     <!-- about screen -->
     <string name="about_screen_label">About</string>
     <string name="about_info_text">Passave is a password manager.
@@ -132,5 +138,7 @@
 
         Diploma project 2023
     </string>
+
+
 
 </resources>

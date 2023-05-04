@@ -8,16 +8,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     final String log_tag = getClass().getName();
     public static String TAG_ID;
+
+    private SharedPreferences sharedPreferences = null;
 
     private DrawerLayout drawerLayout;
     public static Context contextOfApplication;
@@ -31,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         contextOfApplication = getApplicationContext();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String languageValue = sharedPreferences.getString("language", "en");
+        AppLogs.log(this, log_tag, "Main: " + languageValue);
+        //changeLocale(languageValue);
 
         Bundle arguments = getIntent().getExtras();
         TAG_ID = arguments.get("tag_id").toString();
@@ -77,11 +89,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_notes:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new NotesFragment()).commit();
                 break;
+            case R.id.nav_import_export:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new ImportExportFragment()).commit();
+                break;
             default: break;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void changeLocale(String languageCode)
+    {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getApplicationContext().getResources().updateConfiguration(configuration, null);
     }
 
     @Override

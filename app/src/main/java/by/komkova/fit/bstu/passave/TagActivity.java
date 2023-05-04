@@ -14,6 +14,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -43,6 +44,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TagActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -113,6 +115,10 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
             }
         }
 
+        String languageValue = sharedPreferences.getString("language", "en");
+        // changeLocale(languageValue);
+        AppLogs.log(this, "TagActivity", "Tag: " + languageValue);
+
 //        if (checkNotificationsOption()) {
 //            selectOldPasswords();
 //
@@ -151,6 +157,18 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
 //
 //        return false;
 //    }
+
+    private void changeLocale(String languageCode)
+    {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getApplicationContext().getResources().updateConfiguration(configuration, null);
+
+//        finish();
+//        startActivity(getIntent());
+    }
 
     private void selectOldPasswords() {
         String whereclause = "date(" + PN_COLUMN_UPDATED + ", '365 days') >= ?";
@@ -196,6 +214,9 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
                 break;
             case R.id.nav_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new AboutFragment()).commit();
+                break;
+            case R.id.nav_import_export:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new ImportExportFragment()).commit();
                 break;
             default: break;
         }

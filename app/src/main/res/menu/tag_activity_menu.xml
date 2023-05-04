@@ -19,6 +19,11 @@
                 android:title="@string/nav_settings"/>
 
             <item
+                android:id="@+id/nav_import_export"
+                android:icon="@drawable/download_icon"
+                android:title="@string/nav_import_export"/>
+
+            <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/about_icon"
                 android:title="@string/nav_about"/>
