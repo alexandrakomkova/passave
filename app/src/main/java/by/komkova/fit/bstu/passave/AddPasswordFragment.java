@@ -84,6 +84,8 @@ public class AddPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_password, container, false);
 
         applicationContext = getActivity();
+        databaseHelper = new DatabaseHelper(getActivity());
+        db = databaseHelper.getWritableDatabase();
 
         radioGroup = view.findViewById(R.id.radios_algorithm_choice);
         rsa_radio = view.findViewById(R.id.rsa_radio);
@@ -134,9 +136,6 @@ public class AddPasswordFragment extends Fragment {
             enter_password_tiet.setText(bundleArgument.getString("generated_password"));
         }
 
-        databaseHelper = new DatabaseHelper(getActivity());
-        db = databaseHelper.getWritableDatabase();
-
         save_password_btn = view.findViewById(R.id.save_password_btn);
         save_password_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +153,7 @@ public class AddPasswordFragment extends Fragment {
         spinnerFolders.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedFolderId = findFolderId(spinnerFolders.getSelectedItem().toString());
+                selectedFolderId = findFolderId(spinnerFolders.getSelectedItem().toString(), db);
                 // AppLogs.log(applicationContext, log_tag, spinnerFolders.getSelectedItem().toString());
             }
 
@@ -205,7 +204,7 @@ public class AddPasswordFragment extends Fragment {
 
     }
 
-    public Integer findFolderId(String title) {
+    public static Integer findFolderId(String title, SQLiteDatabase db) {
         String query = "select "+ DatabaseHelper.FOLDER_COLUMN_ID +" from " + DatabaseHelper.FOLDER_TABLE
                 + " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " = \""+title+"\"";
 

@@ -78,6 +78,7 @@ public class PasswordNotesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_password_notes, container, false);
+
         applicationContext = getActivity();
         dbHelper = new DatabaseHelper(applicationContext);
         db = dbHelper.getReadableDatabase();

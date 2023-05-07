@@ -117,7 +117,7 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
 
         String languageValue = sharedPreferences.getString("language", "en");
         // changeLocale(languageValue);
-        AppLogs.log(this, "TagActivity", "Tag: " + languageValue);
+        // AppLogs.log(this, "TagActivity", "Tag: " + languageValue);
 
 //        if (checkNotificationsOption()) {
 //            selectOldPasswords();

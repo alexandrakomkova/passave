@@ -77,27 +77,40 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
         holder.itemView.setOnClickListener(view -> {
             RCModelFolder rcItemFolder = folderArrayList.get(position);
 
-            modelArrayList = new ArrayList<RCModelPassword>();
-            databaseHelper = new DatabaseHelper(applicationContext);
-            db = databaseHelper.getReadableDatabase();
-
+//            modelArrayList = new ArrayList<RCModelPassword>();
+//            databaseHelper = new DatabaseHelper(applicationContext);
+//            db = databaseHelper.getReadableDatabase();
 
             MainActivity activity = (MainActivity) view.getContext();
-            Fragment passwordNotesFragment = new PasswordNotesFragment();
-            // Bundle bundle = new Bundle();
+            Fragment sortedPasswordsFragment = new SortedPasswordsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("folder_id", rcItemFolder.getId());
+            bundle.putString("folder_name", rcItemFolder.getFolderTitle());
 
-
-            if (rcItemFolder.getFolderTitle().equals("Favourite")) {
-                bundleSortBy.putBoolean("isSortByFavourite", true);
-            } else  {
-                bundleSortBy.putBoolean("isSortByFolder", true);
-                bundleSortBy.putInt("folder_id", rcItemFolder.getId());
-                bundleSortBy.putString("folder_name", rcItemFolder.getFolderTitle());
-            }
-
-            passwordNotesFragment.setArguments(bundleSortBy);
+            sortedPasswordsFragment.setArguments(bundle);
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  passwordNotesFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  sortedPasswordsFragment).commit();
+
+
+
+
+            // old variant of sorting
+//            MainActivity activity = (MainActivity) view.getContext();
+//            Fragment passwordNotesFragment = new PasswordNotesFragment();
+//            // Bundle bundle = new Bundle();
+//
+//
+//            if (rcItemFolder.getFolderTitle().equals("Favourite")) {
+//                bundleSortBy.putBoolean("isSortByFavourite", true);
+//            } else  {
+//                bundleSortBy.putBoolean("isSortByFolder", true);
+//                bundleSortBy.putInt("folder_id", rcItemFolder.getId());
+//                bundleSortBy.putString("folder_name", rcItemFolder.getFolderTitle());
+//            }
+//
+//            passwordNotesFragment.setArguments(bundleSortBy);
+//            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+//            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  passwordNotesFragment).commit();
 
 
         });
@@ -124,38 +137,6 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
             rc_cardView =  itemView.findViewById(R.id.cardView);
         }
     }
-
-//    private void sortFavouritePasswordNotes() {
-//        String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE
-//                + " where " + databaseHelper.PN_COLUMN_FAVOURITE+ " = 1";
-//
-//        Cursor cursor= null;
-//        if(db !=null)
-//        {
-//            cursor = db.rawQuery(query, null);
-//        }
-//        cursor.moveToFirst();
-//
-//        if (cursor != null && cursor.getCount() != 0) {
-//            modelArrayList.clear();
-//            while (cursor.moveToNext()) {
-//                RCModel rcItem = new RCModel();
-//                rcItem.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
-//                rcItem.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
-//                rcItem.setLogin(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
-//                rcItem.setLastUpdateDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_UPDATED)));
-//                rcItem.setFavourite(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
-//                modelArrayList.add(rcItem);
-//            }
-//        }
-//        cursor.close();
-//
-//        Fragment homeFragment = new PasswordNotesFragment();
-//        rcAdapter = new RCAdapter(applicationContext, modelArrayList);
-//
-//        ((PasswordNotesFragment) homeFragment).recyclerView.setLayoutManager(layoutManager);
-//        ((PasswordNotesFragment) homeFragment).recyclerView.setAdapter(rcAdapter);
-//    }
 
 
 }

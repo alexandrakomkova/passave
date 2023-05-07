@@ -1,8 +1,13 @@
 package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_TABLE;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PASSWORD_NOTE_TABLE;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_DESCRIPTION;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_FOLDER_ID;
+import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_LOGIN;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_PASSWORD;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.PN_COLUMN_SERVICE_NAME;
@@ -36,12 +41,8 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class DetailsPasswordFragment extends Fragment {
     private String log_tag = DetailsPasswordFragment.class.getName();
@@ -246,13 +247,24 @@ public class DetailsPasswordFragment extends Fragment {
 
     }
 
-    private void setSetectedFolderSpinner(Integer Id) {
-        spinnerFolders.setSelection(Id);
+    private void setSelectedFolderSpinner(String folderName) {
+        if (folderName != null) {
+            int spinnerPosition = spinnerAdapter.getPosition(folderName);
+            spinnerFolders.setSelection(spinnerPosition);
+        }
     }
 
     private void setPasswordNoteData(Integer Id) {
-         String query = "select * from " + databaseHelper.PASSWORD_NOTE_TABLE + " where "+databaseHelper.PN_COLUMN_ID + " = "+ String.valueOf(Id);
-         SQLiteDatabase db = databaseHelper.getReadableDatabase();
+         String query = "select "
+                 + FOLDER_COLUMN_FOLDER_NAME + ", "
+                 + PN_COLUMN_SERVICE_NAME + ", "
+                 + PN_COLUMN_LOGIN + ", "
+                 + PN_COLUMN_DESCRIPTION + ", "
+                 + PN_COLUMN_PASSWORD
+                 + " from " + PASSWORD_NOTE_TABLE + " join " + FOLDER_TABLE
+                 + " on " + PASSWORD_NOTE_TABLE+ "." +PN_COLUMN_FOLDER_ID
+                 + " = " + FOLDER_TABLE + "." + FOLDER_COLUMN_ID
+                 + " where " + PASSWORD_NOTE_TABLE+ "." + PN_COLUMN_ID + " = "+ String.valueOf(Id);
 
 
         Cursor cursor= null;
@@ -272,7 +284,8 @@ public class DetailsPasswordFragment extends Fragment {
                 enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
                 enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
                 enter_password_tiet.setText(passwordDecrypt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD))));
-                setSetectedFolderSpinner(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FOLDER_ID)));
+
+                setSelectedFolderSpinner(cursor.getString(cursor.getColumnIndexOrThrow(FOLDER_COLUMN_FOLDER_NAME)));
 
                 cursor.moveToNext();
             }
@@ -319,6 +332,8 @@ public class DetailsPasswordFragment extends Fragment {
         return aes.encrypt(str);
     }
 
+    private void findFolderId() {}
+
     public void updatePasswordNote(Integer Id) {
         try {
             ContentValues cv = new ContentValues();
@@ -327,14 +342,14 @@ public class DetailsPasswordFragment extends Fragment {
             cv.put(PN_COLUMN_LOGIN, enter_login_tiet.getText().toString().trim());
             cv.put(PN_COLUMN_PASSWORD, passwordEncrypt(enter_password_tiet.getText().toString().trim()));
             cv.put(PN_COLUMN_DESCRIPTION, enter_details_tiet.getText().toString().trim());
+            cv.put(PN_COLUMN_FOLDER_ID, AddPasswordFragment.findFolderId(spinnerFolders.getSelectedItem().toString(), db));
 
             cv.put(PN_COLUMN_UPDATED, DateFormatter.currentDate());
             cv.put(PN_COLUMN_TAG_ID, TAG_ID);
 
             Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
-
-            Log.d(log_tag, "updated");
+            AppLogs.log(applicationContext, log_tag, "Password updated");
             goHome();
         } catch (Exception e){
             Log.d(log_tag, "error: " + e.getMessage());
@@ -351,6 +366,8 @@ public class DetailsPasswordFragment extends Fragment {
     public void deletePasswordNote(Integer Id) {
         Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
         int rowCount = applicationContext.getContentResolver().delete(uri, null, null);
+
+        AppLogs.log(applicationContext, log_tag, "Password deleted");
 
         goHome();
     }

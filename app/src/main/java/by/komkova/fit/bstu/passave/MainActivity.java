@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String languageValue = sharedPreferences.getString("language", "en");
-        AppLogs.log(this, log_tag, "Main: " + languageValue);
+        // AppLogs.log(this, log_tag, "Main: " + languageValue);
         //changeLocale(languageValue);
 
         Bundle arguments = getIntent().getExtras();

@@ -139,6 +139,8 @@
         Diploma project 2023
     </string>
 
+    <!-- sorted passwords screen -->
+    <string name="sorted_passwords_screen_label">Folder</string>
 
 
 </resources>
