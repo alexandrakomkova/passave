@@ -125,7 +125,7 @@ public class SettingsLanguagesFragment extends Fragment{
             db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
                     new String[] { "1" });
         } catch (Exception e){
-            AppLogs.log(applicationContext, log_tag, "Something went wrong");
+            CustomAlertDialogClass.showWarningOkDialog(getView(), applicationContext, R.string.error_details);
             Log.d(log_tag, "error: " + e.getMessage());
         }
     }

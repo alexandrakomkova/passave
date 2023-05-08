@@ -74,7 +74,7 @@ public class DetailsFolderFragment extends Fragment {
 
     private void showWarningDialog(View view, Integer Id) {
         ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
-        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_dialog, constraintLayout);
+        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_ok_cancel_dialog, constraintLayout);
         Button errorClose = v.findViewById(R.id.errorCloseButton);
         Button errorOkay = v.findViewById(R.id.errorOkayButton);
 

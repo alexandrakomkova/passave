@@ -96,8 +96,8 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
 
             NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(this, "passave")
                     .setSmallIcon(R.drawable.add_icon)
-                    .setContentTitle("Passave")
-                    .setContentText("Your password is out of time")
+                    .setContentTitle(String.valueOf(R.string.notification_content_title))
+                    .setContentText(String.valueOf(R.string.notification_content_text))
                     .setAutoCancel(true);
             notification = notificationCompat.build();
             notificationManagerCompat = NotificationManagerCompat.from(this);

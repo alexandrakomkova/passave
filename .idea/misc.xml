@@ -35,7 +35,9 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_security.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_tag.xml" value="0.16979166666666667" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_close_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_dialog.xml" value="0.5" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_ok_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_about.xml" value="0.2578125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_folder.xml" value="0.33" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_note.xml" value="0.3463541666666667" />

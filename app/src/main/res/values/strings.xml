@@ -142,10 +142,30 @@
     <!-- sorted passwords screen -->
     <string name="sorted_passwords_screen_label">Folder</string>
 
+    <!-- biometric dialog -->
+    <string name="biometric_dialog_title">Biometric login</string>
+    <string name="biometric_dialog_subtitle">Log in using your biometric credential</string>
+    <string name="biometric_dialog_negative_btn">Use master key</string>
+
+    <!-- notification -->
+    <string name="notification_content_title">Passave</string>
+    <string name="notification_content_text">Your password is out of time</string>
+
     <!-- dialogs -->
     <string name="error_header">Warning</string>
     <string name="error_details">Something went wrong</string>
     <string name="tag_delete">After deleting a tag, all folders and passwords associated with it will be deleted</string>
     <string name="folder_delete">After deleting a folder, all passwords associated with it will be deleted</string>
+    <string name="please_enter_folder_name">Please enter folder name</string>
+    <string name="please_enter_note_text">Please enter any text</string>
+    <string name="please_enter_tag_name">Please enter tag name</string>
+    <string name="master_key_already_created">Master key already created</string>
+    <string name="master_key_is_too_weak">Master key is too weak</string>
+    <string name="master_key_is_medium">Master key is medium, please make it strong</string>
+    <string name="passwords_not_matching">Passwords are not matching</string>
+    <string name="login_successful">Login successful</string>
+    <string name="please_enter_master_key">Please enter master key</string>
+    <string name="wrong_master_key">Wrong master key</string>
+
 
 </resources>

@@ -89,16 +89,25 @@ public class CreateMasterKeyActivity extends Activity {
     private void validatePassword(){
         if (eqlPasswords(String.valueOf(enterMasterKey_tiet.getText()), String.valueOf(repeatMasterKey_tiet.getText()))){
             switch (passwordStrength.msg){
-                case R.string.weak: AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is too weak"); break;
-                case R.string.medium: AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is medium, please make it strong"); break;
+                case R.string.weak:
+                    // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is too weak")
+                    CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.master_key_is_too_weak);
+                    break;
+                case R.string.medium:
+                    // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is medium, please make it strong");
+                    CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.master_key_is_medium);
+                    break;
                 case R.string.strong:
                 case R.string.very_strong:
                     saveMkToDatabase(); break;
                 default:
-                    AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something goes wrong");
+                    // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something goes wrong");
+                    CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.error_details);
+                    break;
             }
         } else {
-            AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
+            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.passwords_not_matching);
+            // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
         }
     }
 
@@ -115,7 +124,8 @@ public class CreateMasterKeyActivity extends Activity {
             // cursor.close();
 
             if (rowcount == 1) {
-                AppLogs.log(CreateMasterKeyActivity.this, log_tag, "Master key already created");
+                // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "Master key already created");
+                CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.master_key_already_created);
                 return;
             }
         }
@@ -130,7 +140,8 @@ public class CreateMasterKeyActivity extends Activity {
 
         long result = db.insert(SETTINGS_TABLE, null, contentValues);
         if (result == -1)
-            AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something went wrong");
+            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.error_details);
+            // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something went wrong");
         else
             AppLogs.log(CreateMasterKeyActivity.this, log_tag, "Master key created.");
             goLogin();

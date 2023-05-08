@@ -82,7 +82,7 @@ public class SettingsSecurityFragment extends Fragment {
 
             AppLogs.log(applicationContext, log_tag, "Your settings changed");
         } catch (Exception e){
-            AppLogs.log(applicationContext, log_tag, "Something went wrong");
+            CustomAlertDialogClass.showWarningOkDialog(getView(), applicationContext, R.string.error_details);
             Log.d(log_tag, "error: " + e.getMessage());
         }
     }

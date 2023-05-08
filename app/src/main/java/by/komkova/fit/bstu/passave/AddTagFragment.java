@@ -53,7 +53,8 @@ public class AddTagFragment extends Fragment {
     public void validateTag(View v)
     {
         if (Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim().isEmpty()) {
-            AppLogs.log(applicationContext, log_tag ,"Please enter tag name");
+            // AppLogs.log(applicationContext, log_tag ,"Please enter tag name");
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_tag_name);
         } else {  addTag(); }
     }
 

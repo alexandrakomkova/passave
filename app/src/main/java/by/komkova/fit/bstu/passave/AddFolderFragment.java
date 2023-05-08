@@ -6,16 +6,20 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -53,7 +57,9 @@ public class AddFolderFragment extends Fragment {
     public void validateFolder(View v)
     {
         if (Objects.requireNonNull(enter_folder_title_tiet.getText()).toString().trim().isEmpty()) {
-            AppLogs.log(applicationContext, log_tag ,"Please enter folder name");
+            // showWarningDialog(v);
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_folder_name);
+            // AppLogs.log(applicationContext, log_tag , String.valueOf(R.string.please_enter_folder_name));
         } else {  addFolder(); }
     }
 
@@ -69,6 +75,32 @@ public class AddFolderFragment extends Fragment {
 
         goHome();
     }
+
+//    private void showWarningDialog(View view) {
+//        ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
+//        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_ok_dialog, constraintLayout);
+//        Button errorOkay = v.findViewById(R.id.errorOkayButton);
+//
+//        TextView errorDescription = v.findViewById(R.id.errorDescription);
+//        errorDescription.setText(R.string.please_enter_folder_name);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(applicationContext);
+//        builder.setView(v);
+//        final AlertDialog alertDialog = builder.create();
+//
+//        errorOkay.findViewById(R.id.errorOkayButton).setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//                alertDialog.dismiss();
+//            }
+//        });
+//
+//        if (alertDialog.getWindow() != null) {
+//            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+//        }
+//        alertDialog.show();
+//    }
 
     public void goHome(){
         FragmentTransaction fragmentTransaction = getActivity()

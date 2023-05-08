@@ -2,7 +2,6 @@ package by.komkova.fit.bstu.passave;
 
 import static by.komkova.fit.bstu.passave.DatabaseHelper.TAG_COLUMN_TAG_NAME;
 import static by.komkova.fit.bstu.passave.DatabaseHelper.TAG_COLUMN_UPDATED;
-import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.TagProvider.TAG_URI;
 
 import android.app.AlertDialog;
@@ -15,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,14 +28,10 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 public class DetailsTagFragment extends Fragment {
     final String log_tag = getClass().getName();
-    private Button update_tag_btn, delete_tag_btn;
     private TextInputEditText enter_tag_name_field;
     private Context applicationContext;
 
@@ -67,12 +63,12 @@ public class DetailsTagFragment extends Fragment {
             setTagData(bundleArgument.getInt("tag_id"));
         }
 
-        update_tag_btn = view.findViewById(R.id.update_tag_btn);
-        update_tag_btn.setOnClickListener(view12 -> validateTag(bundleArgument.getInt("tag_id")));
+        Button update_tag_btn = view.findViewById(R.id.update_tag_btn);
+        update_tag_btn.setOnClickListener(view12 -> validateTag(view, Objects.requireNonNull(bundleArgument).getInt("tag_id")));
 
 
-        delete_tag_btn = view.findViewById(R.id.delete_tag_btn);
-        delete_tag_btn.setOnClickListener(view1 -> showWarningDialog(view, bundleArgument.getInt("tag_id")));
+        Button delete_tag_btn = view.findViewById(R.id.delete_tag_btn);
+        delete_tag_btn.setOnClickListener(view1 -> showWarningDialog(view, Objects.requireNonNull(bundleArgument).getInt("tag_id")));
 
         return view;
     }
@@ -100,10 +96,11 @@ public class DetailsTagFragment extends Fragment {
         }
     }
 
-    public void validateTag(Integer Id)
+    public void validateTag(View v, Integer Id)
     {
-        if (enter_tag_name_field.getText().toString().trim().isEmpty()) {
-            AppLogs.log(applicationContext, log_tag ,"Please enter tag name");
+        if (Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim().isEmpty()) {
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_tag_name);
+            // AppLogs.log(applicationContext, log_tag ,"Please enter tag name");
         } else {  updateTag(Id); }
     }
 
@@ -111,7 +108,7 @@ public class DetailsTagFragment extends Fragment {
         try {
             ContentValues cv = new ContentValues();
 
-            cv.put(TAG_COLUMN_TAG_NAME, enter_tag_name_field.getText().toString().trim());
+            cv.put(TAG_COLUMN_TAG_NAME, Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim());
             cv.put(TAG_COLUMN_UPDATED, DateFormatter.currentDate());
 
             Uri uri = ContentUris.withAppendedId(TAG_URI, Id);
@@ -139,7 +136,7 @@ public class DetailsTagFragment extends Fragment {
 
     private void showWarningDialog(View view, Integer Id) {
         ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
-        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_dialog, constraintLayout);
+        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_ok_cancel_dialog, constraintLayout);
         Button errorClose = v.findViewById(R.id.errorCloseButton);
         Button errorOkay = v.findViewById(R.id.errorOkayButton);
 
@@ -174,9 +171,9 @@ public class DetailsTagFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        tag_name = enter_tag_name_field.getText().toString().trim();
+        tag_name = Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim();
 
         outState.putString("tag_name", tag_name);
     }

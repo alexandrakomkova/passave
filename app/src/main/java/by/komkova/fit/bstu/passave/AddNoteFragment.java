@@ -62,7 +62,8 @@ public class AddNoteFragment extends Fragment {
     public void validateNote(View v) {
 
         if (Objects.requireNonNull(enter_note_text_field.getText()).toString().trim().isEmpty()) {
-            AppLogs.log(applicationContext, log_tag, "Please enter any text");
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_note_text);
+            // AppLogs.log(applicationContext, log_tag, "Please enter any text");
         } else { addNote(); }
     }
 

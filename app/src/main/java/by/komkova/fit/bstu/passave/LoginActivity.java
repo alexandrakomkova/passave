@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 goTagActivity();
-                AppLogs.log(LoginActivity.this, log_tag, "Login successful");
+                AppLogs.log(LoginActivity.this, log_tag, String.valueOf(R.string.login_successful));
             }
 
             @Override
@@ -98,9 +98,9 @@ public class LoginActivity extends AppCompatActivity {
         biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, callback);
 
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Biometric login for Passave")
-                .setSubtitle("Log in using your biometric credential")
-                .setNegativeButtonText("Use master key")
+                .setTitle(String.valueOf(R.string.biometric_dialog_title))
+                .setSubtitle(String.valueOf(R.string.biometric_dialog_subtitle))
+                .setNegativeButtonText(String.valueOf(R.string.biometric_dialog_negative_btn))
                 .build();
 
         if (getFingerprintFromDatabase() == 1) {
@@ -121,7 +121,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (enter_masterkey_field.getText().toString().trim().isEmpty()) {
-                    AppLogs.log(LoginActivity.this, log_tag, "Please enter master key");
+                    // AppLogs.log(LoginActivity.this, log_tag, "Please enter master key");
+                    CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.please_enter_master_key);
                 } else {
                     getMasterKeyFromDatabase();
                     validatePassword();
@@ -144,7 +145,8 @@ public class LoginActivity extends AppCompatActivity {
             goTagActivity();
             AppLogs.log(LoginActivity.this, log_tag, "Login successful");
         } else {
-            AppLogs.log(LoginActivity.this, log_tag, "Wrong master key");
+            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.wrong_master_key);
+            // AppLogs.log(LoginActivity.this, log_tag, "Wrong master key");
         }
     }
 
@@ -237,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
 
-                AppLogs.log(getApplicationContext(), log_tag, cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_LANGUAGE)));
+                // AppLogs.log(getApplicationContext(), log_tag, cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_LANGUAGE)));
                 return cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_LANGUAGE));
 
                 // cursor.moveToNext();
