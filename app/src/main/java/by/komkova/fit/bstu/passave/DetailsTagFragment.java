@@ -5,14 +5,17 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.TAG_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.TagProvider.TAG_URI;
 
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -21,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -68,7 +72,7 @@ public class DetailsTagFragment extends Fragment {
 
 
         delete_tag_btn = view.findViewById(R.id.delete_tag_btn);
-        delete_tag_btn.setOnClickListener(view1 -> deleteTag(bundleArgument.getInt("tag_id")));
+        delete_tag_btn.setOnClickListener(view1 -> showWarningDialog(view, bundleArgument.getInt("tag_id")));
 
         return view;
     }
@@ -131,6 +135,42 @@ public class DetailsTagFragment extends Fragment {
                 .getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
         fragmentTransaction.commit();
+    }
+
+    private void showWarningDialog(View view, Integer Id) {
+        ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
+        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_dialog, constraintLayout);
+        Button errorClose = v.findViewById(R.id.errorCloseButton);
+        Button errorOkay = v.findViewById(R.id.errorOkayButton);
+
+        TextView errorDescription = v.findViewById(R.id.errorDescription);
+        errorDescription.setText(R.string.tag_delete);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(applicationContext);
+        builder.setView(v);
+        final AlertDialog alertDialog = builder.create();
+
+        errorClose.findViewById(R.id.errorCloseButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        errorOkay.findViewById(R.id.errorOkayButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                deleteTag(Id);
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
     }
 
     @Override

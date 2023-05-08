@@ -128,19 +128,28 @@
 
 
     <!-- about screen -->
-    <string name="about_screen_label">About</string>
-    <string name="about_info_text">Passave is a password manager.
+    <string name="about_screen_label">О нас</string>
+    <string name="about_info_text">Passave это менеджер паролей.
 
-        This app helps store and organise your personal data.
-        If you have questions text sashakomkova2001@gmail.com :)
+        Это приложение помогает хранить и организовывать ваши персональные данные.
+        Если у вас есть какие-либо вопрос, то свяжитесь с разработчком через почту sashakomkova2001@gmail.com :)
 
-        Diploma project 2023
+        Дипломный проект 2023
     </string>
 
     <!-- import export screen -->
     <string name="import_export_screen_label">Импорт/Экспорт</string>
     <string name="import_file_btn">Импортировать файл</string>
     <string name="export_file_btn">Экспортировать файл</string>
+
+    <!-- sorted passwords screen -->
+    <string name="sorted_passwords_screen_label">Folder</string>
+
+    <!-- dialogs -->
+    <string name="error_header">Внимание</string>
+    <string name="error_details">Что-то пошло не так</string>
+    <string name="tag_delete">После удаления тэга, все пароли и папки, связанные с ним будут удалены</string>
+    <string name="folder_delete">После удаления папки, все пароли, связанные с ней будут удалены</string>
 
 
 </resources>

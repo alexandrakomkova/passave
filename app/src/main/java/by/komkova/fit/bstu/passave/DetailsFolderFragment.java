@@ -7,11 +7,13 @@ import static by.komkova.fit.bstu.passave.DatabaseHelper.FOLDER_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.FolderProvider.FOLDER_URI;
 import static by.komkova.fit.bstu.passave.MainActivity.TAG_ID;
 
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +21,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -63,10 +67,47 @@ public class DetailsFolderFragment extends Fragment {
         update_folder_btn.setOnClickListener(view12 -> validateFolder(bundleArgument.getInt("folder_id")));
 
         Button delete_folder_btn = view.findViewById(R.id.delete_folder_btn);
-        delete_folder_btn.setOnClickListener(view1 -> deleteFolder(bundleArgument.getInt("folder_id")));
+        delete_folder_btn.setOnClickListener(view1 -> showWarningDialog(view, bundleArgument.getInt("folder_id")));
 
         return view;
     }
+
+    private void showWarningDialog(View view, Integer Id) {
+        ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
+        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_dialog, constraintLayout);
+        Button errorClose = v.findViewById(R.id.errorCloseButton);
+        Button errorOkay = v.findViewById(R.id.errorOkayButton);
+
+        TextView errorDescription = v.findViewById(R.id.errorDescription);
+        errorDescription.setText(R.string.folder_delete);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(applicationContext);
+        builder.setView(v);
+        final AlertDialog alertDialog = builder.create();
+
+        errorClose.findViewById(R.id.errorCloseButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        errorOkay.findViewById(R.id.errorOkayButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                deleteFolder(Id);
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
+    }
+
     private void setFolderData(Integer Id) {
         String whereclause = FOLDER_COLUMN_ID + "=?";
         String[] whereargs = new String[]{ String.valueOf(Id) };

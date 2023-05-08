@@ -23,4 +23,7 @@
 
 
     <color name="text_color">#FF000000</color>
+
+    <color name="warning_dialog">#D95F69</color>
+    <color name="okay_dialog">#4CAF50</color>
 </resources>

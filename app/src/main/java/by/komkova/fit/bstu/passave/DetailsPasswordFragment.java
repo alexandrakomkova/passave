@@ -24,6 +24,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -43,16 +44,14 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DetailsPasswordFragment extends Fragment {
-    private String log_tag = DetailsPasswordFragment.class.getName();
+    private final String log_tag = DetailsPasswordFragment.class.getName();
     private Context applicationContext;
 
-    private Integer Id;
     private TextView passwordDetailsTextView;
     private TextInputEditText enter_service_title_tiet, enter_login_tiet, enter_details_tiet, enter_password_tiet;
-    private Button update_password_btn, delete_password_btn, generate_password_btn;
-    private ImageButton back_btn;
     private Spinner spinnerFolders;
 
     SQLiteDatabase db;
@@ -67,12 +66,12 @@ public class DetailsPasswordFragment extends Fragment {
     private String entered_password = "";
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        service_name = enter_service_title_tiet.getText().toString().trim();
-        login = enter_login_tiet.getText().toString().trim();
-        description = enter_details_tiet.getText().toString().trim();
-        entered_password = enter_password_tiet.getText().toString().trim();
+        service_name = Objects.requireNonNull(enter_service_title_tiet.getText()).toString().trim();
+        login = Objects.requireNonNull(enter_login_tiet.getText()).toString().trim();
+        description = Objects.requireNonNull(enter_details_tiet.getText()).toString().trim();
+        entered_password = Objects.requireNonNull(enter_password_tiet.getText()).toString().trim();
 
         outState.putString("service_name", service_name);
         outState.putString("login", login);
@@ -111,14 +110,13 @@ public class DetailsPasswordFragment extends Fragment {
         }
 
         spinnerFolders = view.findViewById(R.id.spinnerFolders);
-        foldersList = new ArrayList<String>();
+        foldersList = new ArrayList<>();
         loadSpinnerData();
 
         spinnerFolders.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedFolderId = findFolderId(spinnerFolders.getSelectedItem().toString());
-                // AppLogs.log(applicationContext, log_tag, spinnerFolders.getSelectedItem().toString());
             }
 
             @Override
@@ -141,40 +139,34 @@ public class DetailsPasswordFragment extends Fragment {
             }
         }
 
-        generate_password_btn = view.findViewById(R.id.generate_password_btn);
-        generate_password_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GeneratePasswordFragment generatePasswordFragment = new GeneratePasswordFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("isEdit", 1);
+        Button generate_password_btn = view.findViewById(R.id.generate_password_btn);
+        generate_password_btn.setOnClickListener(view12 -> {
+            GeneratePasswordFragment generatePasswordFragment = new GeneratePasswordFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("isEdit", 1);
 
-                bundle.putString("service_name", String.valueOf(enter_service_title_tiet.getText()));
-                bundle.putString("login", String.valueOf(enter_login_tiet.getText()));
-                bundle.putString("description", String.valueOf(enter_details_tiet.getText()));
-                bundle.putString("generated_password", String.valueOf(enter_password_tiet.getText()));
+            bundle.putString("service_name", String.valueOf(enter_service_title_tiet.getText()));
+            bundle.putString("login", String.valueOf(enter_login_tiet.getText()));
+            bundle.putString("description", String.valueOf(enter_details_tiet.getText()));
+            bundle.putString("generated_password", String.valueOf(enter_password_tiet.getText()));
 
-                generatePasswordFragment.setArguments(bundle);
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.fragment_layout,  generatePasswordFragment).commit();
-            }
+            generatePasswordFragment.setArguments(bundle);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  generatePasswordFragment).commit();
         });
 
-        update_password_btn = view.findViewById(R.id.update_password_btn);
-        update_password_btn.setOnClickListener(view1 -> updatePasswordNote(bundleArgument.getInt("password_note_id")));
+        Button update_password_btn = view.findViewById(R.id.update_password_btn);
+        update_password_btn.setOnClickListener(view1 -> updatePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id")));
 
-        delete_password_btn = view.findViewById(R.id.delete_password_btn);
-        delete_password_btn.setOnClickListener(view1 -> deletePasswordNote(bundleArgument.getInt("password_note_id")));
+        Button delete_password_btn = view.findViewById(R.id.delete_password_btn);
+        delete_password_btn.setOnClickListener(view1 -> deletePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id")));
 
-        back_btn = view.findViewById(R.id.backHome_btn);
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new PasswordNotesFragment());
-                fragmentTransaction.commit();
-            }
+        ImageButton back_btn = view.findViewById(R.id.backHome_btn);
+        back_btn.setOnClickListener(view13 -> {
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_layout, new PasswordNotesFragment());
+            fragmentTransaction.commit();
         });
 
         return view;
@@ -211,7 +203,7 @@ public class DetailsPasswordFragment extends Fragment {
                // " where " + DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME + " != \'Favourite\'";
         // SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
-        String whereclause = FOLDER_COLUMN_TAG_ID + "=? AND " + FOLDER_COLUMN_FOLDER_NAME + " != \'Favourite\'";
+        String whereclause = FOLDER_COLUMN_TAG_ID + "=? AND " + FOLDER_COLUMN_FOLDER_NAME + " != 'Favourite'";
         String[] whereargs = new String[]{ TAG_ID };
         String [] columns = new String[] { FOLDER_COLUMN_FOLDER_NAME };
         // Cursor csr = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
@@ -273,9 +265,10 @@ public class DetailsPasswordFragment extends Fragment {
             cursor = db.rawQuery(query, null);
             // cursor = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
         }
+        assert cursor != null;
         cursor.moveToFirst();
 
-        if(cursor!=null && cursor.getCount()!=0) {
+        if(cursor.getCount() != 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
 
@@ -332,16 +325,14 @@ public class DetailsPasswordFragment extends Fragment {
         return aes.encrypt(str);
     }
 
-    private void findFolderId() {}
-
     public void updatePasswordNote(Integer Id) {
         try {
             ContentValues cv = new ContentValues();
 
-            cv.put(PN_COLUMN_SERVICE_NAME, enter_service_title_tiet.getText().toString().trim());
-            cv.put(PN_COLUMN_LOGIN, enter_login_tiet.getText().toString().trim());
-            cv.put(PN_COLUMN_PASSWORD, passwordEncrypt(enter_password_tiet.getText().toString().trim()));
-            cv.put(PN_COLUMN_DESCRIPTION, enter_details_tiet.getText().toString().trim());
+            cv.put(PN_COLUMN_SERVICE_NAME, Objects.requireNonNull(enter_service_title_tiet.getText()).toString().trim());
+            cv.put(PN_COLUMN_LOGIN, Objects.requireNonNull(enter_login_tiet.getText()).toString().trim());
+            cv.put(PN_COLUMN_PASSWORD, passwordEncrypt(Objects.requireNonNull(enter_password_tiet.getText()).toString().trim()));
+            cv.put(PN_COLUMN_DESCRIPTION, Objects.requireNonNull(enter_details_tiet.getText()).toString().trim());
             cv.put(PN_COLUMN_FOLDER_ID, AddPasswordFragment.findFolderId(spinnerFolders.getSelectedItem().toString(), db));
 
             cv.put(PN_COLUMN_UPDATED, DateFormatter.currentDate());

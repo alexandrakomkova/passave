@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/back_btn.xml" value="0.3828125" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/custom_bkg_alert_dialog.xml" value="0.271875" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/custom_btn.xml" value="0.3828125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/delete_password_btn.xml" value="0.3828125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/favourite_checkbox.xml" value="0.26851851851851855" />
@@ -22,6 +23,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/spinner_bg.xml" value="0.24166666666666667" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/spinner_sla.xml" value="0.24166666666666667" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/update_password_btn.xml" value="0.3828125" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/drawable/warning_bkg.xml" value="0.271875" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout-port/settings.xml" value="0.2" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_add_password.xml" value="0.33" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_create_mk.xml" value="0.264" />
@@ -33,6 +35,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_security.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_tag.xml" value="0.16979166666666667" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_dialog.xml" value="0.5" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_about.xml" value="0.2578125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_folder.xml" value="0.33" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_note.xml" value="0.3463541666666667" />

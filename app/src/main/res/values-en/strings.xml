@@ -137,4 +137,14 @@
     <string name="import_export_screen_label">Import/Export</string>
     <string name="import_file_btn">Import file</string>
     <string name="export_file_btn">Export file</string>
+
+
+    <!-- sorted passwords screen -->
+    <string name="sorted_passwords_screen_label">Folder</string>
+
+    <!-- dialogs -->
+    <string name="error_header">Warning</string>
+    <string name="error_details">Something went wrong</string>
+    <string name="tag_delete">After deleting a tag, all folders and passwords associated with it will be deleted</string>
+    <string name="folder_delete">After deleting a folder, all passwords associated with it will be deleted</string>
 </resources>

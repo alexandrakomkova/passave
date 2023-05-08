@@ -42,20 +42,17 @@ public class SortedPasswordsFragment extends Fragment {
         dbHelper = new DatabaseHelper(applicationContext);
         db = dbHelper.getReadableDatabase();
 
-        modelArrayList = new ArrayList<RCModelPassword>();
+        modelArrayList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerView);
         rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
         recyclerView.setAdapter(rcAdapter);
 
         ImageButton backSettings_ibtn = view.findViewById(R.id.backSettings_btn);
-        backSettings_ibtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
-                fragmentTransaction.commit();
-            }
+        backSettings_ibtn.setOnClickListener(view1 -> {
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_layout, new HomeFragment());
+            fragmentTransaction.commit();
         });
 
 

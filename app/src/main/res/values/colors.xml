@@ -22,4 +22,7 @@
     <color name="very_strong">#06F110</color>
 
     <color name="text_color">#FFFFFFFF</color>
+
+    <color name="warning_dialog">#D95F69</color>
+    <color name="okay_dialog">#4CAF50</color>
 </resources>
