@@ -62,15 +62,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/CustomOutlineBox"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="24"
                         android:hint="@string/enter_service_title_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/enter_service_title_field"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:maxLength="24"
                             android:textColor="#FFFFFF"
-                            android:textStyle="normal"
-                            android:id="@+id/enter_service_title_field"/>
+                            android:textStyle="normal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -85,6 +88,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/CustomOutlineBox"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="24"
                         android:hint="@string/enter_login_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -92,6 +97,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="#FFFFFF"
                             android:inputType="text"
+                            android:maxLength="24"
                             android:textStyle="normal"
                             android:id="@+id/enter_login_field"/>
                     </com.google.android.material.textfield.TextInputLayout>
@@ -108,6 +114,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/CustomOutlineBox"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="54"
                         android:hint="@string/enter_password_details_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -115,6 +123,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="#FFFFFF"
                             android:inputType="text"
+                            android:maxLength="54"
                             android:textStyle="normal"
                             android:id="@+id/enter_details_field"/>
                     </com.google.android.material.textfield.TextInputLayout>
@@ -156,6 +165,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/PasswordCustomOutlineBox"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="100"
+
                         android:hint="@string/enter_password_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -164,6 +176,7 @@
                             android:inputType="textPassword"
                             android:textColor="#FFFFFF"
                             android:textStyle="normal"
+                            android:maxLength="100"
                             android:id="@+id/enter_password_field"/>
                     </com.google.android.material.textfield.TextInputLayout>
 

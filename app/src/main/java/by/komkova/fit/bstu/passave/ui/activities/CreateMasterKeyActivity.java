@@ -1,27 +1,41 @@
-package by.komkova.fit.bstu.passave;
+package by.komkova.fit.bstu.passave.ui.activities;
 
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_CREATED;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
-import static by.komkova.fit.bstu.passave.DatabaseHelper.SETTINGS_TABLE;
+import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_CREATED;
+import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY;
+import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
+import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_TABLE;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
-public class CreateMasterKeyActivity extends Activity {
+import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
+import by.komkova.fit.bstu.passave.helpers.DateFormatter;
+import by.komkova.fit.bstu.passave.security.security_algorithms.MD5;
+import by.komkova.fit.bstu.passave.security.password_helpers.PasswordStrength;
+import by.komkova.fit.bstu.passave.R;
+import by.komkova.fit.bstu.passave.db.DatabaseHelper;
+
+public class CreateMasterKeyActivity extends AppCompatActivity {
 
     final String log_tag = getClass().getName();
 
@@ -32,10 +46,20 @@ public class CreateMasterKeyActivity extends Activity {
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
+    private SharedPreferences sharedPreferences = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_mk);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean nightModeValue = sharedPreferences.getBoolean("night_mode", true);
+        if (nightModeValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            AppLogs.log(this, log_tag, String.valueOf(true));
+        }
+
 
         databaseHelper = new DatabaseHelper(this);
         db = databaseHelper.getWritableDatabase();
@@ -65,7 +89,7 @@ public class CreateMasterKeyActivity extends Activity {
 
         back_btn.setOnClickListener(v -> goToLoginActivity());
 
-        createMk_btn.setOnClickListener(v -> validatePassword());
+        createMk_btn.setOnClickListener(v -> validatePassword(findViewById(android.R.id.content).getRootView()));
     }
 
     private void calculatePasswordStrength(String str) {
@@ -86,27 +110,27 @@ public class CreateMasterKeyActivity extends Activity {
         return password1.equals(password2);
     }
 
-    private void validatePassword(){
+    private void validatePassword(View v){
         if (eqlPasswords(String.valueOf(enterMasterKey_tiet.getText()), String.valueOf(repeatMasterKey_tiet.getText()))){
             switch (passwordStrength.msg){
                 case R.string.weak:
                     // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is too weak")
-                    CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.master_key_is_too_weak);
+                    CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.master_key_is_too_weak);
                     break;
                 case R.string.medium:
                     // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is medium, please make it strong");
-                    CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.master_key_is_medium);
+                    CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.master_key_is_medium);
                     break;
                 case R.string.strong:
                 case R.string.very_strong:
                     saveMkToDatabase(); break;
                 default:
                     // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something goes wrong");
-                    CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.error_details);
+                    CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.error_details);
                     break;
             }
         } else {
-            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.passwords_not_matching);
+            CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.passwords_not_matching);
             // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
         }
     }

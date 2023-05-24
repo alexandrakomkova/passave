@@ -51,6 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/CustomOutlineBox"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="14"
                     android:hint="@string/enter_folder_title_hint">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -58,6 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:maxLength="14"
                         android:textColor="#FFFFFF"
                         android:textStyle="normal" />
                 </com.google.android.material.textfield.TextInputLayout>

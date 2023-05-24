@@ -51,17 +51,20 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomOutlineBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/CustomOutlineBox"
-                        android:hint="@string/enter_note_text_hint">
+                        android:hint="@string/enter_note_text_hint"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="240">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/enter_note_text_field"
                             android:layout_width="match_parent"
                             android:layout_height="300dp"
-                            android:inputType="text"
                             android:gravity="top"
+                            android:inputType="text"
+                            android:maxLength="240"
                             android:textColor="#FFFFFF"
                             android:textStyle="normal" />
                     </com.google.android.material.textfield.TextInputLayout>

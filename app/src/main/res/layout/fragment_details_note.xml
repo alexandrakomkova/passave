@@ -64,6 +64,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/CustomOutlineBox"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="240"
                         android:hint="@string/enter_note_text_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -72,6 +74,7 @@
                             android:layout_height="300dp"
                             android:inputType="text"
                             android:gravity="top"
+                            android:maxLength="240"
                             android:textColor="#FFFFFF"
                             android:textStyle="normal" />
                     </com.google.android.material.textfield.TextInputLayout>
