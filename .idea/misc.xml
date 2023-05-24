@@ -37,6 +37,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/activity_tag.xml" value="0.16979166666666667" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_close_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_dialog.xml" value="0.5" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_ok_cancel_dialog.xml" value="0.32708333333333334" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/error_ok_dialog.xml" value="0.25364583333333335" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_about.xml" value="0.2578125" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_add_folder.xml" value="0.33" />
@@ -48,7 +49,7 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_details_folder.xml" value="0.25416666666666665" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_details_note.xml" value="0.3463541666666667" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_details_tag.xml" value="0.4" />
-        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_generate_password.xml" value="0.25416666666666665" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_generate_password.xml" value="0.5" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_import_export.xml" value="0.33" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/layout/fragment_languages.xml" value="0.264" />
@@ -73,6 +74,8 @@
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/menu/main_activity_menu.xml" value="0.20729166666666668" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/menu/main_menu.xml" value="0.4" />
         <entry key="..\:/uni/4/diploma/passave/app/src/main/res/menu/tag_activity_menu.xml" value="0.5" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2234375" />
+        <entry key="..\:/uni/4/diploma/passave/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2234375" />
       </map>
     </option>
   </component>

@@ -12,7 +12,8 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor">@color/settings_night_mode</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -57,5 +58,74 @@
         <item name="endIconMode">password_toggle</item>
         <item name="endIconTint">@color/white</item>
     </style>
+    <style name="Theme.Passave.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Passave.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Passave.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
+
+
+<!--<resources xmlns:tools="http://schemas.android.com/tools">-->
+<!--    &lt;!&ndash; Base application theme. &ndash;&gt;-->
+<!--    <style name="Theme.Passave" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">-->
+<!--        &lt;!&ndash; Primary brand color. &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/primary</item>-->
+<!--        <item name="colorPrimaryVariant">@color/primary</item>-->
+<!--        &lt;!&ndash;        <item name="colorPrimary">@color/purple_500</item>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <item name="colorPrimaryVariant">@color/purple_700</item>&ndash;&gt;-->
+<!--        <item name="colorOnPrimary">@color/white</item>-->
+<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
+<!--        <item name="colorSecondary">@color/teal_200</item>-->
+<!--        <item name="colorSecondaryVariant">@color/teal_700</item>-->
+<!--        <item name="colorOnSecondary">@color/black</item>-->
+<!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
+<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--    </style>-->
+
+<!--    &lt;!&ndash; theme for settings notification slider&ndash;&gt;-->
+<!--    <style name="notification_switch" parent="Theme.AppCompat.Light">-->
+<!--        <item name="colorControlActivated">@color/settings_notifications</item>-->
+<!--        <item name="colorSwitchThumbNormal">@color/white</item>-->
+<!--        <item name="android:colorForeground">#99FFFFFF</item>-->
+<!--    </style>-->
+
+<!--    &lt;!&ndash; theme for settings night mode slider&ndash;&gt;-->
+<!--    <style name="night_mode_switch" parent="Theme.AppCompat.Light">-->
+<!--        <item name="colorControlActivated">@color/settings_night_mode</item>-->
+<!--        <item name="colorSwitchThumbNormal">@color/white</item>-->
+<!--        <item name="android:colorForeground">#99FFFFFF</item>-->
+<!--    </style>-->
+
+<!--    &lt;!&ndash; theme for add_new_password text input field&ndash;&gt;-->
+<!--    <style name="CustomOutlineBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+<!--        <item name="android:textColorHint">@color/white</item>-->
+<!--        <item name="hintTextColor">@color/white</item>-->
+<!--        <item name="boxStrokeColor">@color/white</item>-->
+<!--        <item name="boxStrokeWidthFocused">2dp</item>-->
+<!--        <item name="boxCornerRadiusBottomEnd">10dp</item>-->
+<!--        <item name="boxCornerRadiusBottomStart">10dp</item>-->
+<!--        <item name="boxCornerRadiusTopEnd">10dp</item>-->
+<!--        <item name="boxCornerRadiusTopStart">10dp</item>-->
+<!--        <item name="endIconMode">clear_text</item>-->
+<!--        <item name="endIconTint">@color/white</item>-->
+<!--    </style>-->
+
+<!--    &lt;!&ndash; theme for add_new_password password input field&ndash;&gt;-->
+<!--    <style name="PasswordCustomOutlineBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+<!--        <item name="android:textColorHint">@color/white</item>-->
+<!--        <item name="hintTextColor">@color/white</item>-->
+<!--        <item name="boxStrokeColor">@color/white</item>-->
+<!--        <item name="boxStrokeWidthFocused">2dp</item>-->
+<!--        <item name="boxCornerRadiusBottomEnd">10dp</item>-->
+<!--        <item name="boxCornerRadiusBottomStart">10dp</item>-->
+<!--        <item name="boxCornerRadiusTopEnd">10dp</item>-->
+<!--        <item name="boxCornerRadiusTopStart">10dp</item>-->
+<!--        <item name="endIconMode">password_toggle</item>-->
+<!--        <item name="endIconTint">@color/white</item>-->
+<!--    </style>-->
+
+<!--</resources>-->

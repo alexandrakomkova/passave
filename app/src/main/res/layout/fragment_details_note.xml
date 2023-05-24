@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
-    tools:context=".DetailsNoteFragment">
+    tools:context=".ui.fragments.DetailsNoteFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/backSettings_btn"
+            android:id="@+id/backNotes_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

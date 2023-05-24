@@ -56,6 +56,7 @@
     <string name="password_contains_label">Password contains</string>
     <string name="password_length_label">Password length</string>
     <string name="generated_password">Generated password</string>
+    <string name="basic_conf_for_generate_password">Password generated with basic configuration</string>
 
     <!-- login screen -->
     <string name="enter_masterkey_hint">Enter Master key</string>
@@ -168,3 +169,180 @@
     <string name="wrong_master_key">Wrong master key</string>
 
 </resources>
+
+
+<!--<resources>-->
+<!--    <string name="app_name">passave</string>-->
+
+<!--    &lt;!&ndash; buttons &ndash;&gt;-->
+<!--    <string name="update_btn">Обновить пароль</string>-->
+<!--    <string name="save_btn">Сохранить пароль</string>-->
+<!--    <string name="delete_btn">Удалить пароль</string>-->
+<!--    <string name="generate_btn">Сгенерировать пароль</string>-->
+<!--    <string name="ok_btn">Ок</string>-->
+<!--    <string name="cancel_btn">Отмена</string>-->
+
+
+<!--    &lt;!&ndash; settings screen &ndash;&gt;-->
+<!--    <string name="settings_screen_label">Настройки</string>-->
+<!--    <string name="night_mode_label">Тема</string>-->
+<!--    <string name="notifications_label">Уведомления</string>-->
+<!--    <string name="language_label">Язык</string>-->
+<!--    <string name="security_label">Безопаность</string>-->
+
+<!--    &lt;!&ndash; settings language screen &ndash;&gt;-->
+<!--    <string name="language_screen_label">Язык</string>-->
+<!--    <string name="ru_label">Русский</string>-->
+<!--    <string name="en_label">Английский</string>-->
+
+<!--    &lt;!&ndash; settings security screen &ndash;&gt;-->
+<!--    <string name="security_screen_label">Безопасность</string>-->
+<!--    <string name="fingerprint_label">Отпечаток пальца</string>-->
+<!--    <string name="pin_label">PIN</string>-->
+<!--    <string name="nothing_label">Ничего</string>-->
+<!--    <string name="save_settings_btn">Сохранить настройки</string>-->
+
+<!--    &lt;!&ndash; password details screen &ndash;&gt;-->
+<!--    <string name="password_details_screen_label">Подробнее о пароле</string>-->
+<!--    <string name="service_title_label">Название сервиса</string>-->
+<!--    <string name="login_label">Логин</string>-->
+<!--    <string name="last_modify_label">Последнее изменение</string>-->
+<!--    <string name="password_label">Пароль</string>-->
+<!--    <string name="security_lvl_label">Уровень безопасности</string>-->
+
+<!--    &lt;!&ndash; new password screen &ndash;&gt;-->
+<!--    <string name="new_password_screen_label">Новый пароль</string>-->
+<!--    <string name="enter_service_title_hint">Введите название сервиса</string>-->
+<!--    <string name="enter_login_hint">Введите логин</string>-->
+<!--    <string name="enter_password_hint">Введите пароль</string>-->
+<!--    <string name="enter_password_details_hint">Введите дополнительную информацию</string>-->
+<!--    <string name="aes_label">AES</string>-->
+<!--    <string name="md5_label">MD5</string>-->
+<!--    <string name="rsa_label">RSA</string>-->
+
+<!--    &lt;!&ndash; generate password screen &ndash;&gt;-->
+<!--    <string name="generate_password_screen_label">Сгенерировать пароль</string>-->
+<!--    <string name="caps_letters_label">Буквы в верхнем регистре</string>-->
+<!--    <string name="down_letters_label">Буквы в нижнем регистре</string>-->
+<!--    <string name="all_letters_label">Буквы в верхнем и нижнем регистрах</string>-->
+<!--    <string name="numbers_label">Числа</string>-->
+<!--    <string name="special_symbols_label">Специальные символы (!#@_.,)</string>-->
+<!--    <string name="password_contains_label">Пароль содержит</string>-->
+<!--    <string name="password_length_label">Длина пароля</string>-->
+<!--    <string name="generated_password">Сгенерированный пароль</string>-->
+
+<!--    &lt;!&ndash; login screen &ndash;&gt;-->
+<!--    <string name="enter_masterkey_hint">Введите Мастер ключ</string>-->
+<!--    <string name="repeat_masterkey_hint">Повторите Мастер ключ</string>-->
+<!--    <string name="login_btn">Войти</string>-->
+<!--    <string name="create_masterkey_btn">Создать Мастер ключ</string>-->
+<!--    <string name="forget_password_label">Забыли Мастер ключ?</string>-->
+<!--    <string name="mk_info_text">Мастер ключ - это бла блабла </string>-->
+
+<!--    &lt;!&ndash; password strength &ndash;&gt;-->
+<!--    <string name="weak">Слабый</string>-->
+<!--    <string name="medium">Средний</string>-->
+<!--    <string name="strong">Надежный</string>-->
+<!--    <string name="very_strong">Очень надежный</string>-->
+
+
+<!--    &lt;!&ndash; menu &ndash;&gt;-->
+<!--    <string name="nav_home">Главная</string>-->
+<!--    <string name="nav_password_notes">Пароли</string>-->
+<!--    <string name="nav_settings">Настройки</string>-->
+<!--    <string name="nav_about">О нас</string>-->
+<!--    <string name="nav_password_generator">Генератор паролей</string>-->
+<!--    <string name="nav_add_password">Новый пароль</string>-->
+<!--    <string name="nav_add_folder">Новая папка</string>-->
+<!--    <string name="nav_notes">Заметки</string>-->
+<!--    <string name="nav_import_export">Импорт/Экспорт</string>-->
+<!--    <string name="nav_edit_notes">Новая заметка</string>-->
+
+<!--    <string name="open_nav">Открыть меню</string>-->
+<!--    <string name="close_nav">Закрыть меню</string>-->
+
+
+<!--    &lt;!&ndash; add folder screen &ndash;&gt;-->
+<!--    <string name="new_folder_screen_label">Новая папка</string>-->
+<!--    <string name="save_folder_btn">Схранить папку</string>-->
+<!--    <string name="enter_folder_title_hint">Введите название папки</string>-->
+<!--    <string name="folder_label">Папки:</string>-->
+<!--    <string name="passwords_label">Пароли:</string>-->
+
+
+<!--    &lt;!&ndash; folder details screen &ndash;&gt;-->
+<!--    <string name="details_folder_screen_label">Детали</string>-->
+<!--    <string name="update_folder_btn">Редактировать папку</string>-->
+<!--    <string name="delete_folder_btn">Удалить папку</string>-->
+
+
+<!--    &lt;!&ndash; add note screen &ndash;&gt;-->
+<!--    <string name="add_note_screen_label">Новая заметка</string>-->
+<!--    <string name="enter_note_text_hint">Введите текст</string>-->
+<!--    <string name="save_note_btn">Сохранить заметку</string>-->
+
+<!--    &lt;!&ndash; note details screen &ndash;&gt;-->
+<!--    <string name="edit_note_screen_label">Редактирование заметки</string>-->
+<!--    <string name="update_note_btn">Редактировать заметку</string>-->
+<!--    <string name="delete_note_btn">Удалить заметку</string>-->
+
+<!--    &lt;!&ndash; all note screen &ndash;&gt;-->
+<!--    <string name="note_screen_label">Заметки</string>-->
+
+<!--    &lt;!&ndash; add tag screen &ndash;&gt;-->
+<!--    <string name="add_tag_screen_label">Новый тег</string>-->
+<!--    <string name="enter_tag_name_hint">Введите название тега</string>-->
+<!--    <string name="save_tag_btn">Сохранить тег</string>-->
+
+<!--    &lt;!&ndash; tag details screen &ndash;&gt;-->
+<!--    <string name="details_tag_screen_label">Редактировать тег</string>-->
+<!--    <string name="update_tag_btn">Редактировать тег</string>-->
+<!--    <string name="delete_tag_btn">Удалить тег</string>-->
+
+
+<!--    &lt;!&ndash; about screen &ndash;&gt;-->
+<!--    <string name="about_screen_label">О нас</string>-->
+<!--    <string name="about_info_text">Passave это менеджер паролей.-->
+
+<!--        Это приложение помогает хранить и организовывать ваши персональные данные.-->
+<!--        Если у вас есть какие-либо вопрос, то свяжитесь с разработчком через почту sashakomkova2001@gmail.com :)-->
+
+<!--        Дипломный проект 2023-->
+<!--    </string>-->
+
+<!--    &lt;!&ndash; import export screen &ndash;&gt;-->
+<!--    <string name="import_export_screen_label">Импорт/Экспорт</string>-->
+<!--    <string name="import_file_btn">Импортировать файл</string>-->
+<!--    <string name="export_file_btn">Экспортировать файл</string>-->
+
+<!--    &lt;!&ndash; sorted passwords screen &ndash;&gt;-->
+<!--    <string name="sorted_passwords_screen_label">Папка</string>-->
+
+<!--    &lt;!&ndash; biometric dialog &ndash;&gt;-->
+<!--    <string name="biometric_dialog_title">Вход по отпечатку пальца</string>-->
+<!--    <string name="biometric_dialog_subtitle">Используйте отпечаток пальца, чтобы войти</string>-->
+<!--    <string name="biometric_dialog_negative_btn">Использовать мастер-ключ</string>-->
+
+<!--    &lt;!&ndash; notification &ndash;&gt;-->
+<!--    <string name="notification_content_title">Passave</string>-->
+<!--    <string name="notification_content_text">Ваш пароль давно не обновлялся</string>-->
+
+
+<!--    &lt;!&ndash; dialogs &ndash;&gt;-->
+<!--    <string name="error_header">Внимание</string>-->
+<!--    <string name="error_details">Что-то пошло не так</string>-->
+<!--    <string name="tag_delete">После удаления тэга, все пароли и папки, связанные с ним будут удалены</string>-->
+<!--    <string name="folder_delete">После удаления папки, все пароли, связанные с ней будут удалены</string>-->
+<!--    <string name="please_enter_folder_name">Пожалуйста, введите название папки</string>-->
+<!--    <string name="please_enter_note_text">Пожалуйста, введите текст заметки</string>-->
+<!--    <string name="please_enter_tag_name">Пожалуйста, введите название тэга</string>-->
+<!--    <string name="master_key_already_created">Мастер-ключ уже создан</string>-->
+<!--    <string name="master_key_is_too_weak">Слишком слабый мастер-ключ</string>-->
+<!--    <string name="master_key_is_medium">Пожалуйста, сделайте мастер-ключ надежнее</string>-->
+<!--    <string name="passwords_not_matching">Пароли не совпадают</string>-->
+<!--    <string name="login_successful">Вход выполнен успешно</string>-->
+<!--    <string name="please_enter_master_key">Пожалуйста, введите мастер-ключ</string>-->
+<!--    <string name="wrong_master_key">Не правильный мастер-ключ</string>-->
+
+
+<!--</resources>-->

@@ -9,6 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primary">#FF9962DC</color>
+<!--    <color name="primary">#1B023B</color>-->
+
+<!--    <color name="primary">#E9E2F1</color>-->
     <color name="secondary">#FF03DAC5</color>
 
     <color name="settings_night_mode">#6124B1</color>

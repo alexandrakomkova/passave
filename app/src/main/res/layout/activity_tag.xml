@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:id="@+id/drawer_layout"
-    tools:context=".TagActivity">
+    tools:context=".ui.activities.TagActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
