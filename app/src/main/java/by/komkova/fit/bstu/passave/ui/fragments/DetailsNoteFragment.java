@@ -9,10 +9,12 @@ import static by.komkova.fit.bstu.passave.db.providers.NoteProvider.NOTE_URI;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 
 public class DetailsNoteFragment extends Fragment {
 
@@ -41,6 +44,7 @@ public class DetailsNoteFragment extends Fragment {
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
+    private SharedPreferences sharedPreferences = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +55,11 @@ public class DetailsNoteFragment extends Fragment {
         applicationContext = getActivity();
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
+
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
 
         enter_note_text_field = view.findViewById(R.id.enter_note_text_field);

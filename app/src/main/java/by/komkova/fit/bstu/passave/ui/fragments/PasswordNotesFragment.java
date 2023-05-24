@@ -11,6 +11,7 @@ import static by.komkova.fit.bstu.passave.ui.activities.MainActivity.TAG_ID;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +45,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import by.komkova.fit.bstu.passave.R;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.adapters.RCAdapterFolder;
 import by.komkova.fit.bstu.passave.ui.adapters.RCAdapterPassword;
 import by.komkova.fit.bstu.passave.ui.models.RCModelFolder;
@@ -74,6 +77,8 @@ public class PasswordNotesFragment extends Fragment {
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
     private boolean clicked = false;
 
+    private SharedPreferences sharedPreferences = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -87,6 +92,10 @@ public class PasswordNotesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_password_notes, container, false);
 
         applicationContext = getActivity();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
+
         dbHelper = new DatabaseHelper(applicationContext);
         db = dbHelper.getReadableDatabase();
         modelArrayList = new ArrayList<RCModelPassword>();

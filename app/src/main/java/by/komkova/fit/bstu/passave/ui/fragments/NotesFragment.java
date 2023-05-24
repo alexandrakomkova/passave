@@ -4,6 +4,7 @@ import static by.komkova.fit.bstu.passave.db.DatabaseHelper.NOTE_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.ui.activities.MainActivity.TAG_ID;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import by.komkova.fit.bstu.passave.R;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.adapters.RCAdapterNote;
 import by.komkova.fit.bstu.passave.ui.models.RCModelNote;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
@@ -38,6 +41,7 @@ public class NotesFragment extends Fragment {
     RCAdapterNote rcAdapterNote;
 
     private Context applicationContext;
+    private SharedPreferences sharedPreferences = null;
 
     SQLiteDatabase db;
     DatabaseHelper databaseHelper;
@@ -53,6 +57,10 @@ public class NotesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
         applicationContext = getActivity();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
+
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
         noteArrayList = new ArrayList<RCModelNote>();

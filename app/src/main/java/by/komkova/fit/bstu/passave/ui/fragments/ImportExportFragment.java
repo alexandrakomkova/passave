@@ -3,6 +3,8 @@ package by.komkova.fit.bstu.passave.ui.fragments;
 import static android.content.Context.STORAGE_SERVICE;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.os.Environment;
 
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +34,13 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 
 import by.komkova.fit.bstu.passave.R;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 
 public class ImportExportFragment extends Fragment {
 
     private static final int REQUEST_WRITE_STORAGE_REQUEST_CODE = 1111;
+    private SharedPreferences sharedPreferences = null;
+    private Context applicationContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +49,11 @@ public class ImportExportFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_import_export, container, false);
 
         requestAppPermissions();
+
+        applicationContext = getActivity();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
         Button import_file_btn = view.findViewById(R.id.import_file_btn);
         import_file_btn.setOnClickListener(this::importDB);

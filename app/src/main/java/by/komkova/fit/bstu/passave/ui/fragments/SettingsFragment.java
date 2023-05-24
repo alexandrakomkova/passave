@@ -26,6 +26,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
@@ -51,6 +52,11 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         applicationContext = getActivity();
         DatabaseHelper databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        // AppLogs.log(this, log_tag, "Main: " + languageValue);
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
         security_ibtn = view.findViewById(R.id.security_btn);
         security_ibtn.setOnClickListener(new View.OnClickListener() {

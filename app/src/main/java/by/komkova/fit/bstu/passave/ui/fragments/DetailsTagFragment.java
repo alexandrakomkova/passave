@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
@@ -19,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
@@ -43,6 +46,7 @@ public class DetailsTagFragment extends Fragment {
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
+    private SharedPreferences sharedPreferences = null;
 
     private String tag_name = "";
 
@@ -55,6 +59,11 @@ public class DetailsTagFragment extends Fragment {
         applicationContext = getActivity();
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
+
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
         enter_tag_name_field = view.findViewById(R.id.enter_tag_name_field);
 

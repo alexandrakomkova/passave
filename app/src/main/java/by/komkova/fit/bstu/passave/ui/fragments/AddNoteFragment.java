@@ -10,9 +10,11 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
@@ -44,6 +47,7 @@ public class AddNoteFragment extends Fragment {
     SQLiteDatabase db;
 
     private String note_text = "";
+    private SharedPreferences sharedPreferences = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +56,11 @@ public class AddNoteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_note, container, false);
 
         applicationContext =  getActivity();
+
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
         enter_note_text_field = view.findViewById(R.id.enter_note_text_field);
         registerForContextMenu(enter_note_text_field);

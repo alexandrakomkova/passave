@@ -27,6 +27,7 @@ import android.widget.RadioButton;
 import java.util.Locale;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
@@ -92,25 +93,13 @@ public class SettingsLanguagesFragment extends Fragment{
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String languageValue = sharedPreferences.getString("language", "en");
-        changeLocale(languageValue);
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
         if (languageValue.equals("ru")) {
             ru_radio.setChecked(true);
         } else { en_radio.setChecked(true); }
 
         return view;
-    }
-
-    private void changeLocale(String languageCode)
-    {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Configuration configuration = new Configuration();
-        configuration.locale = locale;
-        getActivity().getResources().updateConfiguration(configuration, null);
-
-//        getActivity().finish();
-//        startActivity(getActivity().getIntent());
     }
 
     private void changeLanguageInDatabase(String languageCode) {

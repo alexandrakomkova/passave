@@ -1,10 +1,13 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.security.password_helpers.PasswordGenerator;
 import by.komkova.fit.bstu.passave.security.password_helpers.PasswordStrength;
 import by.komkova.fit.bstu.passave.R;
@@ -32,7 +36,8 @@ public class GeneratePasswordFragment extends Fragment {
     private CheckBox caps_letters_checkbox, down_letters_checkbox, numbers_checkbox, special_symbols_checkbox;
 
     private String generated_password;
-
+    private SharedPreferences sharedPreferences = null;
+    private Context applicationContext;
     final String log_tag = getClass().getName();
 
     @Override
@@ -40,6 +45,12 @@ public class GeneratePasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_generate_password, container, false);
+
+        applicationContext = getActivity();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
         generated_password_tiet = view.findViewById(R.id.generated_password_value);
         passwordStrengthTextView = view.findViewById(R.id.password_strength_label);

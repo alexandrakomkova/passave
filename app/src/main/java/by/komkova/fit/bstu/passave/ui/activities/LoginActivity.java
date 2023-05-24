@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.security.security_algorithms.MD5;
 import by.komkova.fit.bstu.passave.R;
@@ -63,7 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         String languageValue = sharedPreferences.getString("language", "en");
-        changeLocale(languageValue);
+        // AppLogs.log(getApplicationContext(), log_tag, "language: " + String.valueOf(languageValue));
+        LocaleChanger.changeLocale(languageValue, getApplicationContext());
 
         BiometricManager biometricManager = BiometricManager.from(this);
         switch(biometricManager.canAuthenticate()) {
@@ -100,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 super.onAuthenticationFailed();
             }
         };
+
         biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, callback);
 
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
@@ -114,7 +117,9 @@ public class LoginActivity extends AppCompatActivity {
 //                .setNegativeButtonText("Use master key")
 //                .build();
 
-        if (getFingerprintFromDatabase() == 1) {
+        boolean fingerprintValue = sharedPreferences.getBoolean("fingerprint", true);
+        // AppLogs.log(getApplicationContext(), log_tag, String.valueOf(fingerprintValue));
+        if (fingerprintValue) {
             biometricPrompt.authenticate(promptInfo);
         }
 
@@ -140,15 +145,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void changeLocale(String languageCode)
-    {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Configuration configuration = new Configuration();
-        configuration.locale = locale;
-        getApplicationContext().getResources().updateConfiguration(configuration, null);
     }
 
     private void validatePassword() {

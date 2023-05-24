@@ -25,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Locale;
 
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.fragments.GeneratePasswordFragment;
 import by.komkova.fit.bstu.passave.ui.fragments.ImportExportFragment;
 import by.komkova.fit.bstu.passave.ui.fragments.NotesFragment;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String languageValue = sharedPreferences.getString("language", "en");
         // AppLogs.log(this, log_tag, "Main: " + languageValue);
-        // changeLocale(languageValue);
+        LocaleChanger.changeLocale(languageValue, getApplicationContext());
 
         Bundle arguments = getIntent().getExtras();
         TAG_ID = arguments.get("tag_id").toString();

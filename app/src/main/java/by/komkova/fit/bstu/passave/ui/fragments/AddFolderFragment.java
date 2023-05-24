@@ -8,8 +8,10 @@ import static by.komkova.fit.bstu.passave.ui.activities.MainActivity.TAG_ID;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
@@ -32,6 +35,7 @@ public class AddFolderFragment extends Fragment {
     final String log_tag = getClass().getName();
     private TextInputEditText enter_folder_title_tiet;
     private Context applicationContext;
+    private SharedPreferences sharedPreferences = null;
 
     private String folder_title = "";
 
@@ -41,6 +45,10 @@ public class AddFolderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_folder, container, false);
 
         applicationContext = getActivity();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
+
 
         enter_folder_title_tiet = view.findViewById(R.id.enter_folder_title_field);
 
@@ -75,32 +83,6 @@ public class AddFolderFragment extends Fragment {
 
         goHome();
     }
-
-//    private void showWarningDialog(View view) {
-//        ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
-//        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_ok_dialog, constraintLayout);
-//        Button errorOkay = v.findViewById(R.id.errorOkayButton);
-//
-//        TextView errorDescription = v.findViewById(R.id.errorDescription);
-//        errorDescription.setText(R.string.please_enter_folder_name);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(applicationContext);
-//        builder.setView(v);
-//        final AlertDialog alertDialog = builder.create();
-//
-//        errorOkay.findViewById(R.id.errorOkayButton).setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                alertDialog.dismiss();
-//            }
-//        });
-//
-//        if (alertDialog.getWindow() != null) {
-//            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-//        }
-//        alertDialog.show();
-//    }
 
     public void goHome(){
         FragmentTransaction fragmentTransaction = getActivity()

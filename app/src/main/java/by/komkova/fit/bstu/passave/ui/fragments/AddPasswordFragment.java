@@ -16,6 +16,7 @@ import static by.komkova.fit.bstu.passave.db.providers.PasswordNoteProvider.PASS
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.security.security_algorithms.AES;
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
@@ -75,6 +78,8 @@ public class AddPasswordFragment extends Fragment {
     private String crypto_pwd = "";
     private String pk = "";
 
+    private SharedPreferences sharedPreferences = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +90,10 @@ public class AddPasswordFragment extends Fragment {
         applicationContext = getActivity();
         databaseHelper = new DatabaseHelper(getActivity());
         db = databaseHelper.getWritableDatabase();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
 
 //        radioGroup = view.findViewById(R.id.radios_algorithm_choice);
 //        rsa_radio = view.findViewById(R.id.rsa_radio);

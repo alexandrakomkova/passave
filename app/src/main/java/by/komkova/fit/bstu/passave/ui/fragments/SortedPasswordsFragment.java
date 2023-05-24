@@ -5,6 +5,7 @@ import static by.komkova.fit.bstu.passave.db.DatabaseHelper.PN_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.ui.activities.MainActivity.TAG_ID;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import by.komkova.fit.bstu.passave.R;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.adapters.RCAdapterPassword;
 import by.komkova.fit.bstu.passave.ui.models.RCModelPassword;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
@@ -37,6 +40,7 @@ public class SortedPasswordsFragment extends Fragment {
     private ArrayList<RCModelPassword> modelArrayList;
     private RCAdapterPassword rcAdapter;
     private RecyclerView recyclerView;
+    private SharedPreferences sharedPreferences = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +48,10 @@ public class SortedPasswordsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sorted_passwords, container, false);
         applicationContext = getActivity();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        LocaleChanger.changeLocale(languageValue, applicationContext);
+
         dbHelper = new DatabaseHelper(applicationContext);
         db = dbHelper.getReadableDatabase();
 

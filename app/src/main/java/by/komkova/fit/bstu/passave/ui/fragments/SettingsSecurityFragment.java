@@ -16,6 +16,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ public class SettingsSecurityFragment extends Fragment {
         applicationContext = getActivity();
         DatabaseHelper databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         ImageButton backSettings_ibtn = view.findViewById(R.id.backSettings_btn);
         backSettings_ibtn.setOnClickListener(view1 -> {
@@ -68,18 +70,22 @@ public class SettingsSecurityFragment extends Fragment {
 
     private void changeFingerprint(Boolean fingerprintValue) {
         try {
-            ContentValues cv = new ContentValues();
+//            ContentValues cv = new ContentValues();
+//
+//            if (fingerprintValue) {
+//                cv.put(SETTINGS_COLUMN_FINGERPRINT, 1);
+//            } else {
+//                cv.put(SETTINGS_COLUMN_FINGERPRINT, 0);
+//            }
+//
+//            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
+//
+//            db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
+//                    new String[] { "1" });
 
-            if (fingerprintValue) {
-                cv.put(SETTINGS_COLUMN_FINGERPRINT, 1);
-            } else {
-                cv.put(SETTINGS_COLUMN_FINGERPRINT, 0);
-            }
-
-            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
-
-            db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
-                    new String[] { "1" });
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("fingerprint", fingerprintValue);
+            editor.commit();
 
             AppLogs.log(applicationContext, log_tag, "Your settings changed");
         } catch (Exception e){

@@ -1,6 +1,8 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +23,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import by.komkova.fit.bstu.passave.R;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.adapters.RCAdapterTag;
 import by.komkova.fit.bstu.passave.ui.models.RCModelTag;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
@@ -38,6 +43,7 @@ public class HomeFragment extends Fragment {
     private Context applicationContext;
     SQLiteDatabase db;
     DatabaseHelper databaseHelper;
+    private SharedPreferences sharedPreferences = null;
 
     private FloatingActionButton add_tag_floating_btn, add_floating_btn;
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
@@ -48,8 +54,13 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         applicationContext = getActivity();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        String languageValue = sharedPreferences.getString("language", "en");
+        // AppLogs.log(this, log_tag, "Main: " + languageValue);
+        LocaleChanger.changeLocale(languageValue, applicationContext);
+
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
         tagArrayListOdd = new ArrayList<RCModelTag>();
@@ -91,6 +102,7 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
 
     private void setInitialData() throws ParseException {
         tagArrayListEven.clear();

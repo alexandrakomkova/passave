@@ -30,6 +30,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Locale;
 
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.fragments.HomeFragment;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.ui.fragments.SettingsFragment;
@@ -107,7 +108,8 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
         }
 
         String languageValue = sharedPreferences.getString("language", "en");
-        // changeLocale(languageValue);
+        // AppLogs.log(this, log_tag, "Main: " + languageValue);
+        LocaleChanger.changeLocale(languageValue, getApplicationContext());
         // AppLogs.log(this, "TagActivity", "Tag: " + languageValue);
 
 //        if (checkNotificationsOption()) {
@@ -148,18 +150,6 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
 //
 //        return false;
 //    }
-
-    private void changeLocale(String languageCode)
-    {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Configuration configuration = new Configuration();
-        configuration.locale = locale;
-        getApplicationContext().getResources().updateConfiguration(configuration, null);
-
-//        finish();
-//        startActivity(getIntent());
-    }
 
     private void selectOldPasswords() {
         String whereclause = "date(" + PN_COLUMN_UPDATED + ", '365 days') >= ?";
