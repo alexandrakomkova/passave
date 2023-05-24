@@ -11,8 +11,8 @@ public enum PasswordStrength {
 
     public int msg;
     public int color;
-    private static int MIN_LENGTH = 10;
-    private static int MAX_LENGTH = 14;
+    private static final int MIN_LENGTH = 10;
+    private static final int MAX_LENGTH = 14;
 
     PasswordStrength(int msg, int color) {
         this.msg = msg;
