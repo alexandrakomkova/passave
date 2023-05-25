@@ -1,5 +1,6 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.FOLDER_COLUMN_ID;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.FOLDER_COLUMN_TAG_ID;
@@ -16,21 +17,28 @@ import static by.komkova.fit.bstu.passave.db.DatabaseHelper.PN_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.ui.activities.MainActivity.TAG_ID;
 import static by.komkova.fit.bstu.passave.db.providers.PasswordNoteProvider.PASSWORD_NOTE_URI;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +57,7 @@ import java.util.List;
 import java.util.Objects;
 
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
+import by.komkova.fit.bstu.passave.security.password_helpers.PasswordStrength;
 import by.komkova.fit.bstu.passave.security.security_algorithms.AES;
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
@@ -62,6 +71,7 @@ public class DetailsPasswordFragment extends Fragment {
     private TextView passwordDetailsTextView;
     private TextInputEditText enter_service_title_tiet, enter_login_tiet, enter_details_tiet, enter_password_tiet;
     private Spinner spinnerFolders;
+    private TextView passwordStrengthTextView;
 
     SQLiteDatabase db;
     DatabaseHelper databaseHelper;
@@ -74,6 +84,8 @@ public class DetailsPasswordFragment extends Fragment {
     private String description = "";
     private String entered_password = "";
     private SharedPreferences sharedPreferences = null;
+
+    private Bundle bundleArgument;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -141,7 +153,7 @@ public class DetailsPasswordFragment extends Fragment {
 
         });
 
-        Bundle bundleArgument = getArguments();
+        bundleArgument = getArguments();
         if (bundleArgument != null) {
             if (bundleArgument.getInt("isEdit") > 0 ) {
                 enter_service_title_tiet.setText(bundleArgument.getString("service_name"));
@@ -171,7 +183,7 @@ public class DetailsPasswordFragment extends Fragment {
         });
 
         Button update_password_btn = view.findViewById(R.id.update_password_btn);
-        update_password_btn.setOnClickListener(view1 -> updatePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id")));
+        update_password_btn.setOnClickListener(view1 -> validatePasswordNote(view));
 
         Button delete_password_btn = view.findViewById(R.id.delete_password_btn);
         delete_password_btn.setOnClickListener(view1 -> deletePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id")));
@@ -184,7 +196,124 @@ public class DetailsPasswordFragment extends Fragment {
             fragmentTransaction.commit();
         });
 
+        ImageButton copy_password_button = view.findViewById(R.id.copy_password_button);
+        copy_password_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("text", enter_password_tiet.getText());
+                manager.setPrimaryClip(clipData);
+
+                AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.text_copied));
+            }
+        });
+
+        ImageButton copy_service_name_button = view.findViewById(R.id.copy_service_name_button);
+        copy_service_name_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("text", enter_service_title_tiet.getText());
+                manager.setPrimaryClip(clipData);
+
+                AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.text_copied));
+            }
+        });
+
+        ImageButton copy_login_button = view.findViewById(R.id.copy_login_button);
+        copy_login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("text", enter_login_tiet.getText());
+                manager.setPrimaryClip(clipData);
+
+                AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.text_copied));
+            }
+        });
+
+        passwordStrengthTextView = view.findViewById(R.id.password_strength_label);
+        calculatePasswordStrength(String.valueOf(enter_password_tiet.getText()));
+        enter_password_tiet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                calculatePasswordStrength(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+
         return view;
+    }
+
+    public void validatePasswordNote(View v) {
+        boolean isValidated = true;
+        if (enter_service_title_tiet.getText().toString().isEmpty()) {
+            isValidated = false;
+            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_service_title));
+        }
+
+        if (enter_password_tiet.getText().toString().isEmpty()) {
+            isValidated = false;
+            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
+        }
+
+        if (passwordStrengthTextView.getText().equals(getResources().getString(R.string.weak))) {
+            isValidated = false;
+            showWarningDialog(v);
+        }
+
+        if (isValidated) { updatePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id")); }
+    }
+
+    private void calculatePasswordStrength(String str) {
+        PasswordStrength passwordStrength = PasswordStrength.calculate(str);
+        passwordStrengthTextView.setText(passwordStrength.msg);
+        passwordStrengthTextView.setTextColor(getResources().getColor(passwordStrength.color));
+
+    }
+
+    private void showWarningDialog(View view) {
+        ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
+        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_ok_cancel_dialog, constraintLayout);
+        Button errorClose = v.findViewById(R.id.errorCloseButton);
+        Button errorOkay = v.findViewById(R.id.errorOkayButton);
+
+        TextView errorDescription = v.findViewById(R.id.errorDescription);
+        errorDescription.setText(R.string.weak_password_alert);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(applicationContext);
+        builder.setView(v);
+        final AlertDialog alertDialog = builder.create();
+
+        errorClose.findViewById(R.id.errorCloseButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        errorOkay.findViewById(R.id.errorOkayButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                updatePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id"));
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
     }
 
     public Integer findFolderId(String title) {

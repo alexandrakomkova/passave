@@ -30,6 +30,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Locale;
 
+import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.fragments.HomeFragment;
 import by.komkova.fit.bstu.passave.R;
@@ -66,6 +67,22 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
         databaseHelper = new DatabaseHelper(this);
         db = databaseHelper.getWritableDatabase();
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean notificationsValue = sharedPreferences.getBoolean("notifications", true);
+        if (notificationsValue) {
+            Log.d("NOTIFICATION ON", "TRUE");
+            selectOldPasswords();
+
+            if (!oldPasswords.isEmpty()) {
+                Log.d("OLD_PASSWORDS", oldPasswords);
+                showNotification();
+            }
+        }
+
+        String languageValue = sharedPreferences.getString("language", "en");
+        // AppLogs.log(this, log_tag, "Main: " + languageValue);
+        LocaleChanger.changeLocale(languageValue, getApplicationContext());
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -95,61 +112,7 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
             notificationManagerCompat = NotificationManagerCompat.from(this);
         }
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean notificationsValue = sharedPreferences.getBoolean("notifications", true);
-        if (notificationsValue) {
-            Log.d("NOTIFICATION ON", "TRUE");
-            selectOldPasswords();
-
-            if (!oldPasswords.isEmpty()) {
-                Log.d("OLD_PASSWORDS", oldPasswords);
-                showNotification();
-            }
-        }
-
-        String languageValue = sharedPreferences.getString("language", "en");
-        // AppLogs.log(this, log_tag, "Main: " + languageValue);
-        LocaleChanger.changeLocale(languageValue, getApplicationContext());
-        // AppLogs.log(this, "TagActivity", "Tag: " + languageValue);
-
-//        if (checkNotificationsOption()) {
-//            selectOldPasswords();
-//
-//            if (!oldPasswords.isEmpty()) {
-//                Log.d("OLD_PASSWORDS", oldPasswords);
-//                showNotification();
-//            }
-//        }
     }
-
-//    private boolean checkNotificationsOption() {
-//        String whereclause = SETTINGS_COLUMN_ID + "=?";
-//        String[] whereargs = new String[]{ "1" };
-//        String [] columns = new String[] { SETTINGS_COLUMN_NOTIFICATIONS };
-//        Cursor cursor= null;
-//        if(db !=null)
-//        {
-//            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
-//        }
-//        assert cursor != null;
-//        cursor.moveToFirst();
-//
-//        if(cursor.getCount() != 0) {
-//            cursor.moveToFirst();
-//            while (!cursor.isAfterLast()) {
-//                if (cursor.getInt(0) == 1) {
-//                    // AppLogs.log(getContextOfApplication(), "TagActivity", "true");
-//                    return true;
-//                }
-//
-//                cursor.moveToNext();
-//            }
-//
-//            cursor.close();
-//        }
-//
-//        return false;
-//    }
 
     private void selectOldPasswords() {
         String whereclause = "date(" + PN_COLUMN_UPDATED + ", '365 days') >= ?";

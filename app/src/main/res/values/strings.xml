@@ -1,175 +1,3 @@
-<!--<resources>-->
-<!--    <string name="app_name">passave</string>-->
-
-<!--    &lt;!&ndash; buttons &ndash;&gt;-->
-<!--    <string name="update_btn">Update password</string>-->
-<!--    <string name="save_btn">Save password</string>-->
-<!--    <string name="delete_btn">Delete password</string>-->
-<!--    <string name="generate_btn">Generate password</string>-->
-<!--    <string name="ok_btn">Ok</string>-->
-<!--    <string name="cancel_btn">Cancel</string>-->
-
-
-<!--    &lt;!&ndash; settings screen &ndash;&gt;-->
-<!--    <string name="settings_screen_label">Settings</string>-->
-<!--    <string name="night_mode_label">Night mode</string>-->
-<!--    <string name="notifications_label">Notifications</string>-->
-<!--    <string name="language_label">Language</string>-->
-<!--    <string name="security_label">Security</string>-->
-
-<!--    &lt;!&ndash; settings language screen &ndash;&gt;-->
-<!--    <string name="language_screen_label">Language</string>-->
-<!--    <string name="ru_label">Russian</string>-->
-<!--    <string name="en_label">English</string>-->
-
-<!--    &lt;!&ndash; settings security screen &ndash;&gt;-->
-<!--    <string name="security_screen_label">Security</string>-->
-<!--    <string name="fingerprint_label">Finger print</string>-->
-<!--    <string name="pin_label">PIN</string>-->
-<!--    <string name="nothing_label">Nothing</string>-->
-<!--    <string name="save_settings_btn">Save settings</string>-->
-
-
-<!--    &lt;!&ndash; password details screen &ndash;&gt;-->
-<!--    <string name="password_details_screen_label">Password details</string>-->
-<!--    <string name="service_title_label">Service title</string>-->
-<!--    <string name="login_label">Login</string>-->
-<!--    <string name="last_modify_label">Last modify date</string>-->
-<!--    <string name="password_label">Password</string>-->
-<!--    <string name="security_lvl_label">Security level</string>-->
-
-<!--    &lt;!&ndash; new password screen &ndash;&gt;-->
-<!--    <string name="new_password_screen_label">New password</string>-->
-<!--    <string name="enter_service_title_hint">Enter Service Title</string>-->
-<!--    <string name="enter_login_hint">Enter Login</string>-->
-<!--    <string name="enter_password_hint">Enter Password</string>-->
-<!--    <string name="enter_password_details_hint">Enter Details</string>-->
-<!--    <string name="aes_label">AES</string>-->
-<!--    <string name="md5_label">MD5</string>-->
-<!--    <string name="rsa_label">RSA</string>-->
-
-
-<!--    &lt;!&ndash; generate password screen &ndash;&gt;-->
-<!--    <string name="generate_password_screen_label">Generate password</string>-->
-<!--    <string name="caps_letters_label">Uppercase letters</string>-->
-<!--    <string name="down_letters_label">Lowercase letters</string>-->
-<!--    <string name="all_letters_label">Caps and Downcase letters</string>-->
-<!--    <string name="numbers_label">Numbers (0–9)</string>-->
-<!--    <string name="special_symbols_label">Special symbols (!#@_.,)</string>-->
-<!--    <string name="password_contains_label">Password contains</string>-->
-<!--    <string name="password_length_label">Password length</string>-->
-<!--    <string name="generated_password">Generated password</string>-->
-
-<!--    &lt;!&ndash; login screen &ndash;&gt;-->
-<!--    <string name="enter_masterkey_hint">Enter Master key</string>-->
-<!--    <string name="repeat_masterkey_hint">Repeat Master key</string>-->
-<!--    <string name="login_btn">Login</string>-->
-<!--    <string name="create_masterkey_btn">Create Master key</string>-->
-<!--    <string name="forget_password_label">Forget Master key?</string>-->
-<!--    <string name="mk_info_text">Master key - is blah blahdgfgdfgdfgwefggfd efgfddffdsdddddddddddddddddddddddddddddddddddddddd </string>-->
-
-<!--    &lt;!&ndash; password strength &ndash;&gt;-->
-<!--    <string name="weak">Weak</string>-->
-<!--    <string name="medium">Medium</string>-->
-<!--    <string name="strong">Strong</string>-->
-<!--    <string name="very_strong">Very strong</string>-->
-
-<!--    &lt;!&ndash; menu &ndash;&gt;-->
-<!--    <string name="nav_home">Home</string>-->
-<!--    <string name="nav_password_notes">Passwords</string>-->
-<!--    <string name="nav_settings">Settings</string>-->
-<!--    <string name="nav_about">About</string>-->
-<!--    <string name="nav_password_generator">Password generator</string>-->
-<!--    <string name="nav_add_password">New password note</string>-->
-<!--    <string name="nav_add_folder">New folder</string>-->
-<!--    <string name="nav_notes">Notes</string>-->
-<!--    <string name="nav_edit_notes">New note</string>-->
-<!--    <string name="nav_import_export">Import/Export</string>-->
-<!--    <string name="open_nav">Open Menu</string>-->
-<!--    <string name="close_nav">Close Menu</string>-->
-
-
-<!--    &lt;!&ndash; add folder screen &ndash;&gt;-->
-<!--    <string name="new_folder_screen_label">New folder</string>-->
-<!--    <string name="save_folder_btn">Save folder</string>-->
-<!--    <string name="enter_folder_title_hint">Enter Folder title</string>-->
-<!--    <string name="folder_label">Folders:</string>-->
-<!--    <string name="passwords_label">Passwords:</string>-->
-
-<!--    &lt;!&ndash; folder details screen &ndash;&gt;-->
-<!--    <string name="details_folder_screen_label">Folder details</string>-->
-<!--    <string name="update_folder_btn">Update folder</string>-->
-<!--    <string name="delete_folder_btn">Delete folder</string>-->
-
-<!--    &lt;!&ndash; add note screen &ndash;&gt;-->
-<!--    <string name="add_note_screen_label">New note</string>-->
-<!--    <string name="enter_note_text_hint">Enter note</string>-->
-<!--    <string name="save_note_btn">Save note</string>-->
-
-<!--    &lt;!&ndash; note details screen &ndash;&gt;-->
-<!--    <string name="edit_note_screen_label">Edit note</string>-->
-<!--    <string name="update_note_btn">Update note</string>-->
-<!--    <string name="delete_note_btn">Delete note</string>-->
-
-<!--    &lt;!&ndash; all note screen &ndash;&gt;-->
-<!--    <string name="note_screen_label">Notes</string>-->
-
-<!--    &lt;!&ndash; add tag screen &ndash;&gt;-->
-<!--    <string name="add_tag_screen_label">New tag</string>-->
-<!--    <string name="enter_tag_name_hint">Enter tag name</string>-->
-<!--    <string name="save_tag_btn">Save tag</string>-->
-
-<!--    &lt;!&ndash; tag details screen &ndash;&gt;-->
-<!--    <string name="details_tag_screen_label">Edit tag</string>-->
-<!--    <string name="update_tag_btn">Update tag</string>-->
-<!--    <string name="delete_tag_btn">Delete tag</string>-->
-
-<!--    &lt;!&ndash; import export screen &ndash;&gt;-->
-<!--    <string name="import_export_screen_label">Import/Export</string>-->
-<!--    <string name="import_file_btn">Import file</string>-->
-<!--    <string name="export_file_btn">Export file</string>-->
-
-<!--    &lt;!&ndash; about screen &ndash;&gt;-->
-<!--    <string name="about_screen_label">About</string>-->
-<!--    <string name="about_info_text">Passave is a password manager.-->
-
-<!--        This app helps store and organise your personal data.-->
-<!--        If you have questions text sashakomkova2001@gmail.com :)-->
-
-<!--        Diploma project 2023-->
-<!--    </string>-->
-
-<!--    &lt;!&ndash; sorted passwords screen &ndash;&gt;-->
-<!--    <string name="sorted_passwords_screen_label">Folder</string>-->
-
-<!--    &lt;!&ndash; biometric dialog &ndash;&gt;-->
-<!--    <string name="biometric_dialog_title">Biometric login</string>-->
-<!--    <string name="biometric_dialog_subtitle">Log in using your biometric credential</string>-->
-<!--    <string name="biometric_dialog_negative_btn">Use master key</string>-->
-
-<!--    &lt;!&ndash; notification &ndash;&gt;-->
-<!--    <string name="notification_content_title">Passave</string>-->
-<!--    <string name="notification_content_text">Your password is out of time</string>-->
-
-<!--    &lt;!&ndash; dialogs &ndash;&gt;-->
-<!--    <string name="error_header">Warning</string>-->
-<!--    <string name="error_details">Something went wrong</string>-->
-<!--    <string name="tag_delete">After deleting a tag, all folders and passwords associated with it will be deleted</string>-->
-<!--    <string name="folder_delete">After deleting a folder, all passwords associated with it will be deleted</string>-->
-<!--    <string name="please_enter_folder_name">Please enter folder name</string>-->
-<!--    <string name="please_enter_note_text">Please enter any text</string>-->
-<!--    <string name="please_enter_tag_name">Please enter tag name</string>-->
-<!--    <string name="master_key_already_created">Master key already created</string>-->
-<!--    <string name="master_key_is_too_weak">Master key is too weak</string>-->
-<!--    <string name="master_key_is_medium">Master key is medium, please make it strong</string>-->
-<!--    <string name="passwords_not_matching">Passwords are not matching</string>-->
-<!--    <string name="login_successful">Login successful</string>-->
-<!--    <string name="please_enter_master_key">Please enter master key</string>-->
-<!--    <string name="wrong_master_key">Wrong master key</string>-->
-
-
-<!--</resources>-->
-
 <resources>
     <string name="app_name">passave</string>
 
@@ -230,6 +58,8 @@
     <string name="password_length_label">Длина пароля</string>
     <string name="generated_password">Сгенерированный пароль</string>
     <string name="basic_conf_for_generate_password">Пароль сгенерирован с учетом всех настроек</string>
+    <string name="text_copied">Скопированно в буфер обмена</string>
+
 
     <!-- login screen -->
     <string name="enter_masterkey_hint">Введите Мастер ключ</string>
@@ -343,15 +173,10 @@
     <string name="login_successful">Вход выполнен успешно</string>
     <string name="please_enter_master_key">Пожалуйста, введите мастер-ключ</string>
     <string name="wrong_master_key">Не правильный мастер-ключ</string>
-    <string name="title_activity_create_mk">CreateMkActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="weak_password_alert">Пароль слишком слабый. Уверены, что хотите продолжить?</string>
+    <string name="please_enter_password">Пожалуйста, введите пароль</string>
+    <string name="please_enter_service_title">Пожалуйста, введите название сервиса</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 
 </resources>

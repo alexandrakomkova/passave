@@ -57,6 +57,7 @@
     <string name="password_length_label">Password length</string>
     <string name="generated_password">Generated password</string>
     <string name="basic_conf_for_generate_password">Password generated with basic configuration</string>
+    <string name="text_copied">Copied</string>
 
     <!-- login screen -->
     <string name="enter_masterkey_hint">Enter Master key</string>
@@ -167,6 +168,9 @@
     <string name="login_successful">Login successful</string>
     <string name="please_enter_master_key">Please enter master key</string>
     <string name="wrong_master_key">Wrong master key</string>
+    <string name="weak_password_alert">Password is weak. Sure You want to continue?</string>
+    <string name="please_enter_password">Please, enter password</string>
+    <string name="please_enter_service_title">Please, enter service title</string>
 
 </resources>
 

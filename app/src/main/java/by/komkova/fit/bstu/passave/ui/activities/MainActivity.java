@@ -114,15 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void changeLocale(String languageCode)
-    {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Configuration configuration = new Configuration();
-        configuration.locale = locale;
-        getApplicationContext().getResources().updateConfiguration(configuration, null);
-    }
-
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){

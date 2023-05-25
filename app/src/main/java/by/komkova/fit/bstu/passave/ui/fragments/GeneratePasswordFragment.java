@@ -1,5 +1,9 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -25,18 +30,15 @@ import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.security.password_helpers.PasswordGenerator;
 import by.komkova.fit.bstu.passave.security.password_helpers.PasswordStrength;
 import by.komkova.fit.bstu.passave.R;
+import by.komkova.fit.bstu.passave.ui.activities.MainActivity;
 
 public class GeneratePasswordFragment extends Fragment {
 
-    private Button ok_btn, generate_password_btn;
     private TextInputEditText generated_password_tiet;
-    private PasswordStrength passwordStrength;
     private TextView passwordStrengthTextView,password_length_value_tv;
-    private SeekBar password_length_seekBar;
     private CheckBox caps_letters_checkbox, down_letters_checkbox, numbers_checkbox, special_symbols_checkbox;
 
     private String generated_password;
-    private SharedPreferences sharedPreferences = null;
     private Context applicationContext;
     final String log_tag = getClass().getName();
 
@@ -48,7 +50,7 @@ public class GeneratePasswordFragment extends Fragment {
 
         applicationContext = getActivity();
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         String languageValue = sharedPreferences.getString("language", "en");
         LocaleChanger.changeLocale(languageValue, applicationContext);
 
@@ -67,7 +69,7 @@ public class GeneratePasswordFragment extends Fragment {
             generated_password_tiet.setText(recieveInfo);
         }
 
-        password_length_seekBar = view.findViewById(R.id.password_length_seekBar);
+        SeekBar password_length_seekBar = view.findViewById(R.id.password_length_seekBar);
         password_length_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -85,7 +87,7 @@ public class GeneratePasswordFragment extends Fragment {
             }
         });
 
-        ok_btn = view.findViewById(R.id.ok_btn);
+        Button ok_btn = view.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(view1 -> {
             if (bundleArgument.getInt("isEdit") > 0 ) {
                 DetailsPasswordFragment detailsFragment = new DetailsPasswordFragment();
@@ -126,7 +128,7 @@ public class GeneratePasswordFragment extends Fragment {
         numbers_checkbox = view.findViewById(R.id.numbers_checkbox);
         special_symbols_checkbox = view.findViewById(R.id.special_symbols_checkbox);
 
-        generate_password_btn = view.findViewById(R.id.generate_password_btn);
+        Button generate_password_btn = view.findViewById(R.id.generate_password_btn);
         generate_password_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,12 +143,24 @@ public class GeneratePasswordFragment extends Fragment {
             }
         });
 
+        ImageButton copy_content_button = view.findViewById(R.id.copy_content_button);
+        copy_content_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("text", generated_password_tiet.getText());
+                manager.setPrimaryClip(clipData);
+
+                AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.text_copied));
+            }
+        });
+
 
         return view;
     }
 
     private void calculatePasswordStrength(String str) {
-        passwordStrength = PasswordStrength.calculate(str);
+        PasswordStrength passwordStrength = PasswordStrength.calculate(str);
         passwordStrengthTextView.setText(passwordStrength.msg);
         passwordStrengthTextView.setTextColor(getResources().getColor(passwordStrength.color));
 

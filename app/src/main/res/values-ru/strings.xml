@@ -58,6 +58,7 @@
     <string name="password_length_label">Длина пароля</string>
     <string name="generated_password">Сгенерированный пароль</string>
     <string name="basic_conf_for_generate_password">Пароль сгенерирован с учетом всех настроек</string>
+    <string name="text_copied">Скопированно в буфер обмена</string>
 
     <!-- login screen -->
     <string name="enter_masterkey_hint">Введите Мастер ключ</string>
@@ -171,6 +172,9 @@
     <string name="login_successful">Вход выполнен успешно</string>
     <string name="please_enter_master_key">Пожалуйста, введите мастер-ключ</string>
     <string name="wrong_master_key">Не правильный мастер-ключ</string>
+    <string name="weak_password_alert">Пароль слишком слабый. Уверены, что хотите продолжить?</string>
+    <string name="please_enter_password">Пожалуйста, введите пароль</string>
+    <string name="please_enter_service_title">Пожалуйста, введите название сервиса</string>
 
 
 </resources>

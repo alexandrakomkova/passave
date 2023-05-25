@@ -150,10 +150,10 @@ public class LoginActivity extends AppCompatActivity {
     private void validatePassword() {
         if (mk.equals(MD5.md5Custom(enter_masterkey_field.getText().toString().trim()))) {
             goTagActivity();
-            AppLogs.log(LoginActivity.this, log_tag, "Login successful");
+            AppLogs.log(LoginActivity.this, log_tag, getResources().getString(R.string.login_successful));
         } else {
-            // CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.wrong_master_key);
-            AppLogs.log(LoginActivity.this, log_tag, "Wrong master key");
+            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), LoginActivity.this, R.string.wrong_master_key);
+            // AppLogs.log(LoginActivity.this, log_tag, "Wrong master key");
         }
     }
 
