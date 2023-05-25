@@ -81,7 +81,8 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
 
         String languageValue = sharedPreferences.getString("language", "en");
         // AppLogs.log(this, log_tag, "Main: " + languageValue);
-        LocaleChanger.changeLocale(languageValue, getApplicationContext());
+        // LocaleChanger.changeLocale(languageValue, getApplicationContext());
+        LocaleChanger.changeLocale(languageValue, contextOfApplication);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

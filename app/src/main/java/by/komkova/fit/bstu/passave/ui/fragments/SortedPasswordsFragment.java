@@ -1,5 +1,6 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
+import static by.komkova.fit.bstu.passave.db.DatabaseHelper.PN_COLUMN_FAVOURITE;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.PN_COLUMN_FOLDER_ID;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.PN_COLUMN_TAG_ID;
 import static by.komkova.fit.bstu.passave.ui.activities.MainActivity.TAG_ID;
@@ -74,7 +75,10 @@ public class SortedPasswordsFragment extends Fragment {
         Bundle bundleArgument = getArguments();
         if (bundleArgument != null) {
             sorted_passwords_label.setText(bundleArgument.getString("folder_name"));
-            setSortedPasswordData(bundleArgument.getInt("folder_id"));
+
+            if (bundleArgument.getString("folder_name").toLowerCase().equals("favourite")) {
+                setFavouritePasswordData();
+            } else {  setSortedPasswordData(bundleArgument.getInt("folder_id")); }
         }
 
         return view;
@@ -84,6 +88,36 @@ public class SortedPasswordsFragment extends Fragment {
         modelArrayList.clear();
         String whereclause = PN_COLUMN_TAG_ID + "=? AND " + PN_COLUMN_FOLDER_ID + "=?";
         String[] whereargs = new String[]{ TAG_ID, String.valueOf(folder_id) };
+
+        Cursor c1 = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE,null, whereclause, whereargs,null,null,null);
+        // AppLogs.log(applicationContext, log_tag, String.valueOf(c1.getCount()) + "/" + String.valueOf(folder_id) + "/" + TAG_ID);
+
+        if (c1 != null && c1.getCount() != 0) {
+
+            modelArrayList.clear();
+            while (c1.moveToNext()) {
+                RCModelPassword rcItem = new RCModelPassword();
+
+                rcItem.setId(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_ID)));
+                rcItem.setTitle(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
+                rcItem.setLogin(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
+                rcItem.setLastUpdateDate(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_UPDATED)));
+                rcItem.setFavourite(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
+                modelArrayList.add(rcItem);
+            }
+            c1.close();
+        }
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(applicationContext);
+        rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(rcAdapter);
+    }
+
+    private void setFavouritePasswordData() {
+        modelArrayList.clear();
+        String whereclause = PN_COLUMN_TAG_ID + "=? AND " + PN_COLUMN_FAVOURITE + "= 1";
+        String[] whereargs = new String[]{ TAG_ID };
 
         Cursor c1 = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE,null, whereclause, whereargs,null,null,null);
         // AppLogs.log(applicationContext, log_tag, String.valueOf(c1.getCount()) + "/" + String.valueOf(folder_id) + "/" + TAG_ID);

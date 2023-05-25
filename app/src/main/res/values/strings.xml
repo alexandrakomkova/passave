@@ -8,6 +8,8 @@
     <string name="generate_btn">Сгенерировать пароль</string>
     <string name="ok_btn">Ок</string>
     <string name="cancel_btn">Отмена</string>
+    <string name="delete_menu_btn">Удалить</string>
+    <string name="update_menu_btn">Обновить</string>
 
 
     <!-- settings screen -->
