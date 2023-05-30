@@ -39,11 +39,13 @@ import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
+import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 
 public class DetailsFolderFragment extends Fragment {
     final String log_tag = getClass().getName();
     private TextInputEditText enter_folder_title_tiet;
     private Context applicationContext;
+    private TextView screen_label;
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
@@ -65,9 +67,11 @@ public class DetailsFolderFragment extends Fragment {
 
 
         enter_folder_title_tiet = view.findViewById(R.id.enter_folder_title_field);
+        screen_label = view.findViewById(R.id.screen_label);
 
         if (savedInstanceState != null) {
             String folder_title = savedInstanceState.getString("folder_title");
+            screen_label.setText(folder_title);
             enter_folder_title_tiet.setText(folder_title);
         }
 
@@ -77,7 +81,7 @@ public class DetailsFolderFragment extends Fragment {
         }
 
         Button update_folder_btn = view.findViewById(R.id.update_folder_btn);
-        update_folder_btn.setOnClickListener(view12 -> validateFolder(bundleArgument.getInt("folder_id")));
+        update_folder_btn.setOnClickListener(view12 -> validateFolder(view, bundleArgument.getInt("folder_id")));
 
         Button delete_folder_btn = view.findViewById(R.id.delete_folder_btn);
         delete_folder_btn.setOnClickListener(view1 -> showWarningDialog(view, bundleArgument.getInt("folder_id")));
@@ -143,6 +147,7 @@ public class DetailsFolderFragment extends Fragment {
             while (!cursor.isAfterLast()) {
 
                 enter_folder_title_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(FOLDER_COLUMN_FOLDER_NAME)));
+                screen_label.setText(cursor.getString(cursor.getColumnIndexOrThrow(FOLDER_COLUMN_FOLDER_NAME)));
 
                 cursor.moveToNext();
             }
@@ -151,10 +156,11 @@ public class DetailsFolderFragment extends Fragment {
         }
     }
 
-    public void validateFolder(Integer Id)
+    public void validateFolder(View v, Integer Id)
     {
         if (Objects.requireNonNull(enter_folder_title_tiet.getText()).toString().trim().isEmpty()) {
-            AppLogs.log(applicationContext, log_tag ,"Please enter folder name");
+            // AppLogs.log(applicationContext, log_tag ,"Please enter folder name");
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_folder_name);
         } else {  updateFolder(Id); }
     }
 

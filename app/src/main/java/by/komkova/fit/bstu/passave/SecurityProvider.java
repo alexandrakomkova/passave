@@ -1,4 +1,4 @@
-package by.komkova.fit.bstu.passave.db.providers;
+package by.komkova.fit.bstu.passave;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;

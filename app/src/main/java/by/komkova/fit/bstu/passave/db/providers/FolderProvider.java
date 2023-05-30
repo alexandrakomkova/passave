@@ -34,7 +34,7 @@ public class FolderProvider extends ContentProvider {
 
     private static UriMatcher uriMathcher;
 
-    static{
+    static {
         uriMathcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMathcher.addURI(AUTHORITY, PATH, URI_FOLDERS);
         uriMathcher.addURI(AUTHORITY, PATH + "/#", URI_FOLDER_ID);

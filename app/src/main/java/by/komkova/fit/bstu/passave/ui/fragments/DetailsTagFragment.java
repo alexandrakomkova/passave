@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -116,10 +117,10 @@ public class DetailsTagFragment extends Fragment {
         if (Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim().isEmpty()) {
             CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_tag_name);
             // AppLogs.log(applicationContext, log_tag ,"Please enter tag name");
-        } else {  updateTag(Id); }
+        } else {  updateTag(v, Id); }
     }
 
-    public void updateTag(Integer Id) {
+    public void updateTag(View v, Integer Id) {
         try {
             ContentValues cv = new ContentValues();
 
@@ -131,7 +132,10 @@ public class DetailsTagFragment extends Fragment {
 
             AppLogs.log(applicationContext, log_tag ,"Tag updated");
             goHome();
-        } catch (Exception e){
+        } catch (SQLiteConstraintException e){
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.not_unique_tag_name);
+        }
+        catch (Exception e){
             Log.d(log_tag, "error: " + e.getMessage());
         }
     }

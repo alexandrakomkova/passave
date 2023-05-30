@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -94,14 +95,25 @@ public class TagProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        if(uriMathcher.match(uri) != URI_TAGS){
-            throw new IllegalArgumentException("wrong uri: "+uri);
-        }
-        db = databaseHelper.getWritableDatabase();
-        long rowID = db.insert(databaseHelper.TAG_TABLE, null, contentValues);
-        Uri result = ContentUris.withAppendedId(TAG_URI, rowID);
-        getContext().getContentResolver().notifyChange(result, null);
-        Log.d(log_tag, "insert completed, "+ uri.toString());
+        Uri result;
+        try {
+            if(uriMathcher.match(uri) != URI_TAGS){
+                throw new IllegalArgumentException("wrong uri: "+uri);
+            }
+            db = databaseHelper.getWritableDatabase();
+            long rowID = db.insertOrThrow(databaseHelper.TAG_TABLE, null, contentValues);
+            result = ContentUris.withAppendedId(TAG_URI, rowID);
+            getContext().getContentResolver().notifyChange(result, null);
+            Log.d(log_tag, "insert completed, "+ uri.toString());
+        } catch (SQLiteConstraintException e) { throw new SQLiteConstraintException("not unique tag name: "+uri);}
+//        if(uriMathcher.match(uri) != URI_TAGS){
+//            throw new IllegalArgumentException("wrong uri: "+uri);
+//        }
+//        db = databaseHelper.getWritableDatabase();
+//        long rowID = db.insert(databaseHelper.TAG_TABLE, null, contentValues);
+//        Uri result = ContentUris.withAppendedId(TAG_URI, rowID);
+//        getContext().getContentResolver().notifyChange(result, null);
+//        Log.d(log_tag, "insert completed, "+ uri.toString());
 
         return result;
     }

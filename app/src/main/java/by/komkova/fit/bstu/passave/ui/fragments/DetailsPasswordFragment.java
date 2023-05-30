@@ -52,9 +52,21 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.security.password_helpers.PasswordStrength;
@@ -63,6 +75,9 @@ import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
+import by.komkova.fit.bstu.passave.DeCryptor;
+import by.komkova.fit.bstu.passave.EnCryptor;
+import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 
 public class DetailsPasswordFragment extends Fragment {
     private final String log_tag = DetailsPasswordFragment.class.getName();
@@ -86,6 +101,9 @@ public class DetailsPasswordFragment extends Fragment {
     private SharedPreferences sharedPreferences = null;
 
     private Bundle bundleArgument;
+    private static final String SAMPLE_ALIAS = "MYALIAS";
+    private EnCryptor encryptor;
+    private DeCryptor decryptor;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -109,6 +127,14 @@ public class DetailsPasswordFragment extends Fragment {
         applicationContext = getActivity();
         databaseHelper = new DatabaseHelper(applicationContext);
         db = databaseHelper.getReadableDatabase();
+
+        encryptor = new EnCryptor();
+        try {
+            decryptor = new DeCryptor();
+        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException |
+                IOException e) {
+            e.printStackTrace();
+        }
 
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
@@ -186,7 +212,7 @@ public class DetailsPasswordFragment extends Fragment {
         update_password_btn.setOnClickListener(view1 -> validatePasswordNote(view));
 
         Button delete_password_btn = view.findViewById(R.id.delete_password_btn);
-        delete_password_btn.setOnClickListener(view1 -> deletePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id")));
+        delete_password_btn.setOnClickListener(view1 ->  showWarningDialogDelete(view));
 
         ImageButton back_btn = view.findViewById(R.id.backHome_btn);
         back_btn.setOnClickListener(view13 -> {
@@ -254,20 +280,45 @@ public class DetailsPasswordFragment extends Fragment {
     }
 
     public void validatePasswordNote(View v) {
+//        boolean isValidated = true;
+//        if (enter_service_title_tiet.getText().toString().isEmpty()) {
+//            isValidated = false;
+//            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_service_title));
+//        }
+//
+//        if (enter_password_tiet.getText().toString().isEmpty()) {
+//            isValidated = false;
+//            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
+//        }
+//
+//        if (passwordStrengthTextView.getText().equals(getResources().getString(R.string.weak))) {
+//            isValidated = false;
+//            showWarningDialog(v);
+//        }
+
         boolean isValidated = true;
-        if (enter_service_title_tiet.getText().toString().isEmpty()) {
+        if (enter_password_tiet.getText().toString().isEmpty() && enter_service_title_tiet.getText().toString().isEmpty()) {
             isValidated = false;
-            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_service_title));
-        }
+            // AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_password_and_service);
+        } else {
+            if (enter_service_title_tiet.getText().toString().isEmpty()) {
+                isValidated = false;
+                // AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_service_title));
+                CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_service_title);
+            } else {
+                if (enter_password_tiet.getText().toString().isEmpty()) {
+                    isValidated = false;
+                    // AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
+                    CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_password);
+                } else {
+                    if (passwordStrengthTextView.getText().equals(getResources().getString(R.string.weak))) {
+                        isValidated = false;
+                        showWarningDialogUpdate(v);
+                    }
+                }
+            }
 
-        if (enter_password_tiet.getText().toString().isEmpty()) {
-            isValidated = false;
-            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
-        }
-
-        if (passwordStrengthTextView.getText().equals(getResources().getString(R.string.weak))) {
-            isValidated = false;
-            showWarningDialog(v);
         }
 
         if (isValidated) { updatePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id")); }
@@ -280,7 +331,7 @@ public class DetailsPasswordFragment extends Fragment {
 
     }
 
-    private void showWarningDialog(View view) {
+    private void showWarningDialogUpdate(View view) {
         ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
         View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_ok_cancel_dialog, constraintLayout);
         Button errorClose = v.findViewById(R.id.errorCloseButton);
@@ -307,6 +358,42 @@ public class DetailsPasswordFragment extends Fragment {
             public void onClick(View view) {
                 alertDialog.dismiss();
                 updatePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id"));
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
+    }
+
+    private void showWarningDialogDelete(View view) {
+        ConstraintLayout constraintLayout = view.findViewById(R.id.errorLayout);
+        View v = LayoutInflater.from(applicationContext).inflate(R.layout.error_ok_cancel_dialog, constraintLayout);
+        Button errorClose = v.findViewById(R.id.errorCloseButton);
+        Button errorOkay = v.findViewById(R.id.errorOkayButton);
+
+        TextView errorDescription = v.findViewById(R.id.errorDescription);
+        errorDescription.setText(R.string.password_delete);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(applicationContext);
+        builder.setView(v);
+        final AlertDialog alertDialog = builder.create();
+
+        errorClose.findViewById(R.id.errorCloseButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        errorOkay.findViewById(R.id.errorOkayButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                deletePasswordNote(Objects.requireNonNull(bundleArgument).getInt("password_note_id"));
             }
         });
 
@@ -420,7 +507,9 @@ public class DetailsPasswordFragment extends Fragment {
                 passwordDetailsTextView.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_SERVICE_NAME)));
                 enter_login_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_LOGIN)));
                 enter_details_tiet.setText(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_DESCRIPTION)));
-                enter_password_tiet.setText(passwordDecrypt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD))));
+                enter_password_tiet.setText(passwordDecryptAES(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD))));
+                // enter_password_tiet.setText("123");
+                // AppLogs.log(applicationContext, log_tag, passwordDecryptAES(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_PASSWORD))));
 
                 setSelectedFolderSpinner(cursor.getString(cursor.getColumnIndexOrThrow(FOLDER_COLUMN_FOLDER_NAME)));
 
@@ -431,9 +520,70 @@ public class DetailsPasswordFragment extends Fragment {
         }
     }
 
-    private String passwordDecrypt(String str) {
+    private String passwordDecryptAES(String str) {
         AES aes = new AES(getMasterKeyFromDatabase());
         return aes.decrypt(str);
+    }
+
+    private String passwordDecrypt(String str) {
+//        AES aes = new AES(getMasterKeyFromDatabase());
+//        return aes.decrypt(str);
+
+//        byte[] encryptedText = new byte[0];
+//        try {
+//            encryptedText = encryptor.encryptText(SAMPLE_ALIAS, str);
+//        } catch (UnrecoverableEntryException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (KeyStoreException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchProviderException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InvalidAlgorithmParameterException e) {
+//            e.printStackTrace();
+//        } catch (SignatureException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        }
+
+        //AppLogs.log(applicationContext, log_tag, Base64.encodeToString(encryptedText, Base64.DEFAULT));
+        try {
+            AppLogs.log(applicationContext, log_tag, decryptor
+                    .decryptData(SAMPLE_ALIAS, encryptor.getEncryption(), encryptor.getIv()));
+        } catch (UnrecoverableEntryException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        }
+
+        return "1";
+
     }
 
     private String getMasterKeyFromDatabase() {

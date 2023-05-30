@@ -2,7 +2,6 @@ package by.komkova.fit.bstu.passave.ui.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -21,13 +20,12 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Locale;
 import java.util.concurrent.Executor;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
-import by.komkova.fit.bstu.passave.security.security_algorithms.MD5;
+import by.komkova.fit.bstu.passave.security.security_algorithms.SHA512;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
 
@@ -47,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private SQLiteDatabase db;
 
     private String mk = "";
+    private String mk_date = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                     CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), LoginActivity.this, R.string.please_enter_master_key);
                 } else {
                     getMasterKeyFromDatabase();
+                    getMasterKeyDateFromDatabase();
                     validatePassword();
                 }
             }
@@ -148,17 +148,33 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validatePassword() {
-        if (mk.equals(MD5.md5Custom(enter_masterkey_field.getText().toString().trim()))) {
-            goTagActivity();
-            AppLogs.log(LoginActivity.this, log_tag, getResources().getString(R.string.login_successful));
+//        if (mk.equals(MD5.md5Custom(enter_masterkey_field.getText().toString().trim()))) {
+//            goTagActivity();
+//            AppLogs.log(LoginActivity.this, log_tag, getResources().getString(R.string.login_successful));
+//        } else {
+//            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), LoginActivity.this, R.string.wrong_master_key);
+//            // AppLogs.log(LoginActivity.this, log_tag, "Wrong master key");
+//        }
+
+        if (mk.isEmpty()) {
+            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), LoginActivity.this, R.string.no_master_key);
+           // AppLogs.log(LoginActivity.this, log_tag, getResources().getString(R.string.no_master_key));
         } else {
-            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), LoginActivity.this, R.string.wrong_master_key);
-            // AppLogs.log(LoginActivity.this, log_tag, "Wrong master key");
+
+            // AppLogs.log(LoginActivity.this, log_tag, mk + "/" + SHA512.sha512Custom(enter_masterkey_field.getText().toString().trim() + mk_date));
+
+            if (mk.equals(SHA512.sha512Custom(enter_masterkey_field.getText().toString().trim() + mk_date))) {
+                goTagActivity();
+                AppLogs.log(LoginActivity.this, log_tag, getResources().getString(R.string.login_successful));
+            } else {
+                CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), LoginActivity.this, R.string.wrong_master_key);
+                // AppLogs.log(LoginActivity.this, log_tag, "Wrong master key");
+            }
         }
     }
 
     private void getMasterKeyFromDatabase() {
-        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY+ " from " + DatabaseHelper.SETTINGS_TABLE;
+        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY + " from " + DatabaseHelper.SETTINGS_TABLE;
 
         Cursor cursor = null;
         if (db !=null)
@@ -174,6 +190,30 @@ public class LoginActivity extends AppCompatActivity {
             while (!cursor.isAfterLast()) {
 
                 mk = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY));
+
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+        }
+    }
+    private void getMasterKeyDateFromDatabase() {
+        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_CREATED + " from " + DatabaseHelper.SETTINGS_TABLE;
+
+        Cursor cursor = null;
+        if (db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                mk_date = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_CREATED));
 
                 cursor.moveToNext();
             }
@@ -215,46 +255,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // changeLocale();
-    }
-
-//    private void changeLocale() {
-//        Locale locale = new Locale(getLanguageFromDatabase());
-//        Locale.setDefault(locale);
-//        Configuration configuration = new Configuration();
-//        configuration.locale = locale;
-//        getBaseContext().getResources().updateConfiguration(configuration, null);
-//        // getApplicationContext().getResources().updateConfiguration(configuration, null);
-//    }
-
-    private String getLanguageFromDatabase() {
-        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_LANGUAGE + " from " + DatabaseHelper.SETTINGS_TABLE + " where " + DatabaseHelper.SETTINGS_COLUMN_ID + " = 1";
-
-        Cursor cursor = null;
-        if (db !=null)
-        {
-            cursor = db.rawQuery(query, null);
-        }
-
-        if (cursor == null){
-            return "en";
-        }
-
-        cursor.moveToFirst();
-
-        if(cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-
-                // AppLogs.log(getApplicationContext(), log_tag, cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_LANGUAGE)));
-                return cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_LANGUAGE));
-
-                // cursor.moveToNext();
-            }
-
-            cursor.close();
-        }
-        return "en";
     }
 
     private void goCreateMk() {

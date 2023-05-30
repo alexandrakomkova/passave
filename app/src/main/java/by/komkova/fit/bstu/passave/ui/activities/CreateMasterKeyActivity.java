@@ -5,7 +5,6 @@ import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_MAST
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_TABLE;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,9 +27,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
+import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
-import by.komkova.fit.bstu.passave.security.security_algorithms.MD5;
+import by.komkova.fit.bstu.passave.security.security_algorithms.SHA512;
 import by.komkova.fit.bstu.passave.security.password_helpers.PasswordStrength;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
@@ -46,6 +46,8 @@ public class CreateMasterKeyActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
+    String mk = "";
+
     private SharedPreferences sharedPreferences = null;
 
     @Override
@@ -59,6 +61,10 @@ public class CreateMasterKeyActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             AppLogs.log(this, log_tag, String.valueOf(true));
         }
+
+        String languageValue = sharedPreferences.getString("language", "en");
+        AppLogs.log(getApplicationContext(), log_tag, "language: " + String.valueOf(languageValue));
+        LocaleChanger.changeLocale(languageValue, getApplicationContext());
 
 
         databaseHelper = new DatabaseHelper(this);
@@ -111,27 +117,58 @@ public class CreateMasterKeyActivity extends AppCompatActivity {
     }
 
     private void validatePassword(View v){
-        if (eqlPasswords(String.valueOf(enterMasterKey_tiet.getText()), String.valueOf(repeatMasterKey_tiet.getText()))){
-            switch (passwordStrength.msg){
-                case R.string.weak:
-                    // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is too weak")
-                    CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.master_key_is_too_weak);
-                    break;
-                case R.string.medium:
-                    // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is medium, please make it strong");
-                    CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.master_key_is_medium);
-                    break;
-                case R.string.strong:
-                case R.string.very_strong:
-                    saveMkToDatabase(); break;
-                default:
-                    // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something goes wrong");
-                    CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.error_details);
-                    break;
+        getMasterKeyFromDatabase();
+
+        if(mk.isEmpty()) {
+            if (eqlPasswords(String.valueOf(enterMasterKey_tiet.getText()), String.valueOf(repeatMasterKey_tiet.getText()))){
+                switch (passwordStrength.msg){
+                    case R.string.weak:
+                        // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is too weak")
+                        CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.master_key_is_too_weak);
+                        break;
+                    case R.string.medium:
+                        // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "master key is medium, please make it strong");
+                        CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.master_key_is_medium);
+                        break;
+                    case R.string.strong:
+                    case R.string.very_strong:
+                        saveMkToDatabase(); break;
+                    default:
+                        // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something goes wrong");
+                        CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.error_details);
+                        break;
+                }
+            } else {
+                CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.passwords_not_matching);
+                // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
             }
         } else {
-            CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.passwords_not_matching);
-            // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "passwords not matching");
+            CustomAlertDialogClass.showWarningOkDialog(v, this, R.string.master_key_is_already_created);
+        }
+    }
+
+    private void getMasterKeyFromDatabase() {
+        String query = "select " + DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY + " from " + DatabaseHelper.SETTINGS_TABLE;
+
+        Cursor cursor = null;
+        if (db !=null)
+        {
+            cursor = db.rawQuery(query, null);
+        }
+
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                mk = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY));
+
+                cursor.moveToNext();
+            }
+
+            cursor.close();
         }
     }
 
@@ -149,7 +186,7 @@ public class CreateMasterKeyActivity extends AppCompatActivity {
 
             if (rowcount == 1) {
                 // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "Master key already created");
-                CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.master_key_already_created);
+                CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), this, R.string.master_key_already_created);
                 return;
             }
         }
@@ -157,8 +194,11 @@ public class CreateMasterKeyActivity extends AppCompatActivity {
         cursor.close();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SETTINGS_COLUMN_MASTER_KEY, MD5.md5Custom(Objects.requireNonNull(repeatMasterKey_tiet.getText()).toString().trim()));
+        // contentValues.put(SETTINGS_COLUMN_MASTER_KEY, MD5.md5Custom(Objects.requireNonNull(repeatMasterKey_tiet.getText()).toString().trim()));
+        String mk = repeatMasterKey_tiet.getText().toString().trim() + DateFormatter.currentDate();
+        // AppLogs.log(CreateMasterKeyActivity.this, log_tag, mk);
 
+        contentValues.put(SETTINGS_COLUMN_MASTER_KEY, SHA512.sha512Custom(Objects.requireNonNull(mk)));
         contentValues.put(SETTINGS_COLUMN_CREATED, DateFormatter.currentDate());
         contentValues.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
 

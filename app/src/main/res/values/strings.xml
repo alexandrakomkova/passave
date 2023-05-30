@@ -69,7 +69,11 @@
     <string name="login_btn">Войти</string>
     <string name="create_masterkey_btn">Создать Мастер ключ</string>
     <string name="forget_password_label">Забыли Мастер ключ?</string>
-    <string name="mk_info_text">Мастер ключ - это бла блабла </string>
+    <string name="mk_info_text">Мастер-ключ - это уникальный пароль, который знаете только Вы,
+        необходимый для входа в приложение.
+
+        Пожалуйста, обратите внимание, что если вы забудете мастер-ключ,
+        то ваши данные будут утеряны и НЕ ПОДЛЕЖАТ восстановлению. </string>
 
     <!-- password strength -->
     <string name="weak">Слабый</string>
@@ -164,7 +168,9 @@
     <string name="error_header">Внимание</string>
     <string name="error_details">Что-то пошло не так</string>
     <string name="tag_delete">После удаления тэга, все пароли и папки, связанные с ним будут удалены</string>
-    <string name="folder_delete">После удаления папки, все пароли, связанные с ней будут удалены</string>
+    <string name="folder_delete">После удаления папки, все пароли, связанные с ней не будут связаны ни с одной папкой</string>
+    <string name="note_delete">Вы уверены, что хотите удалить заметку?</string>
+    <string name="password_delete">Вы уверены, что хотите удалить пароль?</string>
     <string name="please_enter_folder_name">Пожалуйста, введите название папки</string>
     <string name="please_enter_note_text">Пожалуйста, введите текст заметки</string>
     <string name="please_enter_tag_name">Пожалуйста, введите название тэга</string>
@@ -178,6 +184,13 @@
     <string name="weak_password_alert">Пароль слишком слабый. Уверены, что хотите продолжить?</string>
     <string name="please_enter_password">Пожалуйста, введите пароль</string>
     <string name="please_enter_service_title">Пожалуйста, введите название сервиса</string>
+    <string name="master_key_is_already_created">Мастер-ключ уже существует</string>
+    <string name="no_master_key">Пожалуйста, создайте мастер-ключ</string>
+
+    <string name="not_unique_tag_name">Такое название тэга уже существует</string>
+    <string name="favourite_can_not_delete">Папку Favourite нельзя изменить или удалить</string>
+    <string name="please_enter_password_and_service">Обязательными к заполнению являются пароль и название сервиса.
+        Пожалуйста, введите эти данные в форму</string>
 
 
 

@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,10 +23,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.Objects;
 
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
+import by.komkova.fit.bstu.passave.ui.activities.LoginActivity;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
@@ -70,18 +74,31 @@ public class AddTagFragment extends Fragment {
         if (Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim().isEmpty()) {
             // AppLogs.log(applicationContext, log_tag ,"Please enter tag name");
             CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_tag_name);
-        } else {  addTag(); }
+        } else {  addTag(v); }
     }
 
-    public void addTag() {
-        ContentValues cv = new ContentValues();
+    public void addTag(View v) {
+        try {
+            ContentValues cv = new ContentValues();
 
-        cv.put(TAG_COLUMN_TAG_NAME, Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim());
-        cv.put(TAG_COLUMN_UPDATED, DateFormatter.currentDate());
+            cv.put(TAG_COLUMN_TAG_NAME, Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim());
+            cv.put(TAG_COLUMN_UPDATED, DateFormatter.currentDate());
 
-        Uri res =  applicationContext.getContentResolver().insert(TAG_URI, cv);
+            Uri res =  applicationContext.getContentResolver().insert(TAG_URI, cv);
 
-        goHome();
+            goHome();
+        } catch (SQLiteConstraintException e) {
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.not_unique_tag_name);
+        }
+
+//        ContentValues cv = new ContentValues();
+//
+//        cv.put(TAG_COLUMN_TAG_NAME, Objects.requireNonNull(enter_tag_name_field.getText()).toString().trim());
+//        cv.put(TAG_COLUMN_UPDATED, DateFormatter.currentDate());
+//
+//        Uri res =  applicationContext.getContentResolver().insert(TAG_URI, cv);
+//
+//        goHome();
     }
 
     public void goHome(){

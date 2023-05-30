@@ -67,7 +67,11 @@
     <string name="login_btn">Login</string>
     <string name="create_masterkey_btn">Create Master key</string>
     <string name="forget_password_label">Forget Master key?</string>
-    <string name="mk_info_text">Master key - is blah blah </string>
+    <string name="mk_info_text">Master key is a unique password that only you know
+        required to enter the application.
+
+        Please note that if you forget your master key,
+        then your data will be lost and NOT recoverable.</string>
 
     <!-- password strength -->
     <string name="weak">Weak</string>
@@ -159,7 +163,9 @@
     <string name="error_header">Warning</string>
     <string name="error_details">Something went wrong</string>
     <string name="tag_delete">After deleting a tag, all folders and passwords associated with it will be deleted</string>
-    <string name="folder_delete">After deleting a folder, all passwords associated with it will be deleted</string>
+    <string name="folder_delete">After deleting a folder, all passwords associated with it will not be associated with any folder</string>
+    <string name="note_delete">Sure, You want to delete this note?</string>
+    <string name="password_delete">Sure, You want to delete this password?</string>
     <string name="please_enter_folder_name">Please enter folder name</string>
     <string name="please_enter_note_text">Please enter any text</string>
     <string name="please_enter_tag_name">Please enter tag name</string>
@@ -173,5 +179,12 @@
     <string name="weak_password_alert">Password is weak. Sure You want to continue?</string>
     <string name="please_enter_password">Please, enter password</string>
     <string name="please_enter_service_title">Please, enter service title</string>
+    <string name="master_key_is_already_created">Master key is already created</string>
+    <string name="no_master_key">Please, create master key</string>
+
+
+    <string name="not_unique_tag_name">This tag name already created</string>
+    <string name="favourite_can_not_delete">Folder Favourite can not be updated or deleted</string>
+    <string name="please_enter_password_and_service">Please, enter password and service name</string>
 
 </resources>

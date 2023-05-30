@@ -100,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + TAG_TABLE
                 + " (" + TAG_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                 + TAG_COLUMN_UPDATED + " TEXT NOT NULL, "
-                + TAG_COLUMN_TAG_NAME + " TEXT NOT NULL);");
+                + TAG_COLUMN_TAG_NAME + " TEXT NOT NULL UNIQUE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + SECURITY_TABLE
                 + " (" + SECURITY_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"

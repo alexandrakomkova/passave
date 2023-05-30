@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
+import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.ui.activities.MainActivity;
 import by.komkova.fit.bstu.passave.ui.fragments.DetailsFolderFragment;
 import by.komkova.fit.bstu.passave.ui.fragments.SortedPasswordsFragment;
@@ -69,15 +70,18 @@ public class RCAdapterFolder extends RecyclerView.Adapter<RCAdapterFolder.RCFold
 
         holder.itemView.setOnLongClickListener(view -> {
             RCModelFolder rcItemFolder = folderArrayList.get(position);
+            if(rcItemFolder.getFolderTitle().toLowerCase().equals("favourite")) {
+                AppLogs.log(context, log_tag, context.getResources().getString(R.string.favourite_can_not_delete));
+            } else {
+                MainActivity activity = (MainActivity) view.getContext();
+                Fragment detailsFolderFragment = new DetailsFolderFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("folder_id", rcItemFolder.getId());
 
-            MainActivity activity = (MainActivity) view.getContext();
-            Fragment detailsFolderFragment = new DetailsFolderFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("folder_id", rcItemFolder.getId());
-
-            detailsFolderFragment.setArguments(bundle);
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_layout,  detailsFolderFragment).commit();
+                detailsFolderFragment.setArguments(bundle);
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_layout,  detailsFolderFragment).commit();
+            }
 
             return true;
         });

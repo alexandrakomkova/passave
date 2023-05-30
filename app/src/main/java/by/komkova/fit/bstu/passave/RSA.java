@@ -1,4 +1,4 @@
-package by.komkova.fit.bstu.passave.security.security_algorithms;
+package by.komkova.fit.bstu.passave;
 
 import android.util.Base64;
 import android.util.Log;
@@ -27,7 +27,7 @@ public class RSA {
     KeyPairGenerator kpg;
     KeyPair kp;
     PublicKey publicKey;
-    PrivateKey privateKey;
+    public PrivateKey privateKey;
     byte[] encryptedBytes, decryptedBytes;
     Cipher cipher, cipher1;
     String encrypted, decrypted;
@@ -116,13 +116,14 @@ public class RSA {
         return Base64.encodeToString(encryptedBytes, Base64.DEFAULT);
     }
 
-    public String decrypt(String result, PrivateKey privateKey)
+    public String decrypt(String result)
             throws NoSuchAlgorithmException,
             NoSuchPaddingException,
             InvalidKeyException,
             IllegalBlockSizeException,
             BadPaddingException {
 
+        // cipher1 = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
         cipher1 = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
         cipher1.init(Cipher.DECRYPT_MODE, privateKey);
         decryptedBytes = cipher1.doFinal(Base64.decode(result, Base64.DEFAULT));
@@ -190,7 +191,9 @@ public class RSA {
             byte[] keyBytes = Base64.decode(publicKeyString, Base64.DEFAULT);
             X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            // Log.d("RSA", String.valueOf(spec));
             Log.d("RSA", publicKeyString);
+
 
             return keyFactory.generatePublic(spec);
 

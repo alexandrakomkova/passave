@@ -25,9 +25,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -36,6 +38,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,17 +53,34 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SignatureException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.security.password_helpers.PasswordStrength;
-import by.komkova.fit.bstu.passave.security.security_algorithms.AES;
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
+import by.komkova.fit.bstu.passave.DeCryptor;
+import by.komkova.fit.bstu.passave.EnCryptor;
+import by.komkova.fit.bstu.passave.RSA;
+import by.komkova.fit.bstu.passave.security.security_algorithms.AES;
+import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
 
 //import org.springframework.security.crypto.encrypt.Encryptors;
 //import org.springframework.security.crypto.encrypt.TextEncryptor;
@@ -76,6 +96,9 @@ public class AddPasswordFragment extends Fragment {
     private Context applicationContext;
     private RadioGroup radioGroup;
     private RadioButton rsa_radio, aes_radio;
+    private static final String SAMPLE_ALIAS = "MYALIAS";
+    private EnCryptor encryptor;
+    private DeCryptor decryptor;
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
@@ -88,6 +111,7 @@ public class AddPasswordFragment extends Fragment {
     private String description = "";
     private String entered_password = "";
     private String crypto_pwd = "";
+    private String decrypto_pwd = "";
     private String pk = "";
 
     private SharedPreferences sharedPreferences = null;
@@ -98,6 +122,13 @@ public class AddPasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_password, container, false);
+        encryptor = new EnCryptor();
+        try {
+            decryptor = new DeCryptor();
+        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException |
+                IOException e) {
+            e.printStackTrace();
+        }
 
         applicationContext = getActivity();
         databaseHelper = new DatabaseHelper(getActivity());
@@ -163,6 +194,8 @@ public class AddPasswordFragment extends Fragment {
             public void onClick(View view) {
                 validatePasswordNote(view);
                 // AppLogs.log(applicationContext, log_tag, aesCustom(enter_password_tiet.getText().toString().trim()));
+                // rsaCipher();
+                // passwordEncrypt(enter_password_tiet.getText().toString().trim());
             }
         });
 
@@ -313,19 +346,27 @@ public class AddPasswordFragment extends Fragment {
 
     public void validatePasswordNote(View v) {
         boolean isValidated = true;
-        if (enter_service_title_tiet.getText().toString().isEmpty()) {
+        if (enter_password_tiet.getText().toString().isEmpty() && enter_service_title_tiet.getText().toString().isEmpty()) {
             isValidated = false;
-            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_service_title));
-        }
+            // AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
+            CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_password_and_service);
+        } else {
+            if (enter_service_title_tiet.getText().toString().isEmpty()) {
+                isValidated = false;
+                // AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_service_title));
+                CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_service_title);
+            }
 
-        if (enter_password_tiet.getText().toString().isEmpty()) {
-            isValidated = false;
-            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
-        }
+            if (enter_password_tiet.getText().toString().isEmpty()) {
+                isValidated = false;
+                // AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.please_enter_password));
+                CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.please_enter_password);
+            }
 
-        if (passwordStrengthTextView.getText().equals(getResources().getString(R.string.weak))) {
-            isValidated = false;
-            showWarningDialog(v);
+            if (passwordStrengthTextView.getText().equals(getResources().getString(R.string.weak))) {
+                isValidated = false;
+                showWarningDialog(v);
+            }
         }
 
         if (isValidated) { addPasswordNote(v); }
@@ -367,12 +408,13 @@ public class AddPasswordFragment extends Fragment {
         alertDialog.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void addPasswordNote(View v) {
         ContentValues cv = new ContentValues();
 
         cv.put(PN_COLUMN_SERVICE_NAME, Objects.requireNonNull(enter_service_title_tiet.getText()).toString().trim());
         cv.put(PN_COLUMN_LOGIN, Objects.requireNonNull(enter_login_tiet.getText()).toString().trim());
-        cv.put(PN_COLUMN_PASSWORD, Objects.requireNonNull(passwordEncrypt(enter_password_tiet.getText().toString().trim())));
+        cv.put(PN_COLUMN_PASSWORD, Objects.requireNonNull(passwordEncryptAES(enter_password_tiet.getText().toString().trim())));
         cv.put(PN_COLUMN_DESCRIPTION, Objects.requireNonNull(enter_details_tiet.getText()).toString().trim());
 
         cv.put(PN_COLUMN_CREATED, DateFormatter.currentDate());
@@ -425,35 +467,111 @@ public class AddPasswordFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private String passwordEncrypt(String str) {
+    private String passwordEncryptAES(String str) {
         String mk = getMasterKeyFromDatabase();
-
-//        if (rsa_radio.isChecked()) {
-//            try {
-//                RSA rsa = new RSA();
-//                crypto_pwd = rsa.encrypt(str, rsa.stringToPublicKey(mk));
-//                pk = rsa.privateKey.toString();
-//                return crypto_pwd;
-//            } catch (NoSuchAlgorithmException e) {
-//                e.printStackTrace();
-//            } catch (NoSuchPaddingException e) {
-//                e.printStackTrace();
-//            } catch (InvalidKeyException e) {
-//                e.printStackTrace();
-//            } catch (IllegalBlockSizeException e) {
-//                e.printStackTrace();
-//            } catch (BadPaddingException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        if (aes_radio.isChecked()) {
-//            AES aes = new AES(mk);
-//            crypto_pwd = aes.encrypt(str);
-//            return crypto_pwd;
-//        }
         AES aes = new AES(mk);
         crypto_pwd = aes.encrypt(str);
+        return crypto_pwd;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private String passwordEncrypt(String str) {
+        // String mk = getMasterKeyFromDatabase();
+
+//        if (rsa_radio.isChecked()) {
+////            try {
+////                RSA rsa = new RSA();
+////                crypto_pwd = rsa.encrypt(str, rsa.stringToPublicKey(mk));
+////                pk = rsa.privateKey.toString();
+////                return crypto_pwd;
+////            } catch (NoSuchAlgorithmException e) {
+////                e.printStackTrace();
+////            } catch (NoSuchPaddingException e) {
+////                e.printStackTrace();
+////            } catch (InvalidKeyException e) {
+////                e.printStackTrace();
+////            } catch (IllegalBlockSizeException e) {
+////                e.printStackTrace();
+////            } catch (BadPaddingException e) {
+////                e.printStackTrace();
+////            } catch (NoSuchAlgorithmException e) {
+////                e.printStackTrace();
+////            } catch (InvalidKeyException e) {
+////                e.printStackTrace();
+////            } catch (NoSuchPaddingException e) {
+////                e.printStackTrace();
+////            } catch (BadPaddingException e) {
+////                e.printStackTrace();
+////            } catch (IllegalBlockSizeException e) {
+////                e.printStackTrace();
+////            }
+////        }
+////
+////        if (aes_radio.isChecked()) {
+////            AES aes = new AES(mk);
+////            crypto_pwd = aes.encrypt(str);
+////            return crypto_pwd;
+////        }
+       //  AES aes = new AES(mk);
+
+//        AES aes = new AES();
+//        crypto_pwd = aes.encrypt(str);
+//        AppLogs.log(applicationContext, log_tag, crypto_pwd);
+
+        byte[] encryptedText = new byte[0];
+        try {
+            encryptedText = encryptor.encryptText(SAMPLE_ALIAS, str);
+        } catch (UnrecoverableEntryException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
+
+        //AppLogs.log(applicationContext, log_tag, Base64.encodeToString(encryptedText, Base64.DEFAULT));
+//        try {
+//            AppLogs.log(applicationContext, log_tag, decryptor
+//                    .decryptData(SAMPLE_ALIAS, encryptor.getEncryption(), encryptor.getIv()));
+//        } catch (UnrecoverableEntryException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (KeyStoreException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchProviderException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeyException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        } catch (InvalidAlgorithmParameterException e) {
+//            e.printStackTrace();
+//        }
+
+        crypto_pwd = Base64.encodeToString(encryptedText, Base64.DEFAULT);
 
         return crypto_pwd;
     }
@@ -543,6 +661,53 @@ public class AddPasswordFragment extends Fragment {
         outState.putString("login", login);
         outState.putString("description", description);
         outState.putString("entered_password", entered_password);
+    }
+
+    public void rsaCipher() {
+        String mk = getMasterKeyFromDatabase();
+//        String str = enter_password_tiet.getText().toString().trim();
+        String str = "12345";
+
+
+        mk = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyvgwEYZlJR5Xv6dPlFpg\n" +
+                "hG7o9IaXxuLB+b/qsghkLG1iCF2RZebp699BjMkbJs1KQq3F3pOFHxqd1kBIl7zk\n" +
+                "fXDzUIw475SWKQ2LWSiD+7WV04t8RNLIAi9JsJdfLl3Unfc+bTqgsSWHcLeP0lEu\n" +
+                "GG+bvocbpx8NXPvizXyyOT+bGGmdqEhcqitYhM5B4C82cTY+XnQ4q/zJK4pm9bGr\n" +
+                "ycJX4dzWjQdAPt65BKkXWsd7sgy0DI8nTSliJCdClEvysOVt8RDHQ6CoL70CA1LT\n" +
+                "2aLD7x73G2h7uksTQ0ztHyxUdaX6G+slg+BwJgEn8p+o6qq4OQUJE0YISfMd99Ok\n" +
+                "WwIDAQAB";
+
+        RSA rsa = null;
+        try {
+            rsa = new RSA();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
+        try {
+            // AppLogs.log(applicationContext, log_tag, String.valueOf(stringToPublicKey(mk)));
+            crypto_pwd = rsa.encrypt(str);
+            decrypto_pwd = rsa.decrypt(crypto_pwd);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
+
+        AppLogs.log(applicationContext, log_tag, crypto_pwd + "*********" + decrypto_pwd);
     }
 
 }
