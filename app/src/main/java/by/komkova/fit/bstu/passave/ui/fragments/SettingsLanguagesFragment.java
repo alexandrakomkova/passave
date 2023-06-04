@@ -1,8 +1,8 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_ID;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_LANGUAGE;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
+// import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_LANGUAGE;
+// import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_TABLE;
 
 import android.content.ContentValues;
@@ -102,19 +102,19 @@ public class SettingsLanguagesFragment extends Fragment{
         return view;
     }
 
-    private void changeLanguageInDatabase(String languageCode) {
-        try {
-            ContentValues cv = new ContentValues();
-            cv.put(SETTINGS_COLUMN_LANGUAGE, languageCode);
-
-            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
-
-            db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
-                    new String[] { "1" });
-        } catch (Exception e){
-            CustomAlertDialogClass.showWarningOkDialog(getView(), applicationContext, R.string.error_details);
-            Log.d(log_tag, "error: " + e.getMessage());
-        }
-    }
+//    private void changeLanguageInDatabase(String languageCode) {
+//        try {
+//            ContentValues cv = new ContentValues();
+//            cv.put(SETTINGS_COLUMN_LANGUAGE, languageCode);
+//
+//            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
+//
+//            db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
+//                    new String[] { "1" });
+//        } catch (Exception e){
+//            CustomAlertDialogClass.showWarningOkDialog(getView(), applicationContext, R.string.error_details);
+//            Log.d(log_tag, "error: " + e.getMessage());
+//        }
+//    }
 
 }

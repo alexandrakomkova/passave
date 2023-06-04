@@ -143,8 +143,13 @@
 
     <!-- import export screen -->
     <string name="import_export_screen_label">Import/Export</string>
-    <string name="import_file_btn">Import file</string>
-    <string name="export_file_btn">Export file</string>
+    <string name="import_file_btn">Load file</string>
+    <string name="export_file_btn">Save file</string>
+    <string name="select_file">Select file</string>
+    <string name="wrong_file_extension">Wrong file extension</string>
+    <string name="db_imported">File loaded. Please, log in to see the data</string>
+    <string name="please_install_file_manager">Please, install file manager</string>
+    <string name="import_file_alert">After downloading the file, you will lose the data that is currently stored in this application. Do you want to continue?</string>
 
 
     <!-- sorted passwords screen -->

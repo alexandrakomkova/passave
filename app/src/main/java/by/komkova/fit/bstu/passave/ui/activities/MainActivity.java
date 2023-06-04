@@ -1,6 +1,9 @@
 package by.komkova.fit.bstu.passave.ui.activities;
 
+import static android.os.SystemClock.sleep;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -12,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
@@ -20,11 +24,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
 import java.util.Locale;
 
+import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.helpers.LocaleChanger;
 import by.komkova.fit.bstu.passave.ui.fragments.GeneratePasswordFragment;
 import by.komkova.fit.bstu.passave.ui.fragments.ImportExportFragment;
@@ -133,6 +140,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ClipboardManager manager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("text", textView.getText());
         manager.setPrimaryClip(clipData);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Fragment importExportFragment = new ImportExportFragment();
+
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            importExportFragment.onActivityResult(requestCode, resultCode, data);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+        sleep(1000);
+
+        // CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus().getRootView(), this, R.string.weak);
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 }

@@ -30,19 +30,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SECURITY_TABLE = "security_algorithm";
 
     // settings table
-    public static final String SETTINGS_COLUMN_THEME = "theme";
     public static final String SETTINGS_COLUMN_ID = "_id";
-    public static final String SETTINGS_COLUMN_LANGUAGE = "language";
     public static final String SETTINGS_COLUMN_MASTER_KEY = "mk";
     public static final String SETTINGS_COLUMN_CREATED = "created";
-     public static final String SETTINGS_COLUMN_FINGERPRINT = "fingerprint";
-     public static final String SETTINGS_COLUMN_NOTIFICATIONS = "notifications";
-     public static final String SETTINGS_COLUMN_UPDATED = "updated";
 
     // security table
     public static final String SECURITY_COLUMN_ID = "_id";
     public static final String SECURITY_COLUMN_ALGORITHM_NAME = "algorithm_name";
-    public static final String SECURITY_COLUMN_KEY = "private_key";
 
     // folder table
     public static final String FOLDER_COLUMN_ID = "_id";
@@ -129,16 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + SETTINGS_TABLE
                 + " (" + SETTINGS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                 + SETTINGS_COLUMN_MASTER_KEY + " TEXT NOT NULL, "
-                + SETTINGS_COLUMN_FINGERPRINT + " INTEGER CHECK(" + SETTINGS_COLUMN_FINGERPRINT + " = 0 OR " + SETTINGS_COLUMN_FINGERPRINT +" = 1) DEFAULT 0, "
-                + SETTINGS_COLUMN_NOTIFICATIONS + " INTEGER CHECK(" + SETTINGS_COLUMN_NOTIFICATIONS + " = 0 OR " + SETTINGS_COLUMN_NOTIFICATIONS +" = 1) DEFAULT 0, "
-                + SETTINGS_COLUMN_LANGUAGE + " TEXT DEFAULT 'en', "
-                + SETTINGS_COLUMN_UPDATED + " TEXT NOT NULL, "
                 + SETTINGS_COLUMN_CREATED + " TEXT NOT NULL);");
-
-//        sqLiteDatabase.execSQL("CREATE TABLE " + SETTINGS_TABLE
-//                + " (" + SETTINGS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-//                + SETTINGS_COLUMN_MASTER_KEY + " TEXT NOT NULL, "
-//                + SETTINGS_COLUMN_CREATED + " TEXT NOT NULL);");
 
         insertFoldersToDatabase(sqLiteDatabase);
     }
@@ -156,8 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertFoldersToDatabase(SQLiteDatabase db) {
         db.execSQL("INSERT INTO " + SECURITY_TABLE +
                 " (" + SECURITY_COLUMN_ALGORITHM_NAME+ ") " +
-                " VALUES ('AES')," +
-                "('RSA');");
+                " VALUES ('AES');");
     }
 
 }

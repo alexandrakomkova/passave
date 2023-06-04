@@ -132,6 +132,7 @@ public class AES {
         }
         return ba;
     }
+}
 
 //    @RequiresApi(api = Build.VERSION_CODES.M)
 //    public AES() {
@@ -258,4 +259,4 @@ public class AES {
 //        }
 //        return ba;
 //    }
-}
+

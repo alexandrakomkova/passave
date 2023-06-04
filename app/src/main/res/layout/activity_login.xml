@@ -111,6 +111,19 @@
                     android:textSize="14sp"
                     android:textStyle="normal" />
 
+                <!-- import file button -->
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/import_file_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/export_file_btn"
+                    android:textColor="@color/strong"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:background="@drawable/import_btn"
+                    android:textAllCaps="false"/>
+
 
 
         </LinearLayout>

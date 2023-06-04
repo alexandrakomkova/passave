@@ -1,16 +1,12 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_FINGERPRINT;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_ID;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_TABLE;
+// import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_FINGERPRINT;
+// import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
 
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+        import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -27,8 +23,7 @@ import android.widget.RadioButton;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
 import by.komkova.fit.bstu.passave.ui.custom_dialog.CustomAlertDialogClass;
-import by.komkova.fit.bstu.passave.helpers.DateFormatter;
-import by.komkova.fit.bstu.passave.R;
+        import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
 
 public class SettingsSecurityFragment extends Fragment {
@@ -94,31 +89,39 @@ public class SettingsSecurityFragment extends Fragment {
         }
     }
 
+//    private void setFingerprintValue() {
+//        String whereclause = SETTINGS_COLUMN_ID + "=?";
+//        String[] whereargs = new String[]{ "1" };
+//        String [] columns = new String[] { SETTINGS_COLUMN_FINGERPRINT };
+//        Cursor cursor= null;
+//        if(db !=null)
+//        {
+//            // cursor = db.rawQuery(query, null);
+//            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
+//
+//        }
+//        assert cursor != null;
+//        cursor.moveToFirst();
+//
+//        if(cursor.getCount() != 0) {
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//                if (cursor.getInt(0) == 1) {
+//                    fingerprint_radio.setChecked(true);
+//                }
+//
+//                cursor.moveToNext();
+//            }
+//
+//            cursor.close();
+//        }
+//    }
+
     private void setFingerprintValue() {
-        String whereclause = SETTINGS_COLUMN_ID + "=?";
-        String[] whereargs = new String[]{ "1" };
-        String [] columns = new String[] { SETTINGS_COLUMN_FINGERPRINT };
-        Cursor cursor= null;
-        if(db !=null)
-        {
-            // cursor = db.rawQuery(query, null);
-            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
-
-        }
-        assert cursor != null;
-        cursor.moveToFirst();
-
-        if(cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                if (cursor.getInt(0) == 1) {
-                    fingerprint_radio.setChecked(true);
-                }
-
-                cursor.moveToNext();
-            }
-
-            cursor.close();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean fingerprintValue = sharedPreferences.getBoolean("fingerprint", true);
+        if (fingerprintValue) {
+            fingerprint_radio.setChecked(true);
         }
     }
 }

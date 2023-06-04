@@ -2,7 +2,7 @@ package by.komkova.fit.bstu.passave.ui.activities;
 
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_CREATED;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_MASTER_KEY;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
+// import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_TABLE;
 
 import android.content.ContentValues;
@@ -200,11 +200,12 @@ public class CreateMasterKeyActivity extends AppCompatActivity {
 
         contentValues.put(SETTINGS_COLUMN_MASTER_KEY, SHA512.sha512Custom(Objects.requireNonNull(mk)));
         contentValues.put(SETTINGS_COLUMN_CREATED, DateFormatter.currentDate());
-        contentValues.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
+        // contentValues.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
 
         long result = db.insert(SETTINGS_TABLE, null, contentValues);
         if (result == -1)
-            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.error_details);
+            // CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), getApplicationContext(), R.string.error_details);
+            CustomAlertDialogClass.showWarningOkDialog(getCurrentFocus(), this, R.string.error_details);
             // AppLogs.log(CreateMasterKeyActivity.this, log_tag, "something went wrong");
         else
             AppLogs.log(CreateMasterKeyActivity.this, log_tag, "Master key created.");

@@ -49,7 +49,8 @@
                     android:id="@+id/import_file_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/import_file_btn"
+
+                    android:text="@string/export_file_btn"
                     android:textColor="@color/settings_languages"
                     android:textStyle="normal"
                     android:textSize="14sp"
@@ -62,7 +63,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/export_file_btn"
+                    android:text="@string/import_file_btn"
                     android:textColor="@color/settings_notifications"
                     android:textStyle="normal"
                     android:textSize="14sp"
@@ -71,6 +72,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
     </ScrollView>
 
 

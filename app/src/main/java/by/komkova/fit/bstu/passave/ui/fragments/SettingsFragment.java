@@ -1,8 +1,8 @@
 package by.komkova.fit.bstu.passave.ui.fragments;
 
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_ID;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_NOTIFICATIONS;
-import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
+// import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_NOTIFICATIONS;
+// import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_COLUMN_UPDATED;
 import static by.komkova.fit.bstu.passave.db.DatabaseHelper.SETTINGS_TABLE;
 
 import android.content.ContentValues;
@@ -32,7 +32,7 @@ import by.komkova.fit.bstu.passave.helpers.DateFormatter;
 import by.komkova.fit.bstu.passave.R;
 import by.komkova.fit.bstu.passave.db.DatabaseHelper;
 
-public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener{
+public class SettingsFragment extends Fragment{
 
     ImageButton security_ibtn, language_ibtn;
     private SwitchCompat switchCompatNotifications, switchCompatNightMode;
@@ -131,64 +131,64 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         return view;
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        boolean turnOn = false;
+//    @Override
+//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//        boolean turnOn = false;
+//
+//        if(isChecked) {
+//            turnOn = true;
+//        }
+//
+//        turnOnNotifications(turnOn);
+//    }
+//
+//    private void turnOnNotifications(Boolean turnOn) {
+//        try {
+//            ContentValues cv = new ContentValues();
+//
+//            if (turnOn) {
+//                cv.put(SETTINGS_COLUMN_NOTIFICATIONS, 1);
+//            } else {
+//                cv.put(SETTINGS_COLUMN_NOTIFICATIONS, 0);
+//            }
+//
+//            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
+//
+//            db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
+//                    new String[] { "1" });
+//
+//            AppLogs.log(applicationContext, log_tag, "Your settings changed");
+//        } catch (Exception e){
+//            CustomAlertDialogClass.showWarningOkDialog(getView(), applicationContext, R.string.error_details);
+//            Log.d(log_tag, "error: " + e.getMessage());
+//        }
+//    }
 
-        if(isChecked) {
-            turnOn = true;
-        }
-
-        turnOnNotifications(turnOn);
-    }
-
-    private void turnOnNotifications(Boolean turnOn) {
-        try {
-            ContentValues cv = new ContentValues();
-
-            if (turnOn) {
-                cv.put(SETTINGS_COLUMN_NOTIFICATIONS, 1);
-            } else {
-                cv.put(SETTINGS_COLUMN_NOTIFICATIONS, 0);
-            }
-
-            cv.put(SETTINGS_COLUMN_UPDATED, DateFormatter.currentDate());
-
-            db.update(SETTINGS_TABLE, cv, SETTINGS_COLUMN_ID + " = ?",
-                    new String[] { "1" });
-
-            AppLogs.log(applicationContext, log_tag, "Your settings changed");
-        } catch (Exception e){
-            CustomAlertDialogClass.showWarningOkDialog(getView(), applicationContext, R.string.error_details);
-            Log.d(log_tag, "error: " + e.getMessage());
-        }
-    }
-
-    private void setNotificationsValue() {
-        String whereclause = SETTINGS_COLUMN_ID + "=?";
-        String[] whereargs = new String[]{ "1" };
-        String [] columns = new String[] { SETTINGS_COLUMN_NOTIFICATIONS };
-        Cursor cursor= null;
-        if(db !=null)
-        {
-            // cursor = db.rawQuery(query, null);
-            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
-
-        }
-        assert cursor != null;
-        cursor.moveToFirst();
-
-        if(cursor.getCount() != 0) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                if (cursor.getInt(0) == 1) {
-                    switchCompatNotifications.setChecked(true);
-                }
-
-                cursor.moveToNext();
-            }
-
-            cursor.close();
-        }
-    }
+//    private void setNotificationsValue() {
+//        String whereclause = SETTINGS_COLUMN_ID + "=?";
+//        String[] whereargs = new String[]{ "1" };
+//        String [] columns = new String[] { SETTINGS_COLUMN_NOTIFICATIONS };
+//        Cursor cursor= null;
+//        if(db !=null)
+//        {
+//            // cursor = db.rawQuery(query, null);
+//            cursor = db.query(DatabaseHelper.SETTINGS_TABLE, columns, whereclause, whereargs,null,null,null);
+//
+//        }
+//        assert cursor != null;
+//        cursor.moveToFirst();
+//
+//        if(cursor.getCount() != 0) {
+//            cursor.moveToFirst();
+//            while (!cursor.isAfterLast()) {
+//                if (cursor.getInt(0) == 1) {
+//                    switchCompatNotifications.setChecked(true);
+//                }
+//
+//                cursor.moveToNext();
+//            }
+//
+//            cursor.close();
+//        }
+//    }
 }
