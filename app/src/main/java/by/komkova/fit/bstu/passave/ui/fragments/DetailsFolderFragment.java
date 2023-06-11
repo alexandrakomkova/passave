@@ -177,7 +177,7 @@ public class DetailsFolderFragment extends Fragment {
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
 
             // Log.d(log_tag, "folder updated");
-            AppLogs.log(applicationContext, log_tag ,"Folder updated");
+            AppLogs.log(applicationContext, log_tag ,getResources().getString(R.string.folder_updated));
             goHome();
         } catch (Exception e){
             Log.d(log_tag, "error: " + e.getMessage());
@@ -188,7 +188,7 @@ public class DetailsFolderFragment extends Fragment {
         Uri uri = ContentUris.withAppendedId(FOLDER_URI, Id);
         int rowCount = applicationContext.getContentResolver().delete(uri, null, null);
 
-        AppLogs.log(applicationContext, log_tag ,"Folder deleted");
+        AppLogs.log(applicationContext, log_tag ,getResources().getString(R.string.folder_deleted));
         goHome();
     }
 

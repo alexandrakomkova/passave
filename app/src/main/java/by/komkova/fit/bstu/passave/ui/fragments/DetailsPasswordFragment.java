@@ -634,7 +634,7 @@ public class DetailsPasswordFragment extends Fragment {
 
             Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
-            AppLogs.log(applicationContext, log_tag, "Password updated");
+            AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.password_updated));
             goHome();
         } catch (Exception e){
             Log.d(log_tag, "error: " + e.getMessage());
@@ -652,7 +652,7 @@ public class DetailsPasswordFragment extends Fragment {
         Uri uri = ContentUris.withAppendedId(PASSWORD_NOTE_URI, Id);
         int rowCount = applicationContext.getContentResolver().delete(uri, null, null);
 
-        AppLogs.log(applicationContext, log_tag, "Password deleted");
+        AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.password_deleted));
 
         goHome();
     }

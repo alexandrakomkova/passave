@@ -97,7 +97,7 @@ public class AddNoteFragment extends Fragment {
 
         Uri res =  applicationContext.getContentResolver().insert(NOTE_URI, cv);
 
-        AppLogs.log(applicationContext, log_tag, "Note created");
+        AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.note_created));
 
         goNotes();
     }

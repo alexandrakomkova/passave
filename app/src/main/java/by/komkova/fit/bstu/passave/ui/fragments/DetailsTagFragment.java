@@ -130,7 +130,7 @@ public class DetailsTagFragment extends Fragment {
             Uri uri = ContentUris.withAppendedId(TAG_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
 
-            AppLogs.log(applicationContext, log_tag ,"Tag updated");
+            AppLogs.log(applicationContext, log_tag ,getResources().getString(R.string.tag_updated));
             goHome();
         } catch (SQLiteConstraintException e){
             CustomAlertDialogClass.showWarningOkDialog(v, applicationContext, R.string.not_unique_tag_name);
@@ -143,7 +143,7 @@ public class DetailsTagFragment extends Fragment {
         Uri uri = ContentUris.withAppendedId(TAG_URI, Id);
         int rowCount = applicationContext.getContentResolver().delete(uri, null, null);
 
-        AppLogs.log(applicationContext, log_tag ,"Tag deleted");
+        AppLogs.log(applicationContext, log_tag ,getResources().getString(R.string.tag_deleted));
         goHome();
     }
     public void goHome(){

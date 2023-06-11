@@ -192,4 +192,20 @@
     <string name="favourite_can_not_delete">Folder Favourite can not be updated or deleted</string>
     <string name="please_enter_password_and_service">Please, enter password and service name</string>
 
+
+    <string name="password_updated">Password updated</string>
+    <string name="password_deleted">Password deleted</string>
+    <string name="note_updated">Note updated</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="note_created">Note created</string>
+    <string name="folder_updated">Folder updated</string>
+    <string name="folder_deleted">Folder deleted</string>
+    <string name="tag_updated">Tag updated</string>
+    <string name="tag_deleted">Tag deleted</string>
+
+    <string name="settings_changed">Settings updated</string>
+    <string name="set_fav">Password set as favourite</string>
+    <string name="set_not_fav">Password deleted from favourite</string>
+
+
 </resources>

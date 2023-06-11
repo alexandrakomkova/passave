@@ -248,8 +248,9 @@ public class PasswordNotesFragment extends Fragment {
                 rcItem.setFavourite(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
                 modelArrayList.add(rcItem);
             }
+            c1.close();
         }
-        c1.close();
+        // c1.close();
         layoutManager = new LinearLayoutManager(applicationContext);
         rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
         recyclerView.setLayoutManager(layoutManager);
@@ -279,8 +280,9 @@ public class PasswordNotesFragment extends Fragment {
                 rcItem.setFavourite(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
                 modelArrayList.add(rcItem);
             }
+            c1.close();
         }
-        c1.close();
+        // c1.close();
         layoutManager = new LinearLayoutManager(applicationContext);
         rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
         recyclerView.setLayoutManager(layoutManager);
@@ -306,8 +308,9 @@ public class PasswordNotesFragment extends Fragment {
                  rcItem.setFavourite(c1.getInt(c1.getColumnIndexOrThrow(DatabaseHelper.PN_COLUMN_FAVOURITE)));
                  modelArrayList.add(rcItem);
              }
+             c1.close();
          }
-         c1.close();
+         // c1.close();
          layoutManager = new LinearLayoutManager(applicationContext);
          rcAdapter = new RCAdapterPassword(applicationContext, modelArrayList);
          recyclerView.setLayoutManager(layoutManager);
@@ -330,8 +333,9 @@ public class PasswordNotesFragment extends Fragment {
                 rcItem.setFolderTitle(c1.getString(c1.getColumnIndexOrThrow(DatabaseHelper.FOLDER_COLUMN_FOLDER_NAME)));
                 folderArrayList.add(rcItem);
             }
+            c1.close();
         }
-        c1.close();
+        // c1.close();
         layoutManagerFolder = new LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false);
         rcAdapterFolder = new RCAdapterFolder(applicationContext, folderArrayList);
         recyclerViewFolder.setLayoutManager(layoutManagerFolder);

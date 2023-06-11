@@ -87,7 +87,7 @@ public class SettingsLanguagesFragment extends Fragment{
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("language", languageCode);
                 editor.apply();
-                AppLogs.log(applicationContext, log_tag, "Your settings changed");
+                AppLogs.log(applicationContext, log_tag, getResources().getString(R.string.settings_changed));
             }
         });
 

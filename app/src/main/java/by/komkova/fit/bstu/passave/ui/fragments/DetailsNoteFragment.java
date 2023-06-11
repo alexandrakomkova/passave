@@ -180,7 +180,7 @@ public class DetailsNoteFragment extends Fragment {
             Uri uri = ContentUris.withAppendedId(NOTE_URI, Id);
             int rowCount = applicationContext.getContentResolver().update(uri, cv, null, null);
 
-            AppLogs.log(applicationContext, log_tag ,"Note updated");
+            AppLogs.log(applicationContext, log_tag ,getResources().getString(R.string.note_updated));
             goNotes();
         } catch (Exception e){
             Log.d(log_tag, "error: " + e.getMessage());
@@ -191,7 +191,7 @@ public class DetailsNoteFragment extends Fragment {
         Uri uri = ContentUris.withAppendedId(NOTE_URI, Id);
         int rowCount = applicationContext.getContentResolver().delete(uri, null, null);
 
-        AppLogs.log(applicationContext, log_tag ,"Note deleted");
+        AppLogs.log(applicationContext, log_tag ,getResources().getString(R.string.note_deleted));
         goNotes();
     }
 

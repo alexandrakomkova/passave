@@ -198,5 +198,21 @@
         Пожалуйста, введите эти данные в форму</string>
 
 
+    <string name="password_updated">Пароль обновлен</string>
+    <string name="password_deleted">Пароль удален</string>
 
+    <string name="note_updated">Заметка обновлена</string>
+    <string name="note_deleted">Заметка удалена</string>
+    <string name="note_created">Заметка создана</string>
+
+    <string name="folder_updated">Папка обновлена</string>
+    <string name="folder_deleted">Папка удалена</string>
+
+    <string name="tag_updated">Тэг обновлен</string>
+    <string name="tag_deleted">Тэг удален</string>
+
+    <string name="settings_changed">Настройки изменены</string>
+
+    <string name="set_fav">Пароль добавлен в избранное</string>
+    <string name="set_not_fav">Пароль удален из избранного</string>
 </resources>

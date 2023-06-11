@@ -89,10 +89,10 @@ public class RCAdapterPassword extends RecyclerView.Adapter<RCAdapterPassword.RC
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    AppLogs.log(applicationContext, log_tag, "Password set as favourite");
+                    AppLogs.log(applicationContext, log_tag, context.getResources().getString(R.string.set_fav));
                     updateFavouriteStatus(Id, 1); // 'favourite' id
                 } else {
-                    AppLogs.log(applicationContext, log_tag, "Password set as not favourite");
+                    AppLogs.log(applicationContext, log_tag, context.getResources().getString(R.string.set_not_fav));
                     updateFavouriteStatus(Id, 0); // 'not favourite' id
                 }
             }
