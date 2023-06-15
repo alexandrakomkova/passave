@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +33,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import by.komkova.fit.bstu.passave.helpers.AppLogs;
@@ -63,8 +66,11 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
 
-    String oldPasswords = "";
+    String oldPasswords = null;
+    String[] oldPasswordsArray = new String[] {  };
+    List<String> oldPasswordsList = new ArrayList<String>();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +82,41 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean notificationsValue = sharedPreferences.getBoolean("notifications", true);
+
         if (notificationsValue) {
             Log.d("NOTIFICATION ON", "TRUE");
             selectOldPasswords();
+        }
+
+        // Log.d("BUILD NOTIF", "123");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d("BUILD NOTIF", "1233");
+            NotificationChannel notificationChannel = new NotificationChannel("passave", "Passave", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getContextOfApplication().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+//            NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(this, "passave")
+//                    .setSmallIcon(R.drawable.add_icon)
+//                    .setContentTitle(getResources().getString(R.string.notification_content_title))
+//                    .setContentText(getResources().getString(R.string.notification_content_text) + ": " + oldPasswords)
+//                    .setAutoCancel(true);
+            NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(this, "passave")
+                    .setSmallIcon(R.drawable.add_icon)
+                    .setContentTitle(getResources().getString(R.string.notification_content_text))
+                    .setContentText(oldPasswords)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(oldPasswords))
+                    .setAutoCancel(true);
+            notification = notificationCompat.build();
+            notificationManagerCompat = NotificationManagerCompat.from(this);
+        }
+
+
+        if (notificationsValue) {
+            Log.d("NOTIFICATION ON", "TRUE");
+           // selectOldPasswords();
+
+            // Log.d("NOTIFICATION ON", String.valueOf(!oldPasswords.isEmpty()));
 
             if (!oldPasswords.isEmpty()) {
                 Log.d("OLD_PASSWORDS", oldPasswords);
@@ -106,24 +144,14 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new HomeFragment()).commit();
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel("passave", "Passave", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager = getContextOfApplication().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
 
-            NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(this, "passave")
-                    .setSmallIcon(R.drawable.add_icon)
-                    .setContentTitle(String.valueOf(R.string.notification_content_title))
-                    .setContentText(String.valueOf(R.string.notification_content_text))
-                    .setAutoCancel(true);
-            notification = notificationCompat.build();
-            notificationManagerCompat = NotificationManagerCompat.from(this);
-        }
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void selectOldPasswords() {
-        String whereclause = "date(" + PN_COLUMN_UPDATED + ", '365 days') >= ?";
+        // String whereclause = "date(" + PN_COLUMN_UPDATED + ", '365 days') >= ?";
+        String whereclause = "date(" + PN_COLUMN_UPDATED + ", '1 days') <= ?";
         String[] whereargs = new String[]{ "DATE('now')" };
         String [] columns = new String[] { PN_COLUMN_SERVICE_NAME };
         // Cursor csr = db.query(DatabaseHelper.FOLDER_TABLE,null, whereclause, whereargs,null,null,null);
@@ -131,6 +159,7 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
         Cursor cursor= null;
         if(db !=null)
         {
+            Log.d("SELECT_OLD_PASSWORDS", "db != null");
             // cursor = db.rawQuery(query, null);
             cursor = db.query(DatabaseHelper.PASSWORD_NOTE_TABLE, columns, whereclause, whereargs,null,null,null);
 
@@ -138,14 +167,23 @@ public class TagActivity extends AppCompatActivity implements NavigationView.OnN
         assert cursor != null;
         cursor.moveToFirst();
 
+        Log.d("SELECT_OLD_PASSWORDS", String.valueOf(cursor.getCount()));
+
 
         if(cursor.getCount() != 0) {
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
-                oldPasswords = new StringBuilder().append(oldPasswords).append(", ").append(cursor.getString(0)).toString();
+                oldPasswordsList.add(cursor.getString(0));
+
+                // oldPasswords = new StringBuilder().append(oldPasswords).append(", ").append(cursor.getString(0)).toString();
 
                 cursor.moveToNext();
             }
+
+            // oldPasswords = oldPasswordsList.toString();
+            oldPasswords = String.join(", ", oldPasswordsList);
+
+            // Log.d("SELECT_OLD_PASSWORDS", oldPasswords);
 
             cursor.close();
         }
