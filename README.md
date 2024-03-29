@@ -11,6 +11,7 @@ This application is a graduation thesis and is a password manager.
 * Notifications about too old passwords
 
 ## Screenshots
+<img src='https://github.com/alexandrakomkova/passave/assets/68143252/c9e5a218-2245-4176-aa40-df4d95a15ab1' width='200'>
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/25b87a04-f986-4084-aa2f-9b07d41b65b8' width='200'>
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/f40b4483-212e-4331-a628-28a7eaa6ab24' width='200'>
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/e5d513f9-a02d-4c98-9f86-71ec00966e10' width='200'>
@@ -21,6 +22,8 @@ This application is a graduation thesis and is a password manager.
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/813b2f71-2474-4d04-a054-8baa0e4248ee' width='200'>
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/a80c8f72-e4d3-49dc-8b49-ccf1f196f88a' width='200'>
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/5ef4d84d-bdd5-4e98-997f-128a1257241f' width='200'>
+<img src='https://github.com/alexandrakomkova/passave/assets/68143252/a93a84de-683f-46cf-baaf-ca19816a147c' width='200'>
+
 
 
 ## Configuration
