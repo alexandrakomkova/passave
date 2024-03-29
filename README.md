@@ -20,6 +20,8 @@ This application is a graduation thesis and is a password manager.
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/1f84951d-11b1-43a2-994d-dabdb20f8429' width='200'>
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/813b2f71-2474-4d04-a054-8baa0e4248ee' width='200'>
 <img src='https://github.com/alexandrakomkova/passave/assets/68143252/a80c8f72-e4d3-49dc-8b49-ccf1f196f88a' width='200'>
+<img src='https://github.com/alexandrakomkova/passave/assets/68143252/5ef4d84d-bdd5-4e98-997f-128a1257241f' width='200'>
+
 
 ## Configuration
 Build with target SDK 31 and minimum SDK 23
